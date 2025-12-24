@@ -14,13 +14,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
 import { CheckCircle, UploadCloud } from 'lucide-react';
+import { VideoCategory } from '@/lib/types';
+
+const categories: VideoCategory[] = ["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"];
 
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters."),
   country: z.string().min(2, "Country is required."),
   state: z.string().min(2, "State is required."),
   place: z.string().min(2, "Place is required."),
-  category: z.enum(["Beach", "Mountain", "City", "Religious", "Other"]),
+  category: z.enum(["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"]),
   description: z.string().min(10, "Description must be at least 10 characters.").max(500),
   youtubeUrl: z.string().url("Please enter a valid YouTube URL.").optional().or(z.literal('')),
   videoFile: z.any().optional(),
@@ -206,11 +209,9 @@ export default function UploadPage() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="Beach">Beach</SelectItem>
-                        <SelectItem value="Mountain">Mountain</SelectItem>
-                        <SelectItem value="City">City</SelectItem>
-                        <SelectItem value="Religious">Religious</SelectItem>
-                        <SelectItem value="Other">Other</SelectItem>
+                        {categories.map(category => (
+                           <SelectItem key={category} value={category}>{category}</SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />

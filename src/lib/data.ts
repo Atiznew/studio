@@ -80,7 +80,7 @@ export const videos: Video[] = [
     views: 32000,
     likes: 3100,
     destination: destinations[4],
-    category: 'Other',
+    category: 'Tropical',
     description: 'Exploring the lush green rice terraces of Bali. A true paradise on Earth.',
   },
   {
@@ -119,7 +119,7 @@ export const videos: Video[] = [
     views: 12500,
     likes: 1100,
     destination: destinations[2],
-    category: 'City',
+    category: 'Food',
     description: 'Tasting the delicious crepes and other street food delights in Paris.',
   }
 ];

@@ -4,7 +4,7 @@ export interface User {
   avatarUrl: string;
 }
 
-export type VideoCategory = "Beach" | "Mountain" | "City" | "Religious" | "Other";
+export type VideoCategory = "Beach" | "Mountain" | "City" | "Religious" | "Food" | "Amusement Park" | "Forest" | "Tropical" | "Camping" | "Other";
 
 export interface Video {
   id: string;

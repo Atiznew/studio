@@ -7,23 +7,23 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { VideoCategory } from '@/lib/types';
 
-const categories: VideoCategory[] = ["Beach", "Mountain", "City", "Religious", "Other"];
+const categories: VideoCategory[] = ["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"];
 
 export async function generateStaticParams() {
   return categories.map((category) => ({
-    slug: category.toLowerCase(),
+    slug: category.toLowerCase().replace(' ', '-'),
   }));
 }
 
 export default function CategoryDetailPage({ params }: { params: { slug: string } }) {
   const { slug } = params;
-  const category = categories.find((c) => c.toLowerCase() === slug);
+  const category = categories.find((c) => c.toLowerCase().replace(' ', '-') === slug);
   
   if (!category) {
     notFound();
   }
 
-  const categoryVideos = videos.filter((v) => v.category.toLowerCase() === slug);
+  const categoryVideos = videos.filter((v) => v.category.toLowerCase().replace(' ', '-') === slug);
 
   return (
     <>
