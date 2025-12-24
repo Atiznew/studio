@@ -1,0 +1,50 @@
+import { notFound } from 'next/navigation';
+import { PageHeader } from '@/components/page-header';
+import { videos } from '@/lib/data';
+import { VideoCard } from '@/components/video-card';
+import { ChevronLeft } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { VideoCategory } from '@/lib/types';
+
+const categories: VideoCategory[] = ["Beach", "Mountain", "City", "Religious", "Other"];
+
+export async function generateStaticParams() {
+  return categories.map((category) => ({
+    slug: category.toLowerCase(),
+  }));
+}
+
+export default function CategoryDetailPage({ params }: { params: { slug: string } }) {
+  const { slug } = params;
+  const category = categories.find((c) => c.toLowerCase() === slug);
+  
+  if (!category) {
+    notFound();
+  }
+
+  const categoryVideos = videos.filter((v) => v.category.toLowerCase() === slug);
+
+  return (
+    <>
+      <PageHeader title={category}>
+        <Button variant="ghost" size="icon" asChild>
+          <Link href="/home">
+            <ChevronLeft className="h-5 w-5" />
+          </Link>
+        </Button>
+      </PageHeader>
+      <div className="container max-w-4xl mx-auto py-8">
+        <div className="grid gap-6 md:grid-cols-2">
+          {categoryVideos.length > 0 ? (
+            categoryVideos.map((video) => (
+              <VideoCard key={video.id} video={video} />
+            ))
+          ) : (
+            <p className="text-muted-foreground md:col-span-2 text-center">No videos found for this category yet.</p>
+          )}
+        </div>
+      </div>
+    </>
+  );
+}
