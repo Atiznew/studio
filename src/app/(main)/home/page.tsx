@@ -1,3 +1,5 @@
+"use client";
+
 import Link from 'next/link';
 import { Search, Sailboat, Mountain, Building2, Landmark, MoreHorizontal, Utensils, FerrisWheel, Trees, Palmtree, Tent } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -7,6 +9,13 @@ import { Logo } from '@/components/logo';
 import { Card } from '@/components/ui/card';
 import { ReactNode } from 'react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
 
 type ExtendedVideoCategory = "Beach" | "Mountain" | "City" | "Religious" | "Other" | "Food" | "Amusement Park" | "Forest" | "Tropical" | "Camping";
 
@@ -59,11 +68,25 @@ export default function HomePage() {
         
         <section className="py-4">
             <h2 className="text-2xl font-bold mb-4 font-headline">Latest Travel Videos</h2>
-            <div className="grid gap-6 md:grid-cols-2">
+            <Carousel
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              className="w-full"
+            >
+              <CarouselContent>
                 {videos.map((video) => (
-                    <VideoCard key={video.id} video={video} />
+                  <CarouselItem key={video.id} className="md:basis-1/2">
+                    <div className="p-1">
+                      <VideoCard video={video} />
+                    </div>
+                  </CarouselItem>
                 ))}
-            </div>
+              </CarouselContent>
+              <CarouselPrevious className="hidden md:flex" />
+              <CarouselNext className="hidden md:flex" />
+            </Carousel>
         </section>
     </div>
   );
