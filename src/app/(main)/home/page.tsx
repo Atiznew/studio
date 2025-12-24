@@ -48,7 +48,7 @@ export default function HomePage() {
             <div className="flex w-max space-x-4 pb-4">
               {categories.map((category) => (
                 <Link key={category} href={`/category/${category.toLowerCase().replace(' ', '-')}`} className="group">
-                  <Card className="p-4 flex flex-col items-center justify-center gap-2 h-28 w-28 group-hover:bg-accent/50 transition-colors">
+                  <Card className="p-4 flex flex-col items-center justify-center gap-2 h-28 w-28 group-hover:bg-accent/50 transition-colors rounded-full">
                     <div className="text-primary">{categoryIcons[category]}</div>
                     <p className="text-sm font-semibold text-muted-foreground group-hover:text-primary-foreground text-center">{category}</p>
                   </Card>
