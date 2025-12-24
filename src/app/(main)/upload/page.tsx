@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -15,6 +16,7 @@ import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
 import { CheckCircle, UploadCloud } from 'lucide-react';
 import { VideoCategory } from '@/lib/types';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 const categories: VideoCategory[] = ["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"];
 
@@ -108,12 +110,15 @@ export default function UploadPage() {
       <PageHeader title="Upload Video" />
       <div className="container max-w-2xl py-8">
         <Tabs value={uploadType} onValueChange={setUploadType} className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="direct">Direct Upload</TabsTrigger>
-            <TabsTrigger value="youtube">YouTube</TabsTrigger>
-            <TabsTrigger value="instagram">Instagram</TabsTrigger>
-            <TabsTrigger value="telegram">Telegram</TabsTrigger>
-          </TabsList>
+          <ScrollArea className="w-full whitespace-nowrap">
+            <TabsList className="inline-flex w-max">
+              <TabsTrigger value="direct">Direct Upload</TabsTrigger>
+              <TabsTrigger value="youtube">YouTube</TabsTrigger>
+              <TabsTrigger value="instagram">Instagram</TabsTrigger>
+              <TabsTrigger value="telegram">Telegram</TabsTrigger>
+            </TabsList>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-6">
               <TabsContent value="direct" className="m-0">
