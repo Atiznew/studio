@@ -26,6 +26,8 @@ const formSchema = z.object({
   category: z.enum(["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"]),
   description: z.string().min(10, "Description must be at least 10 characters.").max(500),
   youtubeUrl: z.string().url("Please enter a valid YouTube URL.").optional().or(z.literal('')),
+  instagramUrl: z.string().url("Please enter a valid Instagram URL.").optional().or(z.literal('')),
+  telegramUrl: z.string().url("Please enter a valid Telegram URL.").optional().or(z.literal('')),
   videoFile: z.any().optional(),
 });
 
@@ -48,6 +50,8 @@ export default function UploadPage() {
       category: "Other",
       description: "",
       youtubeUrl: "",
+      instagramUrl: "",
+      telegramUrl: "",
     },
   });
 
@@ -58,6 +62,14 @@ export default function UploadPage() {
     }
     if (uploadType === 'youtube' && !data.youtubeUrl) {
         form.setError('youtubeUrl', { message: 'Please paste a YouTube URL.' });
+        return;
+    }
+    if (uploadType === 'instagram' && !data.instagramUrl) {
+        form.setError('instagramUrl', { message: 'Please paste an Instagram URL.' });
+        return;
+    }
+    if (uploadType === 'telegram' && !data.telegramUrl) {
+        form.setError('telegramUrl', { message: 'Please paste a Telegram URL.' });
         return;
     }
     
@@ -86,6 +98,7 @@ export default function UploadPage() {
           description: "Your video has been submitted for processing.",
         });
         form.reset();
+        setUploadType('direct');
       }, 500);
     }, 3500);
   };
@@ -95,9 +108,11 @@ export default function UploadPage() {
       <PageHeader title="Upload Video" />
       <div className="container max-w-2xl py-8">
         <Tabs value={uploadType} onValueChange={setUploadType} className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="direct">Direct Upload</TabsTrigger>
-            <TabsTrigger value="youtube">YouTube Link</TabsTrigger>
+            <TabsTrigger value="youtube">YouTube</TabsTrigger>
+            <TabsTrigger value="instagram">Instagram</TabsTrigger>
+            <TabsTrigger value="telegram">Telegram</TabsTrigger>
           </TabsList>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-6">
@@ -134,6 +149,36 @@ export default function UploadPage() {
                       <FormLabel>YouTube Video URL</FormLabel>
                       <FormControl>
                         <Input placeholder="https://www.youtube.com/watch?v=..." {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </TabsContent>
+              <TabsContent value="instagram" className="m-0">
+                <FormField
+                  control={form.control}
+                  name="instagramUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Instagram Video URL</FormLabel>
+                      <FormControl>
+                        <Input placeholder="https://www.instagram.com/reel/..." {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </TabsContent>
+              <TabsContent value="telegram" className="m-0">
+                <FormField
+                  control={form.control}
+                  name="telegramUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Telegram Video URL</FormLabel>
+                      <FormControl>
+                        <Input placeholder="https://t.me/channel/..." {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
