@@ -9,6 +9,7 @@ import { Logo } from '@/components/logo';
 import { Card } from '@/components/ui/card';
 import { ReactNode } from 'react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 
 type ExtendedVideoCategory = "Beach" | "Mountain" | "City" | "Religious" | "Other" | "Food" | "Amusement Park" | "Forest" | "Tropical" | "Camping";
 
@@ -61,11 +62,25 @@ export default function HomePage() {
         
         <section className="py-4">
             <h2 className="text-2xl font-bold mb-4 font-headline">Latest Travel Videos</h2>
-            <div className="grid gap-6 md:grid-cols-2">
-              {videos.map((video) => (
-                <VideoCard key={video.id} video={video} />
-              ))}
-            </div>
+            <Carousel
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              className="w-full"
+            >
+              <CarouselContent>
+                {videos.map((video) => (
+                  <CarouselItem key={video.id} className="md:basis-1/2">
+                    <div className="p-1">
+                      <VideoCard video={video} />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="hidden sm:flex" />
+              <CarouselNext className="hidden sm:flex" />
+            </Carousel>
         </section>
     </div>
   );
