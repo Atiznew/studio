@@ -11,12 +11,14 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
-import { CheckCircle, UploadCloud } from 'lucide-react';
+import { CheckCircle, UploadCloud, Youtube, Instagram, Send } from 'lucide-react';
 import { VideoCategory } from '@/lib/types';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { cn } from '@/lib/utils';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
 
 const categories: VideoCategory[] = ["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"];
 
@@ -34,6 +36,13 @@ const formSchema = z.object({
 });
 
 type UploadFormValues = z.infer<typeof formSchema>;
+
+const uploadOptions = [
+  { value: 'direct', label: 'Direct Upload', icon: <UploadCloud className="h-5 w-5" /> },
+  { value: 'youtube', label: 'YouTube', icon: <Youtube className="h-5 w-5" /> },
+  { value: 'instagram', label: 'Instagram', icon: <Instagram className="h-5 w-5" /> },
+  { value: 'telegram', label: 'Telegram', icon: <Send className="h-5 w-5" /> },
+]
 
 export default function UploadPage() {
   const { toast } = useToast();
@@ -110,15 +119,28 @@ export default function UploadPage() {
       <PageHeader title="Upload Video" />
       <div className="container max-w-2xl py-8">
         <Tabs value={uploadType} onValueChange={setUploadType} className="w-full">
-          <ScrollArea className="w-full whitespace-nowrap">
-            <TabsList className="inline-flex w-max">
-              <TabsTrigger value="direct">Direct Upload</TabsTrigger>
-              <TabsTrigger value="youtube">YouTube</TabsTrigger>
-              <TabsTrigger value="instagram">Instagram</TabsTrigger>
-              <TabsTrigger value="telegram">Telegram</TabsTrigger>
-            </TabsList>
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
+          <div className="pb-4">
+            <ScrollArea className="w-full whitespace-nowrap">
+              <div className="flex w-max space-x-2 pb-2">
+                {uploadOptions.map((option) => (
+                   <button
+                    key={option.value}
+                    onClick={() => setUploadType(option.value)}
+                    className={cn(
+                      "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 px-4 py-2",
+                      uploadType === option.value
+                        ? "bg-primary text-primary-foreground shadow-sm"
+                        : "bg-card text-card-foreground border hover:bg-accent/50"
+                    )}
+                  >
+                    {option.icon}
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+          </div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-6">
               <TabsContent value="direct" className="m-0">
@@ -307,3 +329,5 @@ export default function UploadPage() {
     </>
   );
 }
+
+    
