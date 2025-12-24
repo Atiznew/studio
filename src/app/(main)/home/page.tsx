@@ -30,6 +30,9 @@ const categoryIcons: Record<ExtendedVideoCategory, ReactNode> = {
 const categories: ExtendedVideoCategory[] = ["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"];
 
 export default function HomePage() {
+  const featuredVideos = videos.slice(0, 4);
+  const moreVideos = videos.slice(4);
+
   return (
     <div className="container max-w-4xl mx-auto">
         <header className="sticky top-0 z-40 w-full bg-background/95 backdrop-blur-sm">
@@ -61,7 +64,7 @@ export default function HomePage() {
         </section>
         
         <section className="py-4">
-            <h2 className="text-2xl font-bold mb-4 font-headline">Latest Travel Videos</h2>
+            <h2 className="text-2xl font-bold mb-4 font-headline">Featured Videos</h2>
             <Carousel
               opts={{
                 align: "start",
@@ -70,7 +73,7 @@ export default function HomePage() {
               className="w-full"
             >
               <CarouselContent>
-                {videos.map((video) => (
+                {featuredVideos.map((video) => (
                   <CarouselItem key={video.id} className="md:basis-1/2">
                     <div className="p-1">
                       <VideoCard video={video} />
@@ -81,6 +84,15 @@ export default function HomePage() {
               <CarouselPrevious className="hidden sm:flex" />
               <CarouselNext className="hidden sm:flex" />
             </Carousel>
+        </section>
+
+        <section className="py-4">
+            <h2 className="text-2xl font-bold mb-4 font-headline">More Videos</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {moreVideos.map((video) => (
+                    <VideoCard key={video.id} video={video} />
+                ))}
+            </div>
         </section>
     </div>
   );
