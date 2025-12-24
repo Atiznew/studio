@@ -1,3 +1,106 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "splash",
+      "description": "A stunning mountain landscape at sunset, viewed from a high vantage point.",
+      "imageUrl": "https://images.unsplash.com/photo-1611080402167-ed75bae6df32?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtb3VudGFpbiUyMGxhbmRzY2FwZXxlbnwwfHx8fDE3NjY1NTAwNzJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mountain landscape"
+    },
+    {
+      "id": "dest-goa",
+      "description": "A beautiful sunny beach in Goa with palm trees and clear blue water.",
+      "imageUrl": "https://images.unsplash.com/photo-1668262120979-a1af71765107?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxiZWFjaCUyMGdvYXxlbnwwfHx8fDE3NjY1OTgwNzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "beach goa"
+    },
+    {
+      "id": "dest-manali",
+      "description": "Snow-capped mountains in Manali during winter.",
+      "imageUrl": "https://images.unsplash.com/photo-1634929369384-5a9b396f3fdb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bW91bnRhaW5zJTIwbWFuYWxpfGVufDB8fHx8MTc2NjU5ODA3Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mountains manali"
+    },
+    {
+      "id": "dest-paris",
+      "description": "The Eiffel Tower in Paris at dusk.",
+      "imageUrl": "https://images.unsplash.com/photo-1595182304267-28bcf0165f42?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjaXR5JTIwcGFyaXN8ZW58MHx8fHwxNzY2NTk4MDc2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "city paris"
+    },
+    {
+      "id": "dest-kyoto",
+      "description": "A traditional Japanese temple in Kyoto surrounded by autumn leaves.",
+      "imageUrl": "https://images.unsplash.com/photo-1669954791579-15a45890449f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHx0ZW1wbGUlMjBreW90b3xlbnwwfHx8fDE3NjY1OTgwNzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "temple kyoto"
+    },
+    {
+      "id": "dest-bali",
+      "description": "Lush green rice terraces in Bali, Indonesia.",
+      "imageUrl": "https://images.unsplash.com/photo-1611329532992-0b7ba27d85fb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxuYXR1cmUlMjBiYWxpfGVufDB8fHx8MTc2NjU5ODA3Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "nature bali"
+    },
+    {
+      "id": "dest-rome",
+      "description": "The ancient Colosseum in Rome, Italy.",
+      "imageUrl": "https://images.unsplash.com/photo-1668171321809-d7425a432b67?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjaXR5JTIwcm9tZXxlbnwwfHx8fDE3NjY1OTgwNzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "city rome"
+    },
+    {
+      "id": "avatar-1",
+      "description": "Portrait of a smiling young woman.",
+      "imageUrl": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8d29tYW4lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjY1MjU5NDB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "woman portrait"
+    },
+    {
+      "id": "avatar-2",
+      "description": "Portrait of a man with a beard, outdoors.",
+      "imageUrl": "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxtYW4lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjY1ODA2ODJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "man portrait"
+    },
+    {
+      "id": "video-thumb-1",
+      "description": "A surfer riding a wave.",
+      "imageUrl": "https://images.unsplash.com/photo-1597043811659-d2b64fb9eb7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxiZWFjaCUyMHN1cmZpbmd8ZW58MHx8fHwxNzY2NTk4MDc2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "beach surfing"
+    },
+    {
+      "id": "video-thumb-2",
+      "description": "A person hiking on a mountain trail.",
+      "imageUrl": "https://images.unsplash.com/photo-1574616054483-24b4a33a3bea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxtb3VudGFpbiUyMGhpa2luZ3xlbnwwfHx8fDE3NjY1NTEwMjZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mountain hiking"
+    },
+    {
+      "id": "video-thumb-3",
+      "description": "A bustling city street at night.",
+      "imageUrl": "https://images.unsplash.com/photo-1601042879364-f3947d3f9c16?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxjaXR5JTIwbmlnaHR8ZW58MHx8fHwxNzY2NDg5NDM1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "city night"
+    },
+    {
+      "id": "video-thumb-4",
+      "description": "A serene view of a temple.",
+      "imageUrl": "https://images.unsplash.com/photo-1629327249483-bb31050cc179?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx0ZW1wbGUlMjBhc2lhfGVufDB8fHx8MTc2NjU5ODA3Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "temple asia"
+    },
+    {
+      "id": "video-thumb-5",
+      "description": "A drone shot of rice terraces.",
+      "imageUrl": "https://images.unsplash.com/photo-1611657291636-c141ee8cf7ab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxuYXR1cmUlMjBsYW5kc2NhcGV8ZW58MHx8fHwxNzY2NTc3MTMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "nature landscape"
+    },
+    {
+      "id": "video-thumb-6",
+      "description": "Ancient ruins under a clear sky.",
+      "imageUrl": "https://images.unsplash.com/photo-1573540374799-d527e9ee392b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxhbmNpZW50JTIwcnVpbnN8ZW58MHx8fHwxNzY2NTkxMDQ3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ancient ruins"
+    },
+    {
+      "id": "video-thumb-7",
+      "description": "A person paragliding over a lake.",
+      "imageUrl": "https://images.unsplash.com/photo-1621669234477-a41d77bd60c8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxhZHZlbnR1cmUlMjBwYXJhZ2xpZGluZ3xlbnwwfHx8fDE3NjY1OTgwNzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "adventure paragliding"
+    },
+    {
+      "id": "video-thumb-8",
+      "description": "A street food market in a bustling city.",
+      "imageUrl": "https://images.unsplash.com/photo-1689622106251-b5476ef05c8e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjaXR5JTIwZm9vZHxlbnwwfHx8fDE3NjY1OTgwNzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "city food"
+    }
+  ]
 }

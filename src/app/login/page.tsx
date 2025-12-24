@@ -1,0 +1,61 @@
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Logo } from '@/components/logo';
+
+const GoogleIcon = () => (
+    <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+      <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039L38.802 8.92C34.522 5.162 29.626 3 24 3 12.955 3 4 11.955 4 23s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/>
+      <path fill="#FF3D00" d="M6.306 14.691c-1.56 3.109-2.306 6.643-2.306 10.309s.746 7.2 2.306 10.309l7.373-5.744c-.456-1.332-.71-2.764-.71-4.256s.254-2.924.71-4.256l-7.373-5.744z"/>
+      <path fill="#4CAF50" d="M24 43c5.166 0 9.86-1.977 13.412-5.181l-7.14-5.556c-1.833 1.2-4.045 1.881-6.272 1.881-5.225 0-9.663-3.486-11.215-8.259l-7.373 5.744C8.941 39.019 15.934 43 24 43z"/>
+      <path fill="#1976D2" d="M43.611 20.083L43.59 20H24v8h11.303c-.792 2.237-2.231 4.16-4.087 5.571l7.14 5.556C41.522 35.798 44 30.035 44 23c0-1.341-.138-2.65-.389-3.917z"/>
+    </svg>
+);
+
+export default function LoginPage() {
+  return (
+    <div className="flex items-center justify-center min-h-screen p-4">
+      <Card className="w-full max-w-sm">
+        <CardHeader className="text-center">
+            <div className="mb-4 flex justify-center">
+                <Logo />
+            </div>
+          <CardTitle className="text-2xl">Welcome Back</CardTitle>
+          <CardDescription>Enter your credentials to access your account</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4">
+            <div className="grid gap-2">
+              <Label htmlFor="email">Email</Label>
+              <Input id="email" type="email" placeholder="m@example.com" required />
+            </div>
+            <div className="grid gap-2">
+              <div className="flex items-center">
+                <Label htmlFor="password">Password</Label>
+                <Link href="#" className="ml-auto inline-block text-sm underline">
+                  Forgot your password?
+                </Link>
+              </div>
+              <Input id="password" type="password" required />
+            </div>
+            <Button type="submit" className="w-full bg-accent hover:bg-accent/90">
+              Login
+            </Button>
+            <Button variant="outline" className="w-full">
+              <GoogleIcon />
+              Login with Google
+            </Button>
+          </div>
+          <div className="mt-4 text-center text-sm">
+            Don&apos;t have an account?{' '}
+            <Link href="#" className="underline">
+              Sign up
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
