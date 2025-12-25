@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Send } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
+import { currentUser } from '@/lib/data';
 
 export function CommentSheet() {
   const { isCommentSheetOpen, closeCommentSheet, activeVideoId, videos, addComment } = useVideoStore();
