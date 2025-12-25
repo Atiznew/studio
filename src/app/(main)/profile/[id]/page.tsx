@@ -1,5 +1,7 @@
+"use client";
+
 import Image from 'next/image';
-import { users, videos } from '@/lib/data';
+import { users } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -9,9 +11,15 @@ import { PageHeader } from '@/components/page-header';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 import { currentUser } from '@/lib/data';
+import { useVideoStore } from '@/hooks/use-video-store';
+import { useState } from 'react';
+import { cn } from '@/lib/utils';
 
 export default function UserProfilePage({ params }: { params: { id: string } }) {
+  const { videos } = useVideoStore();
   const user = users.find((u) => u.id === params.id);
+
+  const [isFollowing, setIsFollowing] = useState(false);
 
   if (!user) {
     notFound();
@@ -72,7 +80,12 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
                     <Link href="#">Edit Profile</Link>
                 </Button>
             ) : (
-                <Button className="w-full">Follow</Button>
+                <Button 
+                    className={cn("w-full", isFollowing && "bg-secondary text-secondary-foreground hover:bg-secondary/90")}
+                    onClick={() => setIsFollowing(!isFollowing)}
+                >
+                    {isFollowing ? 'Following' : 'Follow'}
+                </Button>
             )}
         </div>
       </header>

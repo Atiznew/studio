@@ -4,7 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import type { Video } from "@/lib/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Heart, MessageCircle, Share2, Eye, Music, Play, Pause, Volume2, VolumeX } from "lucide-react";
+import { Heart, Eye, Music, Play, Pause, Volume2, VolumeX, Share2 } from "lucide-react";
+import { useVideoStore } from "@/hooks/use-video-store";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+
 
 interface ReelPlayerProps {
   video: Video;
@@ -15,6 +19,9 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  
+  const { likedVideos, toggleLike } = useVideoStore();
+  const isLiked = likedVideos.has(video.id);
 
   useEffect(() => {
     const videoElement = videoRef.current;
@@ -48,6 +55,10 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
         setIsMuted(videoRef.current.muted);
     }
   }
+  
+  const handleLike = () => {
+    toggleLike(video.id);
+  }
 
   const formatCount = (count: number) => {
     if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
@@ -77,11 +88,15 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
         <div className="flex items-end">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
-              <Avatar>
-                <AvatarImage src={video.user.avatarUrl} alt={video.user.name} />
-                <AvatarFallback>{video.user.name.charAt(0)}</AvatarFallback>
-              </Avatar>
-              <h3 className="font-bold text-lg">{video.user.name}</h3>
+              <Link href={`/profile/${video.user.id}`}>
+                <Avatar>
+                  <AvatarImage src={video.user.avatarUrl} alt={video.user.name} />
+                  <AvatarFallback>{video.user.name.charAt(0)}</AvatarFallback>
+                </Avatar>
+              </Link>
+              <Link href={`/profile/${video.user.id}`}>
+                <h3 className="font-bold text-lg">{video.user.name}</h3>
+              </Link>
             </div>
             <p className="text-sm line-clamp-2">{video.title} - #{video.destination.name}</p>
             <div className="flex items-center gap-2 mt-2 text-sm">
@@ -90,8 +105,8 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
             </div>
           </div>
           <div className="flex flex-col items-center gap-4">
-            <Button variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
-              <Heart className="h-8 w-8" />
+            <Button onClick={handleLike} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
+              <Heart className={cn("h-8 w-8", isLiked && "fill-red-500 text-red-500")} />
               <span className="text-xs font-bold">{formatCount(video.likes)}</span>
             </Button>
             <Button variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">

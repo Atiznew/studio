@@ -1,3 +1,4 @@
+"use client";
 import { PageHeader } from '@/components/page-header';
 import { destinations } from '@/lib/data';
 import { DestinationCard } from '@/components/destination-card';

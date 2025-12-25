@@ -3,13 +3,13 @@
 import Link from 'next/link';
 import { Search, Sailboat, Mountain, Building2, Landmark, MoreHorizontal, Utensils, FerrisWheel, Trees, Palmtree, Tent } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { videos } from '@/lib/data';
 import { VideoCard } from '@/components/video-card';
 import { Logo } from '@/components/logo';
 import { Card } from '@/components/ui/card';
 import { ReactNode } from 'react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { useVideoStore } from '@/hooks/use-video-store';
 
 type ExtendedVideoCategory = "Beach" | "Mountain" | "City" | "Religious" | "Other" | "Food" | "Amusement Park" | "Forest" | "Tropical" | "Camping";
 
@@ -30,6 +30,7 @@ const categoryIcons: Record<ExtendedVideoCategory, ReactNode> = {
 const categories: ExtendedVideoCategory[] = ["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"];
 
 export default function HomePage() {
+  const { videos } = useVideoStore();
   const featuredVideos = videos.slice(0, 4);
   const moreVideos = videos.slice(4);
 

@@ -40,17 +40,16 @@ export default function LoginPage() {
               </div>
               <Input id="password" type="password" required />
             </div>
-            <Button type="submit" className="w-full bg-accent hover:bg-accent/90">
-              Login
+            <Button type="submit" className="w-full bg-accent hover:bg-accent/90" asChild>
+              <Link href="/home">Login</Link>
             </Button>
-            <Button variant="outline" className="w-full">
-              <GoogleIcon />
-              Login with Google
+            <Button variant="outline" className="w-full" asChild>
+              <Link href="/home"><GoogleIcon />Login with Google</Link>
             </Button>
           </div>
           <div className="mt-4 text-center text-sm">
             Don&apos;t have an account?{' '}
-            <Link href="#" className="underline">
+            <Link href="/home" className="underline">
               Sign up
             </Link>
           </div>

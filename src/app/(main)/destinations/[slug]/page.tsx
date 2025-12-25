@@ -1,19 +1,23 @@
+"use client";
+
 import { notFound } from 'next/navigation';
 import { PageHeader } from '@/components/page-header';
-import { destinations, videos } from '@/lib/data';
+import { destinations } from '@/lib/data';
 import { VideoCard } from '@/components/video-card';
 import { ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useVideoStore } from '@/hooks/use-video-store';
 
-export async function generateStaticParams() {
-  return destinations.map((destination) => ({
-    slug: destination.slug,
-  }));
-}
+// export async function generateStaticParams() {
+//   return destinations.map((destination) => ({
+//     slug: destination.slug,
+//   }));
+// }
 
 export default function DestinationDetailPage({ params }: { params: { slug: string } }) {
   const { slug } = params;
+  const { videos } = useVideoStore();
   const destination = destinations.find((d) => d.slug === slug);
   
   if (!destination) {

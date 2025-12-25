@@ -1,22 +1,25 @@
+"use client";
+
 import { notFound } from 'next/navigation';
 import { PageHeader } from '@/components/page-header';
-import { videos } from '@/lib/data';
 import { VideoCard } from '@/components/video-card';
 import { ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { VideoCategory } from '@/lib/types';
+import { useVideoStore } from '@/hooks/use-video-store';
 
 const categories: VideoCategory[] = ["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"];
 
-export async function generateStaticParams() {
-  return categories.map((category) => ({
-    slug: category.toLowerCase().replace(' ', '-'),
-  }));
-}
+// export async function generateStaticParams() {
+//   return categories.map((category) => ({
+//     slug: category.toLowerCase().replace(' ', '-'),
+//   }));
+// }
 
 export default function CategoryDetailPage({ params }: { params: { slug: string } }) {
   const { slug } = params;
+  const { videos } = useVideoStore();
   const category = categories.find((c) => c.toLowerCase().replace(' ', '-') === slug);
   
   if (!category) {

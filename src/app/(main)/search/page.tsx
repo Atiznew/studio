@@ -5,12 +5,13 @@ import { PageHeader } from '@/components/page-header';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search, X } from 'lucide-react';
-import { videos } from '@/lib/data';
 import { VideoCard } from '@/components/video-card';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
+import { useVideoStore } from '@/hooks/use-video-store';
 
 export default function SearchPage() {
+  const { videos } = useVideoStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState(videos);
 

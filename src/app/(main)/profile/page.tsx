@@ -1,14 +1,19 @@
+"use client";
+
 import Image from 'next/image';
-import { currentUser, videos } from '@/lib/data';
+import { currentUser } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Settings } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
 import { VideoCard } from '@/components/video-card';
+import { useVideoStore } from '@/hooks/use-video-store';
 
 export default function ProfilePage() {
+  const { videos, likedVideos } = useVideoStore();
   const userVideos = videos.filter((v) => v.user.id === currentUser.id);
+  const userLikedVideos = videos.filter(v => likedVideos.has(v.id));
 
   const totalLikes = userVideos.reduce((acc, video) => acc + video.likes, 0);
   const totalViews = userVideos.reduce((acc, video) => acc + video.views, 0);
@@ -30,8 +35,8 @@ export default function ProfilePage() {
           <div className="flex-1">
             <div className="flex items-center gap-4">
                 <h1 className="text-2xl md:text-3xl font-bold font-headline">{currentUser.name}</h1>
-                <Button variant="ghost" size="icon">
-                    <Settings className="h-5 w-5" />
+                <Button variant="ghost" size="icon" asChild>
+                    <Link href="#"><Settings className="h-5 w-5" /></Link>
                 </Button>
             </div>
             <div className="flex items-center gap-6 mt-4 text-center">
@@ -70,9 +75,17 @@ export default function ProfilePage() {
           </div>
         </TabsContent>
         <TabsContent value="liked">
-            <div className="text-center py-16">
-                <p className="text-muted-foreground">You haven&apos;t liked any videos yet.</p>
-            </div>
+            {userLikedVideos.length > 0 ? (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 pt-4">
+                    {userLikedVideos.map((video) => (
+                    <VideoCard key={video.id} video={video} />
+                    ))}
+                </div>
+            ) : (
+                <div className="text-center py-16">
+                    <p className="text-muted-foreground">You haven&apos;t liked any videos yet.</p>
+                </div>
+            )}
         </TabsContent>
       </Tabs>
     </div>

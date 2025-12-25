@@ -1,4 +1,4 @@
-import type { User, Destination, Video } from './types';
+import type { User, Destination, Video, VideoCategory } from './types';
 import data from './placeholder-images.json';
 
 export const placeholderImages = data.placeholderImages;
@@ -17,7 +17,7 @@ export const destinations: Destination[] = [
   { id: 'd6', name: 'Rome', country: 'Italy', slug: 'rome', imageUrl: placeholderImages.find(p => p.id === 'dest-rome')?.imageUrl || '' },
 ];
 
-export const videos: Video[] = [
+export const initialVideos: Video[] = [
   {
     id: 'v1',
     title: 'A Day at the Beach in Goa',
@@ -124,4 +124,8 @@ export const videos: Video[] = [
   }
 ];
 
+export { users };
+
 export const currentUser = users[0];
+
+export const videos: Video[] = [...initialVideos];
