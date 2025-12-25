@@ -20,8 +20,9 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   
-  const { likedVideos, toggleLike } = useVideoStore();
+  const { likedVideos, toggleLike, openCommentSheet } = useVideoStore();
   const isLiked = likedVideos.has(video.id);
+  const commentCount = video.comments?.length || 0;
 
   useEffect(() => {
     const videoElement = videoRef.current;
@@ -109,9 +110,9 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
               <Heart className={cn("h-8 w-8", isLiked && "fill-red-500 text-red-500")} />
               <span className="text-xs font-bold">{formatCount(video.likes)}</span>
             </Button>
-            <Button variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
+            <Button onClick={() => openCommentSheet(video.id)} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
               <MessageCircle className="h-8 w-8" />
-              <span className="text-xs font-bold">{formatCount(video.comments)}</span>
+              <span className="text-xs font-bold">{formatCount(commentCount)}</span>
             </Button>
             <Button variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
               <Eye className="h-8 w-8" />

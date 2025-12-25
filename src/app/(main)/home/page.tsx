@@ -10,6 +10,7 @@ import { ReactNode } from 'react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { useVideoStore } from '@/hooks/use-video-store';
+import { StoryReel } from '@/components/story-reel';
 
 type ExtendedVideoCategory = "Beach" | "Mountain" | "City" | "Religious" | "Other" | "Food" | "Amusement Park" | "Forest" | "Tropical" | "Camping";
 
@@ -46,6 +47,10 @@ export default function HomePage() {
                 </Button>
             </div>
         </header>
+        
+        <section className="py-4">
+            <StoryReel />
+        </section>
 
         <section className="py-4">
           <h2 className="text-2xl font-bold mb-4 font-headline">Categories</h2>

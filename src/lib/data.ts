@@ -1,9 +1,9 @@
-import type { User, Destination, Video, VideoCategory } from './types';
+import type { User, Destination, Video, VideoCategory, Story } from './types';
 import data from './placeholder-images.json';
 
 export const placeholderImages = data.placeholderImages;
 
-const users: User[] = [
+export const users: User[] = [
   { id: 'u1', name: 'Alex Doe', avatarUrl: placeholderImages.find(p => p.id === 'avatar-1')?.imageUrl || '' },
   { id: 'u2', name: 'Jane Smith', avatarUrl: placeholderImages.find(p => p.id === 'avatar-2')?.imageUrl || '' },
 ];
@@ -27,7 +27,7 @@ export const initialVideos: Video[] = [
     user: users[0],
     views: 15000,
     likes: 1200,
-    comments: 150,
+    comments: [],
     destination: destinations[0],
     category: 'Beach',
     description: 'Enjoying the sun, sand, and waves in beautiful Goa. A perfect getaway!',
@@ -41,7 +41,7 @@ export const initialVideos: Video[] = [
     user: users[1],
     views: 22000,
     likes: 2500,
-    comments: 320,
+    comments: [],
     destination: destinations[1],
     category: 'Mountain',
     description: 'An adventurous trek through the stunning landscapes of Manali.',
@@ -55,7 +55,7 @@ export const initialVideos: Video[] = [
     user: users[0],
     views: 50000,
     likes: 4500,
-    comments: 550,
+    comments: [],
     destination: destinations[2],
     category: 'City',
     description: 'A magical evening exploring the iconic Eiffel Tower in Paris.',
@@ -69,7 +69,7 @@ export const initialVideos: Video[] = [
     user: users[1],
     views: 18000,
     likes: 1900,
-    comments: 210,
+    comments: [],
     destination: destinations[3],
     category: 'Religious',
     description: 'Finding tranquility among the ancient temples of Kyoto, Japan.',
@@ -83,7 +83,7 @@ export const initialVideos: Video[] = [
     user: users[0],
     views: 32000,
     likes: 3100,
-    comments: 480,
+    comments: [],
     destination: destinations[4],
     category: 'Tropical',
     description: 'Exploring the lush green rice terraces of Bali. A true paradise on Earth.',
@@ -97,7 +97,7 @@ export const initialVideos: Video[] = [
     user: users[1],
     views: 41000,
     likes: 3800,
-    comments: 620,
+    comments: [],
     destination: destinations[5],
     category: 'City',
     description: 'Walking through history at the Colosseum and Roman Forum in Rome.',
@@ -111,7 +111,7 @@ export const initialVideos: Video[] = [
     user: users[0],
     views: 9000,
     likes: 850,
-    comments: 95,
+    comments: [],
     destination: destinations[1],
     category: 'Mountain',
     description: 'Soaring through the skies and getting a bird\'s eye view of Manali\'s beauty.',
@@ -125,14 +125,18 @@ export const initialVideos: Video[] = [
     user: users[1],
     views: 12500,
     likes: 1100,
-    comments: 130,
+    comments: [],
     destination: destinations[2],
     category: 'Food',
     description: 'Tasting the delicious crepes and other street food delights in Paris.',
   }
 ];
 
-export { users };
+export const stories: Story[] = [
+    { id: 's1', user: users[1], imageUrl: 'https://images.unsplash.com/photo-1533106418989-87423dec6928?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHx0cmF2ZWwlJTIwc3Rvcnl8ZW58MHx8fHwxNzY4MTYyMjIyfDA&ixlib=rb-4.1.0&q=80&w=1080' },
+    { id: 's2', user: users[0], imageUrl: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHx0cmF2ZWwlJTIwYmVhY2h8ZW58MHx8fHwxNzY4MTYyMjM4fDA&ixlib=rb-4.1.0&q=80&w=1080', viewed: true },
+    { id: 's3', user: users[1], imageUrl: 'https://images.unsplash.com/photo-1473625247510-8ceb1760943f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx0cmF2ZWwlJTIwZm9yZXN0fGVufDB8fHx8MTc2ODE2MjI2MHww&ixlib=rb-4.1.0&q=80&w=1080' },
+];
 
 export const currentUser = users[0];
 

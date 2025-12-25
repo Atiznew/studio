@@ -1,0 +1,74 @@
+
+'use client';
+
+import { useState } from 'react';
+import { useVideoStore } from '@/hooks/use-video-store';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Send } from 'lucide-react';
+import { formatDistanceToNow } from 'date-fns';
+
+export function CommentSheet() {
+  const { isCommentSheetOpen, closeCommentSheet, activeVideoId, videos, addComment } = useVideoStore();
+  const [newComment, setNewComment] = useState('');
+
+  const activeVideo = videos.find(v => v.id === activeVideoId);
+
+  const handleAddComment = () => {
+    if (newComment.trim() && activeVideoId) {
+      addComment(activeVideoId, newComment.trim());
+      setNewComment('');
+    }
+  };
+
+  return (
+    <Sheet open={isCommentSheetOpen} onOpenChange={closeCommentSheet}>
+      <SheetContent side="bottom" className="h-[80vh] flex flex-col">
+        <SheetHeader>
+          <SheetTitle className="text-center">
+            {activeVideo?.comments?.length || 0} Comments
+          </SheetTitle>
+        </SheetHeader>
+        <ScrollArea className="flex-1 my-4">
+          <div className="px-4 space-y-4">
+            {activeVideo?.comments && activeVideo.comments.length > 0 ? (
+              activeVideo.comments.map((comment) => (
+                <div key={comment.id} className="flex items-start gap-3">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src={comment.user.avatarUrl} alt={comment.user.name} />
+                    <AvatarFallback>{comment.user.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold">{comment.user.name}</p>
+                    <p className="text-sm">{comment.text}</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
+                    </p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-muted-foreground py-8">No comments yet. Be the first to comment!</p>
+            )}
+          </div>
+        </ScrollArea>
+        <div className="p-4 border-t">
+          <div className="flex items-center gap-2">
+            <Input
+              placeholder="Add a comment..."
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleAddComment()}
+            />
+            <Button onClick={handleAddComment} size="icon" disabled={!newComment.trim()}>
+              <Send className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+}

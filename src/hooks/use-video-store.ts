@@ -1,19 +1,30 @@
 "use client";
 
 import create from 'zustand';
-import { initialVideos, currentUser, destinations } from '@/lib/data';
-import type { Video, VideoCategory } from '@/lib/types';
+import { initialVideos, currentUser, destinations, users } from '@/lib/data';
+import type { Video, VideoCategory, Comment } from '@/lib/types';
 
 interface VideoState {
   videos: Video[];
   likedVideos: Set<string>;
+  followedUsers: Set<string>;
+  isCommentSheetOpen: boolean;
+  activeVideoId: string | null;
   addVideo: (videoData: any) => void;
   toggleLike: (videoId: string) => void;
+  toggleFollow: (userId: string) => void;
+  isFollowing: (userId: string) => boolean;
+  openCommentSheet: (videoId: string) => void;
+  closeCommentSheet: () => void;
+  addComment: (videoId: string, text: string) => void;
 }
 
 export const useVideoStore = create<VideoState>((set, get) => ({
   videos: initialVideos,
   likedVideos: new Set(),
+  followedUsers: new Set(),
+  isCommentSheetOpen: false,
+  activeVideoId: null,
   
   addVideo: (videoData) => {
     const newVideo: Video = {
@@ -25,7 +36,7 @@ export const useVideoStore = create<VideoState>((set, get) => ({
       user: currentUser,
       views: 0,
       likes: 0,
-      comments: 0,
+      comments: [],
       destination: destinations.find(d => d.name.toLowerCase() === videoData.place.toLowerCase()) || {
         id: `d${destinations.length + 1}`,
         name: videoData.place,
@@ -61,4 +72,51 @@ export const useVideoStore = create<VideoState>((set, get) => ({
       return { likedVideos: newLikedVideos, videos: newVideos };
     });
   },
+
+  toggleFollow: (userId: string) => {
+    set((state) => {
+      const newFollowedUsers = new Set(state.followedUsers);
+      if (newFollowedUsers.has(userId)) {
+        newFollowedUsers.delete(userId);
+      } else {
+        newFollowedUsers.add(userId);
+      }
+      return { followedUsers: newFollowedUsers };
+    });
+  },
+
+  isFollowing: (userId: string) => {
+    return get().followedUsers.has(userId);
+  },
+
+  openCommentSheet: (videoId: string) => {
+    set({ isCommentSheetOpen: true, activeVideoId: videoId });
+  },
+
+  closeCommentSheet: () => {
+    set({ isCommentSheetOpen: false, activeVideoId: null });
+  },
+
+  addComment: (videoId: string, text: string) => {
+    set((state) => {
+        const videoIndex = state.videos.findIndex(v => v.id === videoId);
+        if (videoIndex === -1) return state;
+
+        const newVideos = [...state.videos];
+        const video = { ...newVideos[videoIndex] };
+
+        const newComment: Comment = {
+            id: `c${Date.now()}`,
+            user: currentUser,
+            text: text,
+            createdAt: new Date().toISOString(),
+        };
+
+        const existingComments = video.comments || [];
+        video.comments = [...existingComments, newComment];
+        newVideos[videoIndex] = video;
+
+        return { videos: newVideos };
+    });
+  }
 }));

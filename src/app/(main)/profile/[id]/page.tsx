@@ -9,17 +9,14 @@ import { notFound } from 'next/navigation';
 import { VideoCard } from '@/components/video-card';
 import { PageHeader } from '@/components/page-header';
 import Link from 'next/link';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, LogOut } from 'lucide-react';
 import { currentUser } from '@/lib/data';
 import { useVideoStore } from '@/hooks/use-video-store';
-import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
 export default function UserProfilePage({ params }: { params: { id: string } }) {
-  const { videos } = useVideoStore();
+  const { videos, isFollowing, toggleFollow } = useVideoStore();
   const user = users.find((u) => u.id === params.id);
-
-  const [isFollowing, setIsFollowing] = useState(false);
 
   if (!user) {
     notFound();
@@ -37,15 +34,26 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
     if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
     return count;
   };
+  
+  const following = isFollowing(user.id);
 
   return (
     <>
     <PageHeader title={user.name}>
-        <Button variant="ghost" size="icon" asChild>
-            <Link href="/home">
-                <ChevronLeft className="h-5 w-5" />
-            </Link>
-        </Button>
+        <div className="flex items-center gap-2">
+            {isCurrentUser && (
+                <Button variant="ghost" size="icon" asChild>
+                    <Link href="/login">
+                        <LogOut className="h-5 w-5" />
+                    </Link>
+                </Button>
+            )}
+            <Button variant="ghost" size="icon" asChild>
+                <Link href="/home">
+                    <ChevronLeft className="h-5 w-5" />
+                </Link>
+            </Button>
+        </div>
     </PageHeader>
     <div className="container max-w-4xl mx-auto">
       <header className="py-8">
@@ -81,10 +89,10 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
                 </Button>
             ) : (
                 <Button 
-                    className={cn("w-full", isFollowing && "bg-secondary text-secondary-foreground hover:bg-secondary/90")}
-                    onClick={() => setIsFollowing(!isFollowing)}
+                    className={cn("w-full", following && "bg-destructive text-destructive-foreground hover:bg-destructive/90")}
+                    onClick={() => toggleFollow(user.id)}
                 >
-                    {isFollowing ? 'Following' : 'Follow'}
+                    {following ? 'Following' : 'Follow'}
                 </Button>
             )}
         </div>
