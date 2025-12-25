@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Video } from "@/lib/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Heart, Eye, Music, Play, Pause, Volume2, VolumeX, Share2 } from "lucide-react";
+import { Heart, Eye, Music, Play, Pause, Volume2, VolumeX, Share2, MessageCircle } from "lucide-react";
 import { useVideoStore } from "@/hooks/use-video-store";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -108,6 +108,10 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
             <Button onClick={handleLike} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
               <Heart className={cn("h-8 w-8", isLiked && "fill-red-500 text-red-500")} />
               <span className="text-xs font-bold">{formatCount(video.likes)}</span>
+            </Button>
+            <Button variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
+              <MessageCircle className="h-8 w-8" />
+              <span className="text-xs font-bold">{formatCount(video.comments)}</span>
             </Button>
             <Button variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
               <Eye className="h-8 w-8" />

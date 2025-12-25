@@ -11,10 +11,11 @@ export interface Video {
   title: string;
   videoUrl: string;
   thumbnailUrl: string;
-  source: 'youtube' | 'direct';
+  source: 'youtube' | 'direct' | 'instagram' | 'telegram';
   user: User;
   views: number;
   likes: number;
+  comments: number;
   destination: Destination;
   category: VideoCategory;
   description: string;

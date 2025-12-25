@@ -25,6 +25,7 @@ export const useVideoStore = create<VideoState>((set, get) => ({
       user: currentUser,
       views: 0,
       likes: 0,
+      comments: 0,
       destination: destinations.find(d => d.name.toLowerCase() === videoData.place.toLowerCase()) || {
         id: `d${destinations.length + 1}`,
         name: videoData.place,
