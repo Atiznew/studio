@@ -8,6 +8,7 @@ import { Heart, Eye, Music, Play, Pause, Volume2, VolumeX, Share2, MessageCircle
 import { useVideoStore } from "@/hooks/use-video-store";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 
 interface ReelPlayerProps {
@@ -21,6 +22,7 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
   const [isMuted, setIsMuted] = useState(true);
   
   const { likedVideos, toggleLike, openCommentSheet } = useVideoStore();
+  const { toast } = useToast();
   const isLiked = likedVideos.has(video.id);
   const commentCount = video.comments?.length || 0;
 
@@ -60,6 +62,14 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
   const handleLike = () => {
     toggleLike(video.id);
   }
+
+  const handleShare = () => {
+    navigator.clipboard.writeText(`${window.location.origin}/reels?v=${video.id}`);
+    toast({
+      title: "Link Copied!",
+      description: "The video link has been copied to your clipboard.",
+    });
+  };
 
   const formatCount = (count: number) => {
     if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
@@ -118,7 +128,7 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
               <Eye className="h-8 w-8" />
               <span className="text-xs font-bold">{formatCount(video.views)}</span>
             </Button>
-            <Button variant="ghost" size="icon" className="text-white h-12 w-12">
+            <Button onClick={handleShare} variant="ghost" size="icon" className="text-white h-12 w-12">
               <Share2 className="h-8 w-8" />
             </Button>
           </div>

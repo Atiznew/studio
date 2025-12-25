@@ -1,4 +1,4 @@
-import type { User, Destination, Video, VideoCategory, Story } from './types';
+import type { User, Destination, Video, Story } from './types';
 import data from './placeholder-images.json';
 
 export const placeholderImages = data.placeholderImages;
@@ -7,6 +7,8 @@ export const users: User[] = [
   { id: 'u1', name: 'Alex Doe', avatarUrl: placeholderImages.find(p => p.id === 'avatar-1')?.imageUrl || '' },
   { id: 'u2', name: 'Jane Smith', avatarUrl: placeholderImages.find(p => p.id === 'avatar-2')?.imageUrl || '' },
 ];
+
+export const currentUser = users[0];
 
 export const destinations: Destination[] = [
   { id: 'd1', name: 'Goa', country: 'India', slug: 'goa', imageUrl: placeholderImages.find(p => p.id === 'dest-goa')?.imageUrl || '' },
@@ -27,7 +29,10 @@ export const initialVideos: Video[] = [
     user: users[0],
     views: 15000,
     likes: 1200,
-    comments: [],
+    comments: [
+        { id: 'c1', user: users[1], text: 'Looks amazing!', createdAt: new Date(Date.now() - 1000 * 60 * 5).toISOString() },
+        { id: 'c2', user: users[0], text: 'It was the best trip!', createdAt: new Date(Date.now() - 1000 * 60 * 2).toISOString() },
+    ],
     destination: destinations[0],
     category: 'Beach',
     description: 'Enjoying the sun, sand, and waves in beautiful Goa. A perfect getaway!',
@@ -135,9 +140,6 @@ export const initialVideos: Video[] = [
 export const stories: Story[] = [
     { id: 's1', user: users[1], imageUrl: 'https://images.unsplash.com/photo-1533106418989-87423dec6928?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHx0cmF2ZWwlJTIwc3Rvcnl8ZW58MHx8fHwxNzY4MTYyMjIyfDA&ixlib=rb-4.1.0&q=80&w=1080' },
     { id: 's2', user: users[0], imageUrl: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHx0cmF2ZWwlJTIwYmVhY2h8ZW58MHx8fHwxNzY4MTYyMjM4fDA&ixlib=rb-4.1.0&q=80&w=1080', viewed: true },
-    { id: 's3', user: users[1], imageUrl: 'https://images.unsplash.com/photo-1473625247510-8ceb1760943f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx0cmF2ZWwlJTIwZm9yZXN0fGVufDB8fHx8MTc2ODE2MjI2MHww&ixlib=rb-4.1.0&q=80&w=1080' },
+    { id: 's3', user: {id: 'u3', name: 'Chris', avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtYW4lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjgyNDIxNjB8MA&ixlib=rb-4.1.0&q=80&w=1080'}, imageUrl: 'https://images.unsplash.com/photo-1473625247510-8ceb1760943f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx0cmF2ZWwlJTIwZm9yZXN0fGVufDB8fHx8MTc2ODE2MjI2MHww&ixlib=rb-4.1.0&q=80&w=1080' },
+    { id: 's4', user: {id: 'u4', name: 'Sarah', avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx3b21hbiUyMHBvcnRyYWl0fGVufDB8fHx8MTc2NjUyNTk0MHww&ixlib=rb-4.1.0&q=80&w=1080'}, imageUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtb3VudGFpbiUyMHRyYXZlbHxlbnwwfHx8fDE3NjgyNDIxODB8MA&ixlib=rb-4.1.0&q=80&w=1080' },
 ];
-
-export const currentUser = users[0];
-
-export const videos: Video[] = [...initialVideos];

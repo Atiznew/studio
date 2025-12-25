@@ -1,9 +1,8 @@
-
 'use client';
 
 import { useState } from 'react';
 import { useVideoStore } from '@/hooks/use-video-store';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose } from '@/components/ui/sheet';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -24,9 +23,15 @@ export function CommentSheet() {
     }
   };
 
+  const onOpenChange = (open: boolean) => {
+    if (!open) {
+      closeCommentSheet();
+    }
+  };
+
   return (
-    <Sheet open={isCommentSheetOpen} onOpenChange={closeCommentSheet}>
-      <SheetContent side="bottom" className="h-[80vh] flex flex-col">
+    <Sheet open={isCommentSheetOpen} onOpenChange={onOpenChange}>
+      <SheetContent side="bottom" className="h-[80vh] flex flex-col rounded-t-lg">
         <SheetHeader>
           <SheetTitle className="text-center">
             {activeVideo?.comments?.length || 0} Comments
@@ -57,13 +62,18 @@ export function CommentSheet() {
         </ScrollArea>
         <div className="p-4 border-t">
           <div className="flex items-center gap-2">
+            <Avatar className="h-9 w-9">
+              <AvatarImage src={currentUser.avatarUrl} />
+              <AvatarFallback>{currentUser.name.charAt(0)}</AvatarFallback>
+            </Avatar>
             <Input
               placeholder="Add a comment..."
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleAddComment()}
+              className="rounded-full"
             />
-            <Button onClick={handleAddComment} size="icon" disabled={!newComment.trim()}>
+            <Button onClick={handleAddComment} size="icon" disabled={!newComment.trim()} className="rounded-full">
               <Send className="h-4 w-4" />
             </Button>
           </div>

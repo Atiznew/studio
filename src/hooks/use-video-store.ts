@@ -2,7 +2,7 @@
 
 import create from 'zustand';
 import { initialVideos, currentUser, destinations, users } from '@/lib/data';
-import type { Video, VideoCategory, Comment } from '@/lib/types';
+import type { Video, Comment } from '@/lib/types';
 
 interface VideoState {
   videos: Video[];
@@ -113,7 +113,7 @@ export const useVideoStore = create<VideoState>((set, get) => ({
         };
 
         const existingComments = video.comments || [];
-        video.comments = [...existingComments, newComment];
+        video.comments = [newComment, ...existingComments];
         newVideos[videoIndex] = video;
 
         return { videos: newVideos };
