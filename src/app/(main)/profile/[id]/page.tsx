@@ -1,14 +1,25 @@
 import Image from 'next/image';
-import { currentUser, videos } from '@/lib/data';
+import { users, videos } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Settings } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { VideoCard } from '@/components/video-card';
+import { PageHeader } from '@/components/page-header';
+import Link from 'next/link';
+import { ChevronLeft } from 'lucide-react';
+import { currentUser } from '@/lib/data';
 
-export default function ProfilePage() {
-  const userVideos = videos.filter((v) => v.user.id === currentUser.id);
+export default function UserProfilePage({ params }: { params: { id: string } }) {
+  const user = users.find((u) => u.id === params.id);
+
+  if (!user) {
+    notFound();
+  }
+
+  const isCurrentUser = user.id === currentUser.id;
+
+  const userVideos = videos.filter((v) => v.user.id === user.id);
 
   const totalLikes = userVideos.reduce((acc, video) => acc + video.likes, 0);
   const totalViews = userVideos.reduce((acc, video) => acc + video.views, 0);
@@ -20,19 +31,24 @@ export default function ProfilePage() {
   };
 
   return (
+    <>
+    <PageHeader title={user.name}>
+        <Button variant="ghost" size="icon" asChild>
+            <Link href="/home">
+                <ChevronLeft className="h-5 w-5" />
+            </Link>
+        </Button>
+    </PageHeader>
     <div className="container max-w-4xl mx-auto">
       <header className="py-8">
         <div className="flex items-center gap-4 md:gap-8">
           <Avatar className="w-20 h-20 md:w-32 md:h-32 border-4 border-card">
-            <AvatarImage src={currentUser.avatarUrl} alt={currentUser.name} />
-            <AvatarFallback>{currentUser.name.charAt(0)}</AvatarFallback>
+            <AvatarImage src={user.avatarUrl} alt={user.name} />
+            <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
           </Avatar>
           <div className="flex-1">
             <div className="flex items-center gap-4">
-                <h1 className="text-2xl md:text-3xl font-bold font-headline">{currentUser.name}</h1>
-                <Button variant="ghost" size="icon">
-                    <Settings className="h-5 w-5" />
-                </Button>
+                <h1 className="text-2xl md:text-3xl font-bold font-headline">{user.name}</h1>
             </div>
             <div className="flex items-center gap-6 mt-4 text-center">
               <div>
@@ -51,15 +67,19 @@ export default function ProfilePage() {
           </div>
         </div>
         <div className="mt-4">
-            <Button className="w-full bg-accent hover:bg-accent/90" asChild>
-                <Link href="#">Edit Profile</Link>
-            </Button>
+            {isCurrentUser ? (
+                <Button className="w-full bg-accent hover:bg-accent/90" asChild>
+                    <Link href="#">Edit Profile</Link>
+                </Button>
+            ) : (
+                <Button className="w-full">Follow</Button>
+            )}
         </div>
       </header>
 
       <Tabs defaultValue="videos" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="videos">My Videos</TabsTrigger>
+          <TabsTrigger value="videos">Videos</TabsTrigger>
           <TabsTrigger value="liked">Liked</TabsTrigger>
         </TabsList>
         <TabsContent value="videos">
@@ -71,10 +91,11 @@ export default function ProfilePage() {
         </TabsContent>
         <TabsContent value="liked">
             <div className="text-center py-16">
-                <p className="text-muted-foreground">You haven&apos;t liked any videos yet.</p>
+                <p className="text-muted-foreground">This user hasn't liked any videos yet.</p>
             </div>
         </TabsContent>
       </Tabs>
     </div>
+    </>
   );
 }

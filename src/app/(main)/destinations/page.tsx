@@ -10,7 +10,7 @@ export default function DestinationsPage() {
     <>
       <PageHeader title="Destinations">
          <Button variant="ghost" size="icon" asChild>
-            <Link href="/search-destinations">
+            <Link href="/search">
                 <Search className="h-5 w-5" />
             </Link>
         </Button>

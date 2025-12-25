@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { videos } from '@/lib/data';
 import { ReelPlayer } from '@/components/reel-player';
 import { ChevronLeft } from 'lucide-react';
@@ -9,7 +10,24 @@ import Link from 'next/link';
 
 export default function ReelsPage() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [visibleReel, setVisibleReel] = useState<string | null>(videos[0]?.id || null);
+  const [visibleReel, setVisibleReel] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+  const videoId = searchParams.get('v');
+
+  useEffect(() => {
+    if (videoId && containerRef.current) {
+      const targetReel = containerRef.current.querySelector(`[data-video-id="${videoId}"]`);
+      if (targetReel) {
+        targetReel.scrollIntoView({ behavior: 'instant' });
+        setVisibleReel(videoId);
+      } else {
+        setVisibleReel(videos[0]?.id || null);
+      }
+    } else {
+      setVisibleReel(videos[0]?.id || null);
+    }
+  }, [videoId]);
+
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -41,7 +59,7 @@ export default function ReelsPage() {
         </Button>
       </div>
       {videos.map((video) => (
-        <div key={video.id} data-video-id={video.id} className="h-screen w-screen snap-start flex items-center justify-center">
+        <div key={video.id} id={`reel-${video.id}`} data-video-id={video.id} className="h-screen w-screen snap-start flex items-center justify-center">
           <ReelPlayer video={video} isIntersecting={visibleReel === video.id} />
         </div>
       ))}
