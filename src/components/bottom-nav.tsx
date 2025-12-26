@@ -20,15 +20,24 @@ export function BottomNav() {
     <nav className="fixed bottom-0 left-0 z-50 w-full h-16 border-t bg-background/95 backdrop-blur-sm">
       <div className="grid h-full max-w-lg grid-cols-5 mx-auto">
         {navItems.map((item) => {
-          const isActive = pathname.startsWith(item.href) && (item.href !== '/home' || pathname === '/home');
-          // Special case for root profile page to be active
-           const isProfileActive = item.href === '/profile' && (pathname === '/profile' || pathname.startsWith('/profile/'));
-           
-           let finalIsActive = item.href === '/profile' ? isProfileActive : isActive;
+          let isActive = pathname === item.href || (pathname.startsWith(item.href) && item.href !== '/');
+          
+          if (item.href === '/home' && pathname !== '/home') {
+            isActive = false;
+          }
 
-           if(item.href === '/upload') {
-                finalIsActive = pathname.startsWith('/upload') || pathname.startsWith('/suggest');
-           }
+          if (item.href === '/profile') {
+            isActive = pathname.startsWith('/profile');
+          }
+          
+          if (item.href === '/upload') {
+            isActive = pathname.startsWith('/upload') || pathname.startsWith('/suggest');
+          }
+
+          if (item.href === '/destinations') {
+            isActive = pathname.startsWith('/destinations') || pathname.startsWith('/category');
+          }
+
 
           return (
             <Link
@@ -39,7 +48,7 @@ export function BottomNav() {
               <item.icon
                 className={cn(
                   'w-6 h-6 mb-1 transition-colors',
-                   finalIsActive ? 'text-primary' : 'text-muted-foreground',
+                   isActive ? 'text-primary' : 'text-muted-foreground',
                    'group-hover:text-primary'
                 )}
                 aria-hidden="true"
