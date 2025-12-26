@@ -14,12 +14,14 @@ import { DestinationCard } from '@/components/destination-card';
 import { destinations } from '@/lib/data';
 import Image from 'next/image';
 import { StoryReel } from '@/components/story-reel';
+import { ShortCard } from '@/components/short-card';
 
 export default function HomePage() {
   const { videos } = useVideoStore();
   const trendingDestinations = destinations.slice(0, 5);
   const featuredDestinations = destinations.slice(0, 4);
   const exploreVideos = videos.slice(0, 6);
+  const trendingShorts = videos.slice(0,5);
 
   return (
     <div className="container max-w-5xl mx-auto">
@@ -72,6 +74,20 @@ export default function HomePage() {
 
         <section className="py-8">
             <StoryReel />
+        </section>
+
+        <section className="py-8">
+          <h2 className="text-2xl font-bold mb-4 font-headline">Trending Shorts: 60 Second Escapes</h2>
+           <ScrollArea className="w-full whitespace-nowrap">
+            <div className="flex w-max space-x-4 pb-4">
+              {trendingShorts.map((video) => (
+                <div key={video.id} className="w-40">
+                  <ShortCard video={video} />
+                </div>
+              ))}
+            </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
         </section>
 
         <section className="py-8">
