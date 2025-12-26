@@ -117,7 +117,7 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
           </div>
           <div className="flex flex-col items-center gap-4">
             <Button onClick={handleLike} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
-              <Heart className={cn("h-8 w-8", isLiked && "fill-red-500 text-red-500")} />
+              <Heart className={cn("h-8 w-8", isLiked && "fill-primary text-primary")} />
               <span className="text-xs font-bold">{formatCount(video.likes)}</span>
             </Button>
             <Button onClick={() => openCommentSheet(video.id)} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
