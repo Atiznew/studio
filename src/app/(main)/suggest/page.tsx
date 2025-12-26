@@ -1,6 +1,7 @@
+
 "use client";
 
-import { useState } from 'react';
+import { useState, ChangeEvent, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -10,7 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, UploadCloud } from 'lucide-react';
 import Link from 'next/link';
 
 const formSchema = z.object({
@@ -18,6 +19,7 @@ const formSchema = z.object({
   state: z.string().min(2, "State is required."),
   country: z.string().min(2, "Country is required."),
   reason: z.string().min(10, "Please provide a reason (at least 10 characters).").max(500),
+  imageFile: z.any().optional(),
 });
 
 type SuggestionFormValues = z.infer<typeof formSchema>;
@@ -25,6 +27,8 @@ type SuggestionFormValues = z.infer<typeof formSchema>;
 export default function SuggestPage() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [fileName, setFileName] = useState('');
+  const imageFileRef = useRef<File | null>(null);
 
   const form = useForm<SuggestionFormValues>({
     resolver: zodResolver(formSchema),
@@ -35,6 +39,15 @@ export default function SuggestPage() {
       reason: "",
     },
   });
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      form.setValue('imageFile', file);
+      setFileName(file.name);
+      imageFileRef.current = file;
+    }
+  };
 
   const onSubmit = (data: SuggestionFormValues) => {
     setIsSubmitting(true);
@@ -48,6 +61,8 @@ export default function SuggestPage() {
         description: "Thanks for helping us grow. We'll review your suggestion.",
       });
       form.reset();
+      setFileName('');
+      imageFileRef.current = null;
     }, 1500);
   };
 
@@ -66,6 +81,35 @@ export default function SuggestPage() {
         </p>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+             <FormField
+              control={form.control}
+              name="imageFile"
+              render={() => (
+                <FormItem>
+                  <FormLabel>Image</FormLabel>
+                  <FormControl>
+                    <div className="flex items-center justify-center w-full">
+                      <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-lg cursor-pointer bg-card hover:bg-accent/50">
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                          <UploadCloud className="w-10 h-10 mb-3 text-muted-foreground" />
+                          {fileName ? (
+                            <p className="font-semibold text-primary">{fileName}</p>
+                          ) : (
+                            <>
+                            <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                            <p className="text-xs text-muted-foreground">PNG, JPG, GIF up to 10MB</p>
+                            </>
+                          )}
+                        </div>
+                        <Input id="dropzone-file" type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
+                      </label>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="place"
