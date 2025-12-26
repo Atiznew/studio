@@ -56,11 +56,16 @@ export default function HomePage() {
 
         <section className="py-8">
           <h2 className="text-2xl font-bold mb-4 font-headline">Trending Destinations</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
-            {trendingDestinations.map((dest) => (
-              <DestinationCard key={dest.id} destination={dest} />
-            ))}
-          </div>
+           <ScrollArea className="w-full whitespace-nowrap">
+            <div className="flex w-max space-x-4 pb-4">
+              {trendingDestinations.map((dest) => (
+                <div key={dest.id} className="w-40">
+                  <DestinationCard destination={dest} />
+                </div>
+              ))}
+            </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
         </section>
 
         <section className="py-4">
