@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -5,14 +6,14 @@ import { Search, Sailboat, Mountain, Building2, Landmark, MoreHorizontal, Utensi
 import { Button } from '@/components/ui/button';
 import { VideoCard } from '@/components/video-card';
 import { Logo } from '@/components/logo';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { ReactNode } from 'react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { useVideoStore } from '@/hooks/use-video-store';
-import { StoryReel } from '@/components/story-reel';
 import { DestinationCard } from '@/components/destination-card';
 import { destinations } from '@/lib/data';
+import Image from 'next/image';
 
 type ExtendedVideoCategory = "Beach" | "Mountain" | "City" | "Religious" | "Other" | "Food" | "Amusement Park" | "Forest" | "Tropical" | "Camping";
 
@@ -35,6 +36,7 @@ const categories: ExtendedVideoCategory[] = ["Beach", "Mountain", "City", "Relig
 export default function HomePage() {
   const { videos } = useVideoStore();
   const trendingDestinations = destinations.slice(0, 5);
+  const featuredDestinations = destinations.slice(0, 4);
   const exploreVideos = videos.slice(0, 6);
 
   return (
@@ -51,7 +53,39 @@ export default function HomePage() {
         </header>
         
         <section className="py-4">
-            <StoryReel />
+            <Carousel
+                opts={{
+                    align: "start",
+                    loop: true,
+                }}
+                className="w-full"
+            >
+                <CarouselContent>
+                    {featuredDestinations.map((destination) => (
+                        <CarouselItem key={destination.id}>
+                            <Link href={`/destinations/${destination.slug}`}>
+                                <Card>
+                                    <CardContent className="relative aspect-video flex items-center justify-center p-0 overflow-hidden rounded-lg">
+                                         <Image
+                                            src={destination.imageUrl}
+                                            alt={destination.name}
+                                            fill
+                                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                        />
+                                        <div className="absolute inset-0 bg-black/40" />
+                                        <div className="relative z-10 text-center text-white p-4">
+                                            <h2 className="text-3xl font-bold font-headline">{destination.name}</h2>
+                                            <p>{destination.country}</p>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </Link>
+                        </CarouselItem>
+                    ))}
+                </CarouselContent>
+                <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 hidden sm:flex" />
+                <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 hidden sm:flex" />
+            </Carousel>
         </section>
 
         <section className="py-8">

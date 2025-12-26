@@ -6,6 +6,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 export function StoryReel() {
   return (
@@ -14,7 +15,7 @@ export function StoryReel() {
       <ScrollArea className="w-full whitespace-nowrap">
         <div className="flex w-max space-x-4 pb-2">
           {/* Add Story */}
-          <div className="flex flex-col items-center gap-1 w-20">
+          <Link href="#" className="flex flex-col items-center gap-1 w-20">
              <div className="relative">
                 <Avatar className="h-16 w-16 border-2 border-dashed border-muted-foreground">
                     <AvatarImage src={currentUser.avatarUrl} alt="Your Story" />
@@ -25,10 +26,10 @@ export function StoryReel() {
                 </div>
             </div>
             <p className="text-xs text-center truncate w-full">Your Story</p>
-          </div>
+          </Link>
           {/* Friend Stories */}
           {stories.map((story) => (
-            <div key={story.id} className="flex flex-col items-center gap-1 w-20">
+            <Link href="#" key={story.id} className="flex flex-col items-center gap-1 w-20">
               <Avatar className={cn(
                 "h-16 w-16 p-[2px] bg-gradient-to-tr",
                 story.viewed ? "from-muted to-muted" : "from-yellow-400 to-pink-500"
@@ -39,7 +40,7 @@ export function StoryReel() {
                 </div>
               </Avatar>
               <p className="text-xs text-center truncate w-full">{story.user.name}</p>
-            </div>
+            </Link>
           ))}
         </div>
         <ScrollBar orientation="horizontal" />
