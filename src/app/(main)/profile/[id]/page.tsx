@@ -90,7 +90,7 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
                 </Button>
             ) : (
                 <Button 
-                    className={cn("w-full", following ? "bg-destructive text-destructive-foreground hover:bg-destructive/90" : "bg-primary text-primary-foreground hover:bg-primary/90")}
+                    className={cn("w-full", following ? "bg-secondary text-secondary-foreground hover:bg-secondary/80" : "bg-primary text-primary-foreground hover:bg-primary/90")}
                     onClick={() => toggleFollow(user.id)}
                 >
                     {following ? 'Following' : 'Follow'}
