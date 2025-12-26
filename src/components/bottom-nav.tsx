@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Video, PlusSquare, Map, User } from 'lucide-react';
+import { Home, Video, PlusSquare, Map, User, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
@@ -20,7 +20,7 @@ export function BottomNav() {
     <nav className="fixed bottom-0 left-0 z-50 w-full h-16 border-t bg-background">
       <div className="grid h-full max-w-lg grid-cols-5 mx-auto">
         {navItems.map((item) => {
-          const isActive = pathname === item.href;
+          const isActive = pathname.startsWith(item.href) && (item.href !== '/' || pathname === '/');
           return (
             <Link
               key={item.label}
