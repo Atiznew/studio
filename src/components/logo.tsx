@@ -11,10 +11,10 @@ interface LogoProps {
 export function Logo({ className, textClassName, iconClassName }: LogoProps) {
   return (
     <Link href="/home" className={cn('flex items-center gap-2', className)}>
-      <MountainSnow className={cn('h-7 w-7 text-primary', iconClassName)} />
+      <MountainSnow className={cn('h-8 w-8 text-primary', iconClassName)} />
       <span
         className={cn(
-          'text-xl font-bold text-primary font-headline',
+          'text-2xl font-bold text-primary font-headline',
           textClassName
         )}
       >

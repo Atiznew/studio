@@ -11,6 +11,8 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { useVideoStore } from '@/hooks/use-video-store';
 import { StoryReel } from '@/components/story-reel';
+import { DestinationCard } from '@/components/destination-card';
+import { destinations } from '@/lib/data';
 
 type ExtendedVideoCategory = "Beach" | "Mountain" | "City" | "Religious" | "Other" | "Food" | "Amusement Park" | "Forest" | "Tropical" | "Camping";
 
@@ -32,11 +34,11 @@ const categories: ExtendedVideoCategory[] = ["Beach", "Mountain", "City", "Relig
 
 export default function HomePage() {
   const { videos } = useVideoStore();
-  const featuredVideos = videos.slice(0, 4);
-  const moreVideos = videos.slice(4);
+  const trendingDestinations = destinations.slice(0, 5);
+  const exploreVideos = videos.slice(0, 6);
 
   return (
-    <div className="container max-w-4xl mx-auto">
+    <div className="container max-w-5xl mx-auto">
         <header className="sticky top-0 z-40 w-full bg-background/95 backdrop-blur-sm">
             <div className="flex h-16 items-center justify-between">
                 <Logo />
@@ -52,50 +54,19 @@ export default function HomePage() {
             <StoryReel />
         </section>
 
-        <section className="py-4">
-          <h2 className="text-2xl font-bold mb-4 font-headline">Categories</h2>
-          <ScrollArea className="w-full whitespace-nowrap">
-            <div className="flex w-max space-x-4 pb-4">
-              {categories.map((category) => (
-                <Link key={category} href={`/category/${category.toLowerCase().replace(' ', '-')}`} className="group">
-                  <Card className="p-4 flex flex-col items-center justify-center gap-2 h-28 w-28 group-hover:bg-accent/50 transition-colors rounded-full">
-                    <div className="text-primary">{categoryIcons[category]}</div>
-                    <p className="text-sm font-semibold text-muted-foreground group-hover:text-primary-foreground text-center">{category}</p>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
-        </section>
-        
-        <section className="py-4">
-            <h2 className="text-2xl font-bold mb-4 font-headline">Featured Videos</h2>
-            <Carousel
-              opts={{
-                align: "start",
-                loop: true,
-              }}
-              className="w-full"
-            >
-              <CarouselContent>
-                {featuredVideos.map((video) => (
-                  <CarouselItem key={video.id} className="md:basis-1/2">
-                    <div className="p-1">
-                      <VideoCard video={video} />
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious className="hidden sm:flex" />
-              <CarouselNext className="hidden sm:flex" />
-            </Carousel>
+        <section className="py-8">
+          <h2 className="text-2xl font-bold mb-4 font-headline">Trending Destinations</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+            {trendingDestinations.map((dest) => (
+              <DestinationCard key={dest.id} destination={dest} />
+            ))}
+          </div>
         </section>
 
         <section className="py-4">
-            <h2 className="text-2xl font-bold mb-4 font-headline">More Videos</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {moreVideos.map((video) => (
+            <h2 className="text-2xl font-bold mb-4 font-headline">Explore Videos</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {exploreVideos.map((video) => (
                     <VideoCard key={video.id} video={video} />
                 ))}
             </div>
