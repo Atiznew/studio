@@ -211,7 +211,7 @@ export default function UploadPage() {
 
   return (
     <>
-      <PageHeader title="Upload Video" />
+      <PageHeader title="Share Experience" />
       <div className="container max-w-2xl py-8">
         <Tabs value={uploadType} onValueChange={setUploadType} className="w-full">
           <div className="pb-4">
@@ -433,7 +433,7 @@ export default function UploadPage() {
               )}
 
               <Button type="submit" className="w-full bg-accent hover:bg-accent/90" disabled={isUploading || isGenerating}>
-                {isUploading ? "Uploading..." : "Upload Video"}
+                {isUploading ? "Uploading..." : "Share Experience"}
               </Button>
             </form>
           </Form>
