@@ -18,7 +18,7 @@ export function Logo({ className, textClassName, iconClassName }: LogoProps) {
           textClassName
         )}
       >
-        Travel Tales
+        Bharatyatra
       </span>
     </Link>
   );
