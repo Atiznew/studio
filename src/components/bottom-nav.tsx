@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Video, PlusSquare, Map, User, Lightbulb } from 'lucide-react';
+import { Home, Video, PlusSquare, Map, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
@@ -23,7 +23,12 @@ export function BottomNav() {
           const isActive = pathname.startsWith(item.href) && (item.href !== '/home' || pathname === '/home');
           // Special case for root profile page to be active
            const isProfileActive = item.href === '/profile' && (pathname === '/profile' || pathname.startsWith('/profile/'));
-           const finalIsActive = item.href === '/profile' ? isProfileActive : isActive;
+           
+           let finalIsActive = item.href === '/profile' ? isProfileActive : isActive;
+
+           if(item.href === '/upload') {
+                finalIsActive = pathname.startsWith('/upload') || pathname.startsWith('/suggest');
+           }
 
           return (
             <Link

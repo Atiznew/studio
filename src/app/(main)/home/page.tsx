@@ -2,36 +2,18 @@
 "use client";
 
 import Link from 'next/link';
-import { Search, Sailboat, Mountain, Building2, Landmark, MoreHorizontal, Utensils, FerrisWheel, Trees, Palmtree, Tent } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { VideoCard } from '@/components/video-card';
 import { Logo } from '@/components/logo';
 import { Card, CardContent } from '@/components/ui/card';
-import { ReactNode } from 'react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { useVideoStore } from '@/hooks/use-video-store';
 import { DestinationCard } from '@/components/destination-card';
 import { destinations } from '@/lib/data';
 import Image from 'next/image';
-
-type ExtendedVideoCategory = "Beach" | "Mountain" | "City" | "Religious" | "Other" | "Food" | "Amusement Park" | "Forest" | "Tropical" | "Camping";
-
-
-const categoryIcons: Record<ExtendedVideoCategory, ReactNode> = {
-    Beach: <Sailboat />,
-    Mountain: <Mountain />,
-    City: <Building2 />,
-    Religious: <Landmark />,
-    Food: <Utensils />,
-    "Amusement Park": <FerrisWheel />,
-    Forest: <Trees />,
-    Tropical: <Palmtree />,
-    Camping: <Tent />,
-    Other: <MoreHorizontal />,
-};
-
-const categories: ExtendedVideoCategory[] = ["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"];
+import { StoryReel } from '@/components/story-reel';
 
 export default function HomePage() {
   const { videos } = useVideoStore();
@@ -86,6 +68,10 @@ export default function HomePage() {
                 <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 hidden sm:flex" />
                 <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 hidden sm:flex" />
             </Carousel>
+        </section>
+
+        <section className="py-8">
+            <StoryReel />
         </section>
 
         <section className="py-8">
