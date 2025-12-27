@@ -15,6 +15,24 @@ import { destinations } from '@/lib/data';
 import Image from 'next/image';
 import { StoryReel } from '@/components/story-reel';
 import { ShortCard } from '@/components/short-card';
+import { VideoCategory } from '@/lib/types';
+import { cn } from '@/lib/utils';
+import { Mountain, Palmtree, Utensils, Tent, Building, FerrisWheel, Trees, Leaf } from 'lucide-react';
+import { ReactNode } from 'react';
+
+
+const categories: { name: VideoCategory, icon: ReactNode, slug: string }[] = [
+    { name: "Beach", icon: <Palmtree className="h-6 w-6" />, slug: "beach" },
+    { name: "Mountain", icon: <Mountain className="h-6 w-6" />, slug: "mountain" },
+    { name: "City", icon: <Building className="h-6 w-6" />, slug: "city" },
+    { name: "Religious", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-gopuram"><path d="M7.3 15.3V9a.7.7 0 0 1 .7-.7h8a.7.7 0 0 1 .7.7v6.3"/><path d="M4 15.3h16"/><path d="M2 21h20"/><path d="M5 21V10.7a.7.7 0 0 1 .7-.7h12.6a.7.7 0 0 1 .7.7V21"/><path dM="M12 15.3v-4.2a.7.7 0 0 1 .7-.7h0a.7.7 0 0 1 .7.7v4.2"/><path d="m19.3 10.6-4.3-4.3-4.3 4.3"/><path d="M12 2v4.3"/></svg> },
+    { name: "Food", icon: <Utensils className="h-6 w-6" />, slug: "food" },
+    { name: "Amusement Park", icon: <FerrisWheel className="h-6 w-6" />, slug: "amusement-park" },
+    { name: "Forest", icon: <Trees className="h-6 w-6" />, slug: "forest" },
+    { name: "Tropical", icon: <Leaf className="h-6 w-6" />, slug: "tropical" },
+    { name: "Camping", icon: <Tent className="h-6 w-6" />, slug: "camping" },
+];
+
 
 export default function HomePage() {
   const { videos } = useVideoStore();
@@ -75,6 +93,23 @@ export default function HomePage() {
         <section className="py-8">
             <StoryReel />
         </section>
+        
+        <section className="py-8">
+            <h2 className="text-2xl font-bold mb-4 font-headline">Categories</h2>
+            <ScrollArea className="w-full whitespace-nowrap">
+                <div className="flex w-max space-x-4 pb-4">
+                    {categories.map((category) => (
+                        <Link href={`/category/${category.slug}`} key={category.name} className="flex flex-col items-center justify-center gap-2 w-24">
+                            <div className="flex items-center justify-center w-16 h-16 rounded-full bg-muted/50 text-muted-foreground group-hover:bg-accent">
+                                {category.icon}
+                            </div>
+                            <p className="text-sm font-medium">{category.name}</p>
+                        </Link>
+                    ))}
+                </div>
+                <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+        </section>
 
         <section className="py-8">
           <h2 className="text-2xl font-bold mb-4 font-headline">Trending Shorts: 60 Second Escapes</h2>
@@ -115,3 +150,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+    

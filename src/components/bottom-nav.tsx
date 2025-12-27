@@ -20,22 +20,24 @@ export function BottomNav() {
     <nav className="fixed bottom-0 left-0 z-50 w-full h-16 border-t bg-background/95 backdrop-blur-sm">
       <div className="grid h-full max-w-lg grid-cols-5 mx-auto">
         {navItems.map((item) => {
-          let isActive = pathname === item.href || (pathname.startsWith(item.href) && item.href !== '/');
+          let isActive = pathname === item.href;
           
           if (item.href === '/home' && pathname !== '/home') {
             isActive = false;
+          } else if (pathname.startsWith(item.href) && item.href !== '/') {
+            isActive = true;
           }
 
-          if (item.href === '/profile') {
-            isActive = pathname.startsWith('/profile');
+          if (item.href === '/profile' && (pathname.startsWith('/profile') || pathname.startsWith('/users'))) {
+            isActive = true;
           }
           
           if (item.href === '/upload') {
-            isActive = pathname.startsWith('/upload') || pathname.startsWith('/suggest');
+            isActive = pathname.startsWith('/upload');
           }
 
           if (item.href === '/destinations') {
-            isActive = pathname.startsWith('/destinations') || pathname.startsWith('/category');
+             isActive = pathname.startsWith('/destinations') || pathname.startsWith('/category');
           }
 
 
@@ -61,3 +63,5 @@ export function BottomNav() {
     </nav>
   );
 }
+
+    
