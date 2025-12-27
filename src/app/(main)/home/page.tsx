@@ -25,7 +25,7 @@ const categories: { name: VideoCategory, icon: ReactNode, slug: string }[] = [
     { name: "Beach", icon: <Palmtree className="h-6 w-6" />, slug: "beach" },
     { name: "Mountain", icon: <Mountain className="h-6 w-6" />, slug: "mountain" },
     { name: "City", icon: <Building className="h-6 w-6" />, slug: "city" },
-    { name: "Religious", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-gopuram"><path d="M7.3 15.3V9a.7.7 0 0 1 .7-.7h8a.7.7 0 0 1 .7.7v6.3"/><path d="M4 15.3h16"/><path d="M2 21h20"/><path d="M5 21V10.7a.7.7 0 0 1 .7-.7h12.6a.7.7 0 0 1 .7.7V21"/><path dM="M12 15.3v-4.2a.7.7 0 0 1 .7-.7h0a.7.7 0 0 1 .7.7v4.2"/><path d="m19.3 10.6-4.3-4.3-4.3 4.3"/><path d="M12 2v4.3"/></svg> },
+    { name: "Religious", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-gopuram"><path d="M7.3 15.3V9a.7.7 0 0 1 .7-.7h8a.7.7 0 0 1 .7.7v6.3"/><path d="M4 15.3h16"/><path d="M2 21h20"/><path d="M5 21V10.7a.7.7 0 0 1 .7-.7h12.6a.7.7 0 0 1 .7.7V21"/><path d="M12 15.3v-4.2a.7.7 0 0 1 .7-.7h0a.7.7 0 0 1 .7.7v4.2"/><path d="m19.3 10.6-4.3-4.3-4.3 4.3"/><path d="M12 2v4.3"/></svg> },
     { name: "Food", icon: <Utensils className="h-6 w-6" />, slug: "food" },
     { name: "Amusement Park", icon: <FerrisWheel className="h-6 w-6" />, slug: "amusement-park" },
     { name: "Forest", icon: <Trees className="h-6 w-6" />, slug: "forest" },
@@ -40,6 +40,11 @@ export default function HomePage() {
   const featuredDestinations = destinations.slice(0, 4);
   const exploreVideos = videos.slice(0, 6);
   const trendingShorts = videos.slice(0,5);
+
+  const goaVideos = videos.filter(v => v.destination.slug === 'goa');
+  const mountainVideos = videos.filter(v => v.category === 'Mountain');
+  const cityVideos = videos.filter(v => v.category === 'City');
+  const foodVideos = videos.filter(v => v.category === 'Food');
 
   return (
     <div className="container max-w-5xl mx-auto">
@@ -130,7 +135,7 @@ export default function HomePage() {
            <ScrollArea className="w-full whitespace-nowrap">
             <div className="flex w-max space-x-4 pb-4">
               {trendingDestinations.map((dest) => (
-                <div key={dest.id} className="w-40">
+                <div key={dest.id} className="w-60">
                   <DestinationCard destination={dest} />
                 </div>
               ))}
@@ -138,6 +143,70 @@ export default function HomePage() {
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
         </section>
+
+        {goaVideos.length > 0 && (
+          <section className="py-8">
+            <h2 className="text-2xl font-bold mb-4 font-headline">Goa Getaways</h2>
+            <ScrollArea className="w-full whitespace-nowrap">
+              <div className="flex w-max space-x-4 pb-4">
+                {goaVideos.map((video) => (
+                  <div key={video.id} className="w-80">
+                    <VideoCard video={video} />
+                  </div>
+                ))}
+              </div>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+          </section>
+        )}
+
+        {mountainVideos.length > 0 && (
+          <section className="py-8">
+            <h2 className="text-2xl font-bold mb-4 font-headline">Mountain Escapes</h2>
+            <ScrollArea className="w-full whitespace-nowrap">
+              <div className="flex w-max space-x-4 pb-4">
+                {mountainVideos.map((video) => (
+                  <div key={video.id} className="w-80">
+                    <VideoCard video={video} />
+                  </div>
+                ))}
+              </div>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+          </section>
+        )}
+
+        {cityVideos.length > 0 && (
+          <section className="py-8">
+            <h2 className="text-2xl font-bold mb-4 font-headline">City Adventures</h2>
+            <ScrollArea className="w-full whitespace-nowrap">
+              <div className="flex w-max space-x-4 pb-4">
+                {cityVideos.map((video) => (
+                  <div key={video.id} className="w-80">
+                    <VideoCard video={video} />
+                  </div>
+                ))}
+              </div>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+          </section>
+        )}
+
+        {foodVideos.length > 0 && (
+          <section className="py-8">
+            <h2 className="text-2xl font-bold mb-4 font-headline">Foodie Journeys</h2>
+            <ScrollArea className="w-full whitespace-nowrap">
+              <div className="flex w-max space-x-4 pb-4">
+                {foodVideos.map((video) => (
+                  <div key={video.id} className="w-80">
+                    <VideoCard video={video} />
+                  </div>
+                ))}
+              </div>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+          </section>
+        )}
 
         <section className="py-4">
             <h2 className="text-2xl font-bold mb-4 font-headline">Explore Videos</h2>
@@ -150,5 +219,3 @@ export default function HomePage() {
     </div>
   );
 }
-
-    

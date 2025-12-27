@@ -3,15 +3,17 @@ import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import type { Destination } from '@/lib/types';
 import { MapPin } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface DestinationCardProps {
   destination: Destination;
+  className?: string;
 }
 
-export function DestinationCard({ destination }: DestinationCardProps) {
+export function DestinationCard({ destination, className }: DestinationCardProps) {
   return (
     <Link href={`/destinations/${destination.slug}`}>
-      <Card className="relative aspect-[4/5] w-full overflow-hidden group">
+      <Card className={cn("relative aspect-[4/5] w-full overflow-hidden group", className)}>
         <Image
           src={destination.imageUrl}
           alt={destination.name}
