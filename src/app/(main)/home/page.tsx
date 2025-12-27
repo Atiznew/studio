@@ -9,6 +9,7 @@ import { Logo } from '@/components/logo';
 import { Card, CardContent } from '@/components/ui/card';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import Autoplay from "embla-carousel-autoplay";
 import { useVideoStore } from '@/hooks/use-video-store';
 import { DestinationCard } from '@/components/destination-card';
 import { destinations } from '@/lib/data';
@@ -18,7 +19,7 @@ import { ShortCard } from '@/components/short-card';
 import { VideoCategory } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { Mountain, Palmtree, Utensils, Tent, Building, FerrisWheel, Trees, Leaf } from 'lucide-react';
-import { ReactNode } from 'react';
+import { ReactNode, useRef } from 'react';
 
 
 const categories: { name: VideoCategory, icon: ReactNode, slug: string }[] = [
@@ -45,6 +46,9 @@ export default function HomePage() {
   const mountainVideos = videos.filter(v => v.category === 'Mountain');
   const cityVideos = videos.filter(v => v.category === 'City');
   const foodVideos = videos.filter(v => v.category === 'Food');
+  const plugin = useRef(
+    Autoplay({ delay: 3000, stopOnInteraction: true })
+  );
 
   return (
     <div className="container max-w-5xl mx-auto">
@@ -61,11 +65,14 @@ export default function HomePage() {
         
         <section className="py-4">
             <Carousel
+                plugins={[plugin.current]}
                 opts={{
                     align: "start",
                     loop: true,
                 }}
                 className="w-full"
+                onMouseEnter={plugin.current.stop}
+                onMouseLeave={plugin.current.reset}
             >
                 <CarouselContent>
                     {featuredDestinations.map((destination) => (
