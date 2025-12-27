@@ -26,7 +26,7 @@ export interface Video {
   title: string;
   videoUrl: string;
   thumbnailUrl: string;
-  source: 'youtube' | 'direct' | 'instagram' | 'telegram';
+  source: 'youtube' | 'direct' | 'instagram' | 'telegram' | 'url';
   user: User;
   views: number;
   likes: number;
@@ -43,3 +43,4 @@ export interface Destination {
   slug: string;
   country: string;
 }
+

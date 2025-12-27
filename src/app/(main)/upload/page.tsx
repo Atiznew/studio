@@ -13,7 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
-import { CheckCircle, UploadCloud, Youtube, Instagram, Send } from 'lucide-react';
+import { CheckCircle, UploadCloud, Link2 } from 'lucide-react';
 import { VideoCategory } from '@/lib/types';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
@@ -30,9 +30,7 @@ const formSchema = z.object({
   place: z.string().min(2, "Place is required."),
   category: z.enum(["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"]),
   description: z.string().min(10, "Description must be at least 10 characters.").max(500),
-  youtubeUrl: z.string().url("Please enter a valid YouTube URL.").optional().or(z.literal('')),
-  instagramUrl: z.string().url("Please enter a valid Instagram URL.").optional().or(z.literal('')),
-  telegramUrl: z.string().url("Please enter a valid Telegram URL.").optional().or(z.literal('')),
+  videoUrl: z.string().url("Please enter a valid URL.").optional().or(z.literal('')),
   videoFile: z.any().optional(),
 });
 
@@ -40,9 +38,7 @@ type UploadFormValues = z.infer<typeof formSchema>;
 
 const uploadOptions = [
   { value: 'direct', label: 'Direct Upload', icon: <UploadCloud className="h-5 w-5" /> },
-  { value: 'youtube', label: 'YouTube', icon: <Youtube className="h-5 w-5" /> },
-  { value: 'instagram', label: 'Instagram', icon: <Instagram className="h-5 w-5" /> },
-  { value: 'telegram', label: 'Telegram', icon: <Send className="h-5 w-5" /> },
+  { value: 'url', label: 'From URL', icon: <Link2 className="h-5 w-5" /> },
 ]
 
 export default function UploadPage() {
@@ -65,9 +61,7 @@ export default function UploadPage() {
       place: "",
       category: "Other",
       description: "",
-      youtubeUrl: "",
-      instagramUrl: "",
-      telegramUrl: "",
+      videoUrl: "",
     },
   });
 
@@ -82,7 +76,7 @@ export default function UploadPage() {
 
   const onSubmit = (data: UploadFormValues) => {
     let sourceUrl = '';
-    let sourceType: 'direct' | 'youtube' | 'instagram' | 'telegram' = 'direct';
+    let sourceType: 'direct' | 'youtube' | 'instagram' | 'telegram' | 'url' = 'direct';
 
     if (uploadType === 'direct') {
         if (!data.videoFile) {
@@ -91,30 +85,21 @@ export default function UploadPage() {
         }
         sourceUrl = URL.createObjectURL(data.videoFile);
         sourceType = 'direct';
-    }
-    if (uploadType === 'youtube') {
-        if (!data.youtubeUrl) {
-            form.setError('youtubeUrl', { message: 'Please paste a YouTube URL.' });
+    } else { // 'url'
+        if (!data.videoUrl) {
+            form.setError('videoUrl', { message: 'Please paste a video URL.' });
             return;
         }
-        sourceUrl = data.youtubeUrl;
-        sourceType = 'youtube';
-    }
-    if (uploadType === 'instagram') {
-        if (!data.instagramUrl) {
-            form.setError('instagramUrl', { message: 'Please paste an Instagram URL.' });
-            return;
+        sourceUrl = data.videoUrl;
+        if (sourceUrl.includes('youtube.com') || sourceUrl.includes('youtu.be')) {
+            sourceType = 'youtube';
+        } else if (sourceUrl.includes('instagram.com')) {
+            sourceType = 'instagram';
+        } else if (sourceUrl.includes('t.me')) {
+            sourceType = 'telegram';
+        } else {
+            sourceType = 'url';
         }
-        sourceUrl = data.instagramUrl;
-        sourceType = 'instagram';
-    }
-    if (uploadType === 'telegram') {
-        if (!data.telegramUrl) {
-            form.setError('telegramUrl', { message: 'Please paste a Telegram URL.' });
-            return;
-        }
-        sourceUrl = data.telegramUrl;
-        sourceType = 'telegram';
     }
     
     setIsUploading(true);
@@ -208,47 +193,17 @@ export default function UploadPage() {
                   )}
                 />
               </TabsContent>
-              <TabsContent value="youtube" className="m-0">
+              <TabsContent value="url" className="m-0">
                 <FormField
                   control={form.control}
-                  name="youtubeUrl"
+                  name="videoUrl"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>YouTube Video URL</FormLabel>
+                      <FormLabel>Video URL</FormLabel>
                       <FormControl>
-                        <Input placeholder="https://www.youtube.com/watch?v=..." {...field} />
+                        <Input placeholder="e.g. https://www.youtube.com/watch?v=..." {...field} />
                       </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </TabsContent>
-              <TabsContent value="instagram" className="m-0">
-                <FormField
-                  control={form.control}
-                  name="instagramUrl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Instagram Video URL</FormLabel>
-                      <FormControl>
-                        <Input placeholder="https://www.instagram.com/reel/..." {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </TabsContent>
-              <TabsContent value="telegram" className="m-0">
-                <FormField
-                  control={form.control}
-                  name="telegramUrl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Telegram Video URL</FormLabel>
-                      <FormControl>
-                        <Input placeholder="https.t.me/channel/..." {...field} />
-                      </FormControl>
-                      <FormMessage />
+                       <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -375,3 +330,4 @@ export default function UploadPage() {
   );
 
     
+
