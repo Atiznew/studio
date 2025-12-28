@@ -136,7 +136,21 @@ export const useVideoStore = create<VideoState>((set, get) => ({
       if (currentUserIndex !== -1) {
         newUsers[currentUserIndex] = { ...newUsers[currentUserIndex], ...data };
       }
-      return { users: newUsers };
+      // Also update user data in videos and comments
+      const updatedVideos = state.videos.map(video => {
+        if (video.user.id === state.users[0].id) {
+          return { ...video, user: newUsers[currentUserIndex] };
+        }
+        const updatedComments = video.comments.map(comment => {
+            if (comment.user.id === state.users[0].id) {
+                return { ...comment, user: newUsers[currentUserIndex] };
+            }
+            return comment;
+        });
+        return { ...video, comments: updatedComments };
+      });
+      
+      return { users: newUsers, videos: updatedVideos };
     });
   }
 }));

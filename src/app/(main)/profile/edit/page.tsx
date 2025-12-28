@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useRef, ChangeEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 import { PageHeader } from '@/components/page-header';
 import { Button } from '@/components/ui/button';
@@ -16,12 +17,14 @@ import { useVideoStore } from '@/hooks/use-video-store';
 import { useTranslation } from '@/context/language-context';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
   username: z.string().min(3, "Username must be at least 3 characters.").regex(/^[a-z0-9_.]+$/, "Username can only contain lowercase letters, numbers, underscores, and periods."),
   website: z.string().url("Please enter a valid URL.").optional().or(z.literal('')),
   bio: z.string().max(160, "Bio cannot be longer than 160 characters.").optional(),
+  avatarUrl: z.string().optional(),
 });
 
 type EditProfileFormValues = z.infer<typeof formSchema>;
@@ -33,6 +36,8 @@ export default function EditProfilePage() {
   const { users, updateCurrentUser } = useVideoStore();
   const currentUser = users[0];
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(currentUser.avatarUrl);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<EditProfileFormValues>({
     resolver: zodResolver(formSchema),
@@ -41,8 +46,23 @@ export default function EditProfilePage() {
       username: currentUser.username,
       website: currentUser.website || "",
       bio: currentUser.bio || "",
+      avatarUrl: currentUser.avatarUrl,
     },
   });
+
+  const handleAvatarChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const result = reader.result as string;
+        setAvatarPreview(result);
+        form.setValue('avatarUrl', result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
 
   const onSubmit = (data: EditProfileFormValues) => {
     setIsSubmitting(true);
@@ -74,6 +94,23 @@ export default function EditProfilePage() {
       <div className="container max-w-2xl py-8">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <div className="flex flex-col items-center space-y-4">
+              <Avatar className="w-24 h-24">
+                <AvatarImage src={avatarPreview || currentUser.avatarUrl} alt={currentUser.name} />
+                <AvatarFallback>{currentUser.name.charAt(0)}</AvatarFallback>
+              </Avatar>
+               <input 
+                type="file" 
+                ref={fileInputRef} 
+                onChange={handleAvatarChange} 
+                className="hidden" 
+                accept="image/png, image/jpeg"
+              />
+              <Button type="button" variant="link" onClick={() => fileInputRef.current?.click()}>
+                Change Photo
+              </Button>
+            </div>
+
             <FormField
               control={form.control}
               name="name"
