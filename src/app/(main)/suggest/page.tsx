@@ -13,6 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { ChevronLeft, UploadCloud } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslation } from '@/context/language-context';
 
 const formSchema = z.object({
   place: z.string().min(2, "Place name is required."),
@@ -26,6 +27,7 @@ type SuggestionFormValues = z.infer<typeof formSchema>;
 
 export default function SuggestPage() {
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [fileName, setFileName] = useState('');
   const imageFileRef = useRef<File | null>(null);
@@ -57,8 +59,8 @@ export default function SuggestPage() {
     setTimeout(() => {
       setIsSubmitting(false);
       toast({
-        title: "Suggestion Submitted!",
-        description: "Thanks for helping us grow. We'll review your suggestion.",
+        title: t('suggestion_success_title'),
+        description: t('suggestion_success_description'),
       });
       form.reset();
       setFileName('');
@@ -68,7 +70,7 @@ export default function SuggestPage() {
 
   return (
     <>
-      <PageHeader title="Suggest a Place">
+      <PageHeader title={t('suggest_page_title')}>
         <Button variant="ghost" size="icon" asChild>
           <Link href="/destinations">
             <ChevronLeft className="h-5 w-5" />
@@ -77,7 +79,7 @@ export default function SuggestPage() {
       </PageHeader>
       <div className="container max-w-2xl py-8">
         <p className="mb-6 text-muted-foreground">
-          Know a great travel spot that's not in our app? Let us know! Your suggestions help us add new and exciting destinations for everyone to explore.
+          {t('suggest_page_description')}
         </p>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -86,7 +88,7 @@ export default function SuggestPage() {
               name="imageFile"
               render={() => (
                 <FormItem>
-                  <FormLabel>Image</FormLabel>
+                  <FormLabel>{t('image_label')}</FormLabel>
                   <FormControl>
                     <div className="flex items-center justify-center w-full">
                       <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-lg cursor-pointer bg-card hover:bg-accent/50">
@@ -96,8 +98,8 @@ export default function SuggestPage() {
                             <p className="font-semibold text-primary">{fileName}</p>
                           ) : (
                             <>
-                            <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                            <p className="text-xs text-muted-foreground">PNG, JPG, GIF up to 10MB</p>
+                            <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">{t('upload_click_drag_drop')}</span></p>
+                            <p className="text-xs text-muted-foreground">{t('upload_image_formats')}</p>
                             </>
                           )}
                         </div>
@@ -115,9 +117,9 @@ export default function SuggestPage() {
               name="place"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Place / City</FormLabel>
+                  <FormLabel>{t('place_city_label')}</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g., Manali" {...field} />
+                    <Input placeholder={t('place_city_placeholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -130,9 +132,9 @@ export default function SuggestPage() {
                 name="state"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>State / Province</FormLabel>
+                    <FormLabel>{t('state_province_label')}</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., Himachal Pradesh" {...field} />
+                      <Input placeholder={t('state_province_placeholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -143,9 +145,9 @@ export default function SuggestPage() {
                 name="country"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Country</FormLabel>
+                    <FormLabel>{t('country_label')}</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., India" {...field} />
+                      <Input placeholder={t('country_placeholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -158,9 +160,9 @@ export default function SuggestPage() {
               name="reason"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Why should we add this place?</FormLabel>
+                  <FormLabel>{t('reason_label')}</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Tell us what makes this place special..." className="resize-none" {...field} />
+                    <Textarea placeholder={t('reason_placeholder')} className="resize-none" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -168,7 +170,7 @@ export default function SuggestPage() {
             />
 
             <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? "Submitting..." : "Submit Suggestion"}
+              {isSubmitting ? t('submitting_button') : t('submit_suggestion_button')}
             </Button>
           </form>
         </Form>

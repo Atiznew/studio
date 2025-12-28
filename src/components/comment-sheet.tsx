@@ -10,9 +10,11 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Send } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { currentUser } from '@/lib/data';
+import { useTranslation } from '@/context/language-context';
 
 export function CommentSheet() {
   const { isCommentSheetOpen, closeCommentSheet, activeVideoId, videos, addComment } = useVideoStore();
+  const { t } = useTranslation();
   const [newComment, setNewComment] = useState('');
 
   const activeVideo = videos.find(v => v.id === activeVideoId);
@@ -35,7 +37,7 @@ export function CommentSheet() {
       <SheetContent side="bottom" className="h-[80vh] flex flex-col rounded-t-lg">
         <SheetHeader>
           <SheetTitle className="text-center">
-            {activeVideo?.comments?.length || 0} Comments
+            {activeVideo?.comments?.length || 0} {t('comments')}
           </SheetTitle>
         </SheetHeader>
         <ScrollArea className="flex-1 my-4">
@@ -57,7 +59,7 @@ export function CommentSheet() {
                 </div>
               ))
             ) : (
-              <p className="text-center text-muted-foreground py-8">No comments yet. Be the first to comment!</p>
+              <p className="text-center text-muted-foreground py-8">{t('no_comments_yet')}</p>
             )}
           </div>
         </ScrollArea>
@@ -68,7 +70,7 @@ export function CommentSheet() {
               <AvatarFallback>{currentUser.name.charAt(0)}</AvatarFallback>
             </Avatar>
             <Input
-              placeholder="Add a comment..."
+              placeholder={t('add_a_comment')}
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleAddComment()}

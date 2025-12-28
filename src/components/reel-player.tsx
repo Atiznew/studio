@@ -9,6 +9,7 @@ import { useVideoStore } from "@/hooks/use-video-store";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "@/context/language-context";
 
 
 interface ReelPlayerProps {
@@ -23,6 +24,7 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
   
   const { likedVideos, toggleLike, openCommentSheet } = useVideoStore();
   const { toast } = useToast();
+  const { t } = useTranslation();
   const isLiked = likedVideos.has(video.id);
   const commentCount = video.comments?.length || 0;
 
@@ -66,8 +68,8 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
   const handleShare = () => {
     navigator.clipboard.writeText(`${window.location.origin}/reels?v=${video.id}`);
     toast({
-      title: "Link Copied!",
-      description: "The video link has been copied to your clipboard.",
+      title: t('link_copied_title'),
+      description: t('link_copied_description'),
     });
   };
 
@@ -112,7 +114,7 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
             <p className="text-sm line-clamp-2">{video.title} - #{video.destination.name}</p>
             <div className="flex items-center gap-2 mt-2 text-sm">
                 <Music className="h-4 w-4" />
-                <span>Original Audio</span>
+                <span>{t('original_audio')}</span>
             </div>
           </div>
           <div className="flex flex-col items-center gap-4">

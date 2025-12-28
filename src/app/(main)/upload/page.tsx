@@ -19,6 +19,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
 import { useVideoStore } from '@/hooks/use-video-store';
+import { useTranslation } from '@/context/language-context';
 
 
 const categories: VideoCategory[] = ["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"];
@@ -36,13 +37,11 @@ const formSchema = z.object({
 
 type UploadFormValues = z.infer<typeof formSchema>;
 
-const uploadOptions = [
-  { value: 'direct', label: 'Direct Upload', icon: <UploadCloud className="h-5 w-5" /> },
-  { value: 'url', label: 'From URL', icon: <Link2 className="h-5 w-5" /> },
-]
+
 
 export default function UploadPage() {
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadComplete, setUploadComplete] = useState(false);
@@ -64,6 +63,11 @@ export default function UploadPage() {
       videoUrl: "",
     },
   });
+  
+  const uploadOptions = [
+    { value: 'direct', label: t('direct_upload_label'), icon: <UploadCloud className="h-5 w-5" /> },
+    { value: 'url', label: t('from_url_label'), icon: <Link2 className="h-5 w-5" /> },
+  ]
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -123,7 +127,7 @@ export default function UploadPage() {
         setIsUploading(false);
         setUploadComplete(true);
         toast({
-          title: "Upload Successful!",
+          title: t('upload_complete_message'),
           description: "Your video has been submitted for processing.",
         });
         form.reset();
@@ -136,7 +140,7 @@ export default function UploadPage() {
 
   return (
     <>
-      <PageHeader title="Share Experience" />
+      <PageHeader title={t('share_experience_page_title')} />
       <div className="container max-w-2xl py-8">
         <Tabs value={uploadType} onValueChange={setUploadType} className="w-full">
           <div className="pb-4">
@@ -169,7 +173,7 @@ export default function UploadPage() {
                   name="videoFile"
                   render={() => (
                     <FormItem>
-                      <FormLabel>Video File</FormLabel>
+                      <FormLabel>{t('video_file_label')}</FormLabel>
                       <FormControl>
                         <div className="flex items-center justify-center w-full">
                           <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-lg cursor-pointer bg-card hover:bg-accent/50">
@@ -179,8 +183,8 @@ export default function UploadPage() {
                                 <p className="font-semibold text-primary">{fileName}</p>
                               ) : (
                                 <>
-                                <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                                <p className="text-xs text-muted-foreground">MP4, MOV, AVI (MAX. 500MB)</p>
+                                <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">{t('upload_click_drag_drop')}</span></p>
+                                <p className="text-xs text-muted-foreground">{t('upload_video_formats')}</p>
                                 </>
                               )}
                             </div>
@@ -199,9 +203,9 @@ export default function UploadPage() {
                   name="videoUrl"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Video URL</FormLabel>
+                      <FormLabel>{t('video_url_label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g. https://www.youtube.com/watch?v=..." {...field} />
+                        <Input placeholder={t('video_url_placeholder')} {...field} />
                       </FormControl>
                        <FormMessage />
                     </FormItem>
@@ -215,10 +219,10 @@ export default function UploadPage() {
                 render={({ field }) => (
                   <FormItem>
                     <div className="flex justify-between items-center">
-                        <FormLabel>Video Title</FormLabel>
+                        <FormLabel>{t('video_title_label')}</FormLabel>
                     </div>
                     <FormControl>
-                      <Input placeholder="e.g., My amazing trip to the mountains" {...field} />
+                      <Input placeholder={t('video_title_placeholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -230,9 +234,9 @@ export default function UploadPage() {
                   name="country"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Country</FormLabel>
+                      <FormLabel>{t('country_label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., India" {...field} />
+                        <Input placeholder={t('country_placeholder')} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -243,9 +247,9 @@ export default function UploadPage() {
                   name="state"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>State</FormLabel>
+                      <FormLabel>{t('state_province_label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Himachal Pradesh" {...field} />
+                        <Input placeholder={t('state_province_placeholder')} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -256,9 +260,9 @@ export default function UploadPage() {
                   name="place"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Place</FormLabel>
+                      <FormLabel>{t('place_city_label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Manali" {...field} />
+                        <Input placeholder={t('place_city_placeholder')} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -271,11 +275,11 @@ export default function UploadPage() {
                 name="category"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Category</FormLabel>
+                    <FormLabel>{t('category_label')}</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a category" />
+                          <SelectValue placeholder={t('select_category_placeholder')} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -295,10 +299,10 @@ export default function UploadPage() {
                 render={({ field }) => (
                   <FormItem>
                     <div className="flex justify-between items-center">
-                        <FormLabel>Description</FormLabel>
+                        <FormLabel>{t('description_label')}</FormLabel>
                     </div>
                     <FormControl>
-                      <Textarea placeholder="Tell us more about your video..." className="resize-none" {...field} />
+                      <Textarea placeholder={t('description_placeholder')} className="resize-none" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -307,7 +311,7 @@ export default function UploadPage() {
 
               {isUploading && (
                 <div className="space-y-2">
-                    <p className="text-sm font-medium">Uploading...</p>
+                    <p className="text-sm font-medium">{t('uploading_progress')}</p>
                     <Progress value={uploadProgress} />
                 </div>
               )}
@@ -315,12 +319,12 @@ export default function UploadPage() {
               {uploadComplete && (
                 <div className="flex items-center p-4 text-sm text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400" role="alert">
                     <CheckCircle className="flex-shrink-0 inline w-4 h-4 mr-3"/>
-                    <span className="font-medium">Upload complete!</span> Your video is now being processed.
+                    <span className="font-medium">{t('upload_complete_message')}</span>
                 </div>
               )}
 
               <Button type="submit" className="w-full" disabled={isUploading}>
-                {isUploading ? "Uploading..." : "Share Experience"}
+                {isUploading ? t('uploading_progress') : t('share_experience_button')}
               </Button>
             </form>
           </Form>
@@ -330,4 +334,5 @@ export default function UploadPage() {
   );
 
     
+
 

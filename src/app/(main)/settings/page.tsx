@@ -49,9 +49,9 @@ export default function SettingsPage() {
           <Separator />
 
           <div className="space-y-2">
-            <h3 className="text-lg font-medium">Theme</h3>
+            <h3 className="text-lg font-medium">{t('theme')}</h3>
             <p className="text-sm text-muted-foreground">
-              Choose your preferred theme for the app.
+              {t('theme_description')}
             </p>
             <RadioGroup
               value={theme}
@@ -60,15 +60,15 @@ export default function SettingsPage() {
             >
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="light" id="light" />
-                <Label htmlFor="light">Light</Label>
+                <Label htmlFor="light">{t('light')}</Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="dark" id="dark" />
-                <Label htmlFor="dark">Dark</Label>
+                <Label htmlFor="dark">{t('dark')}</Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="system" id="system" />
-                <Label htmlFor="system">System</Label>
+                <Label htmlFor="system">{t('system')}</Label>
               </div>
             </RadioGroup>
           </div>

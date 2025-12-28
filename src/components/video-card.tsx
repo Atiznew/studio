@@ -3,7 +3,18 @@ import Link from 'next/link';
 import type { Video } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Eye, Heart } from 'lucide-react';
+import { Eye, Heart, MoreVertical, Trash2 } from 'lucide-react';
+import { currentUser } from '@/lib/data';
+import { useVideoStore } from '@/hooks/use-video-store';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Button } from './ui/button';
+import { useTranslation } from '@/context/language-context';
+
 
 interface VideoCardProps {
   video: Video;
@@ -11,11 +22,21 @@ interface VideoCardProps {
 }
 
 export function VideoCard({ video, className }: VideoCardProps) {
+  const { deleteVideo } = useVideoStore();
+  const { t } = useTranslation();
+  const isCurrentUserVideo = video.user.id === currentUser.id;
+
   const formatCount = (count: number) => {
     if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
     if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
     return count;
   };
+  
+  const handleDelete = () => {
+    if (window.confirm(t('delete_video_confirmation'))) {
+        deleteVideo(video.id);
+    }
+  }
 
   return (
     <Card className={`w-full overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 ${className}`}>
@@ -32,9 +53,26 @@ export function VideoCard({ video, className }: VideoCardProps) {
           </div>
         </Link>
         <div className="p-4">
-          <Link href={`/reels?v=${video.id}`}>
-            <h3 className="font-bold leading-tight truncate font-headline">{video.title}</h3>
-          </Link>
+          <div className="flex justify-between items-start">
+             <Link href={`/reels?v=${video.id}`} className="flex-1">
+                <h3 className="font-bold leading-tight truncate font-headline">{video.title}</h3>
+             </Link>
+             {isCurrentUserVideo && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon" className="h-8 w-8 flex-shrink-0">
+                        <MoreVertical className="w-4 h-4"/>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={handleDelete} className="text-destructive">
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      <span>{t('delete')}</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+             )}
+          </div>
           <div className="flex items-center justify-between mt-2 text-sm text-muted-foreground">
             <Link href={`/profile/${video.user.id}`} className="flex items-center gap-2 hover:text-primary">
               <Avatar className="w-6 h-6">

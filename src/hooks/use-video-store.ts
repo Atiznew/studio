@@ -11,6 +11,7 @@ interface VideoState {
   isCommentSheetOpen: boolean;
   activeVideoId: string | null;
   addVideo: (videoData: any) => void;
+  deleteVideo: (videoId: string) => void;
   toggleLike: (videoId: string) => void;
   toggleFollow: (userId: string) => void;
   isFollowing: (userId: string) => boolean;
@@ -48,6 +49,12 @@ export const useVideoStore = create<VideoState>((set, get) => ({
       description: videoData.description,
     };
     set((state) => ({ videos: [newVideo, ...state.videos] }));
+  },
+  
+  deleteVideo: (videoId: string) => {
+    set((state) => ({
+        videos: state.videos.filter(v => v.id !== videoId)
+    }));
   },
 
   toggleLike: (videoId: string) => {

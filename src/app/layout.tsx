@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/context/theme-context';
+import { LanguageProvider } from '@/context/language-context';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -22,7 +23,9 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
+          <LanguageProvider>
+            {children}
+          </LanguageProvider>
           <Toaster />
         </ThemeProvider>
       </body>

@@ -5,9 +5,11 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Logo } from '@/components/logo';
 import { placeholderImages } from '@/lib/data';
+import { useTranslation } from '@/context/language-context';
 
 export default function SplashScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -35,7 +37,7 @@ export default function SplashScreen() {
       <div className="z-20 flex flex-col items-center justify-center text-center text-white animate-fade-in-up">
         <Logo />
         <h1 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl font-headline">
-          Discover Real Travel Stories
+          {t('splash_title')}
         </h1>
       </div>
       <style jsx>{`

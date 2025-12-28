@@ -7,6 +7,7 @@ import { ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useVideoStore } from '@/hooks/use-video-store';
+import { useTranslation } from '@/context/language-context';
 
 function ReelsContent() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -14,6 +15,7 @@ function ReelsContent() {
   const searchParams = useSearchParams();
   const videoId = searchParams.get('v');
   const { videos } = useVideoStore();
+  const { t } = useTranslation();
 
   useEffect(() => {
     let initialReelId = videos[0]?.id || null;
@@ -63,7 +65,7 @@ function ReelsContent() {
   if (!videos || videos.length === 0) {
     return (
       <div className="h-screen w-screen bg-black flex items-center justify-center text-white">
-        No videos available.
+        {t('no_videos_available')}
          <div className="fixed top-4 left-4 z-50">
             <Button variant="ghost" size="icon" asChild className="text-white bg-black/30 hover:bg-black/50">
             <Link href="/home">
@@ -94,8 +96,9 @@ function ReelsContent() {
 }
 
 export default function ReelsPage() {
+    const { t } = useTranslation();
     return (
-        <Suspense fallback={<div className="h-screen w-screen bg-black flex items-center justify-center text-white">Loading...</div>}>
+        <Suspense fallback={<div className="h-screen w-screen bg-black flex items-center justify-center text-white">{t('loading')}</div>}>
             <ReelsContent />
         </Suspense>
     )

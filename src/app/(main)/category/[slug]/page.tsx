@@ -8,18 +8,14 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { VideoCategory } from '@/lib/types';
 import { useVideoStore } from '@/hooks/use-video-store';
+import { useTranslation } from '@/context/language-context';
 
 const categories: VideoCategory[] = ["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"];
-
-export async function generateStaticParams() {
-  return categories.map((category) => ({
-    slug: category.toLowerCase().replace(' ', '-'),
-  }));
-}
 
 export default function CategoryDetailPage({ params }: { params: { slug: string } }) {
   const { slug } = params;
   const { videos } = useVideoStore();
+  const { t } = useTranslation();
   const category = categories.find((c) => c.toLowerCase().replace(' ', '-') === slug);
   
   if (!category) {
@@ -44,7 +40,7 @@ export default function CategoryDetailPage({ params }: { params: { slug: string 
               <VideoCard key={video.id} video={video} />
             ))
           ) : (
-            <p className="text-muted-foreground md:col-span-2 text-center">No videos found for this category yet.</p>
+            <p className="text-muted-foreground md:col-span-2 text-center">{t('no_videos_in_category')}</p>
           )}
         </div>
       </div>

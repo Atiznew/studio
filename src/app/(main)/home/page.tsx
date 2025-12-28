@@ -20,6 +20,7 @@ import { VideoCategory } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { Mountain, Palmtree, Utensils, Tent, Building, FerrisWheel, Trees, Leaf } from 'lucide-react';
 import { ReactNode, useRef } from 'react';
+import { useTranslation } from '@/context/language-context';
 
 
 const categories: { name: VideoCategory, icon: ReactNode, slug: string }[] = [
@@ -37,6 +38,7 @@ const categories: { name: VideoCategory, icon: ReactNode, slug: string }[] = [
 
 export default function HomePage() {
   const { videos } = useVideoStore();
+  const { t } = useTranslation();
   const trendingDestinations = destinations.slice(0, 5);
   const featuredDestinations = destinations.slice(0, 4);
   const exploreVideos = videos.slice(0, 6);
@@ -107,7 +109,7 @@ export default function HomePage() {
         </section>
         
         <section className="py-8">
-            <h2 className="text-2xl font-bold mb-4 font-headline">Categories</h2>
+            <h2 className="text-2xl font-bold mb-4 font-headline">{t('categories')}</h2>
             <ScrollArea className="w-full whitespace-nowrap">
                 <div className="flex w-max space-x-4 pb-4">
                     {categories.map((category) => (
@@ -124,7 +126,7 @@ export default function HomePage() {
         </section>
 
         <section className="py-8">
-          <h2 className="text-2xl font-bold mb-4 font-headline">Trending Shorts: 60 Second Escapes</h2>
+          <h2 className="text-2xl font-bold mb-4 font-headline">{t('trending_shorts')}</h2>
            <ScrollArea className="w-full whitespace-nowrap">
             <div className="flex w-max space-x-4 pb-4">
               {trendingShorts.map((video) => (
@@ -138,7 +140,7 @@ export default function HomePage() {
         </section>
 
         <section className="py-8">
-          <h2 className="text-2xl font-bold mb-4 font-headline">Trending Destinations</h2>
+          <h2 className="text-2xl font-bold mb-4 font-headline">{t('trending_destinations')}</h2>
            <ScrollArea className="w-full whitespace-nowrap">
             <div className="flex w-max space-x-4 pb-4">
               {trendingDestinations.map((dest) => (
@@ -153,7 +155,7 @@ export default function HomePage() {
 
         {goaVideos.length > 0 && (
           <section className="py-8">
-            <h2 className="text-2xl font-bold mb-4 font-headline">Goa Getaways</h2>
+            <h2 className="text-2xl font-bold mb-4 font-headline">{t('goa_getaways')}</h2>
             <ScrollArea className="w-full whitespace-nowrap">
               <div className="flex w-max space-x-4 pb-4">
                 {goaVideos.map((video) => (
@@ -169,7 +171,7 @@ export default function HomePage() {
 
         {mountainVideos.length > 0 && (
           <section className="py-8">
-            <h2 className="text-2xl font-bold mb-4 font-headline">Mountain Escapes</h2>
+            <h2 className="text-2xl font-bold mb-4 font-headline">{t('mountain_escapes')}</h2>
             <ScrollArea className="w-full whitespace-nowrap">
               <div className="flex w-max space-x-4 pb-4">
                 {mountainVideos.map((video) => (
@@ -185,7 +187,7 @@ export default function HomePage() {
 
         {cityVideos.length > 0 && (
           <section className="py-8">
-            <h2 className="text-2xl font-bold mb-4 font-headline">City Adventures</h2>
+            <h2 className="text-2xl font-bold mb-4 font-headline">{t('city_adventures')}</h2>
             <ScrollArea className="w-full whitespace-nowrap">
               <div className="flex w-max space-x-4 pb-4">
                 {cityVideos.map((video) => (
@@ -201,7 +203,7 @@ export default function HomePage() {
 
         {foodVideos.length > 0 && (
           <section className="py-8">
-            <h2 className="text-2xl font-bold mb-4 font-headline">Foodie Journeys</h2>
+            <h2 className="text-2xl font-bold mb-4 font-headline">{t('foodie_journeys')}</h2>
             <ScrollArea className="w-full whitespace-nowrap">
               <div className="flex w-max space-x-4 pb-4">
                 {foodVideos.map((video) => (
@@ -216,7 +218,7 @@ export default function HomePage() {
         )}
 
         <section className="py-4">
-            <h2 className="text-2xl font-bold mb-4 font-headline">Explore Videos</h2>
+            <h2 className="text-2xl font-bold mb-4 font-headline">{t('explore_videos')}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {exploreVideos.map((video) => (
                     <VideoCard key={video.id} video={video} />

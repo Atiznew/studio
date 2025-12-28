@@ -8,16 +8,12 @@ import { ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useVideoStore } from '@/hooks/use-video-store';
-
-export async function generateStaticParams() {
-  return destinations.map((destination) => ({
-    slug: destination.slug,
-  }));
-}
+import { useTranslation } from '@/context/language-context';
 
 export default function DestinationDetailPage({ params }: { params: { slug: string } }) {
   const { slug } = params;
   const { videos } = useVideoStore();
+  const { t } = useTranslation();
   const destination = destinations.find((d) => d.slug === slug);
   
   if (!destination) {
@@ -42,7 +38,7 @@ export default function DestinationDetailPage({ params }: { params: { slug: stri
               <VideoCard key={video.id} video={video} />
             ))
           ) : (
-            <p className="text-muted-foreground md:col-span-2 text-center">No videos found for this destination yet.</p>
+            <p className="text-muted-foreground md:col-span-2 text-center">{t('no_videos_at_destination')}</p>
           )}
         </div>
       </div>
