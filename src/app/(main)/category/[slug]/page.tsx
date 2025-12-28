@@ -11,11 +11,11 @@ import { useVideoStore } from '@/hooks/use-video-store';
 
 const categories: VideoCategory[] = ["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"];
 
-// export async function generateStaticParams() {
-//   return categories.map((category) => ({
-//     slug: category.toLowerCase().replace(' ', '-'),
-//   }));
-// }
+export async function generateStaticParams() {
+  return categories.map((category) => ({
+    slug: category.toLowerCase().replace(' ', '-'),
+  }));
+}
 
 export default function CategoryDetailPage({ params }: { params: { slug: string } }) {
   const { slug } = params;

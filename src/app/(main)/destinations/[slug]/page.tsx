@@ -9,11 +9,11 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useVideoStore } from '@/hooks/use-video-store';
 
-// export async function generateStaticParams() {
-//   return destinations.map((destination) => ({
-//     slug: destination.slug,
-//   }));
-// }
+export async function generateStaticParams() {
+  return destinations.map((destination) => ({
+    slug: destination.slug,
+  }));
+}
 
 export default function DestinationDetailPage({ params }: { params: { slug: string } }) {
   const { slug } = params;
