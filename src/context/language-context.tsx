@@ -27,8 +27,12 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const setLanguage = (lang: Language) => {
-    localStorage.setItem('language', lang);
-    setLanguageState(lang);
+    try {
+        localStorage.setItem('language', lang);
+        setLanguageState(lang);
+    } catch (e) {
+        console.error("Could not set language in localStorage", e);
+    }
   };
 
   const t = (key: string) => {
