@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Settings, LogOut, Link as LinkIcon } from 'lucide-react';
+import { Settings, LogOut, Link as LinkIcon, Users } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
 import { VideoCard } from '@/components/video-card';
@@ -14,7 +14,11 @@ export default function ProfilePage() {
   const { videos, likedVideos, users } = useVideoStore();
   const { t } = useTranslation();
 
-  const currentUser = users[0];
+  const currentUser = users.find(u => u.id === 'u1'); // Assume current user is u1
+
+  if (!currentUser) {
+    return <div>Loading...</div>; // Or handle user not found
+  }
 
   const userVideos = videos.filter((v) => v.user.id === currentUser.id);
   const userLikedVideos = videos.filter(v => likedVideos.has(v.id));
@@ -33,6 +37,9 @@ export default function ProfilePage() {
         <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold">{currentUser.username}</h2>
             <div className="flex items-center gap-2">
+                <Button variant="ghost" size="icon" asChild>
+                    <Link href="/discover"><Users className="h-5 w-5" /></Link>
+                </Button>
                 <Button variant="ghost" size="icon" asChild>
                     <Link href="/settings"><Settings className="h-5 w-5" /></Link>
                 </Button>
@@ -60,7 +67,7 @@ export default function ProfilePage() {
               </div>
               <div>
                 <p className="font-bold text-lg">{formatCount(currentUser.following || 0)}</p>
-                <p className="text-sm text-muted-foreground">{t('following')}</p>
+                <p className="text-sm text-muted-foreground">{t('following_count')}</p>
               </div>
             </div>
           </div>

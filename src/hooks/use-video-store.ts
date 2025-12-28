@@ -1,12 +1,13 @@
 "use client";
 
 import create from 'zustand';
-import { initialVideos, currentUser, destinations, users as initialUsers } from '@/lib/data';
+import { initialVideos, initialUsers as allUsers } from '@/lib/data';
 import type { Video, Comment, User } from '@/lib/types';
 
 interface VideoState {
   videos: Video[];
   users: User[];
+  currentUser: User;
   likedVideos: Set<string>;
   followedUsers: Set<string>;
   isCommentSheetOpen: boolean;
@@ -22,31 +23,36 @@ interface VideoState {
   updateCurrentUser: (data: Partial<User>) => void;
 }
 
+const currentUser = allUsers.find(u => u.id === 'u1')!;
+
 export const useVideoStore = create<VideoState>((set, get) => ({
   videos: initialVideos,
-  users: initialUsers,
+  users: allUsers,
+  currentUser: currentUser,
   likedVideos: new Set(),
-  followedUsers: new Set(),
+  followedUsers: new Set(['u2']), // Initially follow Jane Smith
   isCommentSheetOpen: false,
   activeVideoId: null,
   
   addVideo: (videoData) => {
+    const { videos, users } = get();
+    const currentUser = users.find(u => u.id === 'u1')!;
     const newVideo: Video = {
-      id: `v${get().videos.length + 1}`,
+      id: `v${videos.length + 1}`,
       title: videoData.title,
       videoUrl: videoData.videoUrl,
       thumbnailUrl: 'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxhbmltYWwlMjB0cmF2ZWx8ZW58MHx8fHwxNzY2Nzk3NDU3fDA&ixlib=rb-4.1.0&q=80&w=1080', // Replace with a real thumbnail
       source: videoData.source,
-      user: get().users[0],
+      user: currentUser,
       views: 0,
       likes: 0,
       comments: [],
-      destination: destinations.find(d => d.name.toLowerCase() === videoData.place.toLowerCase()) || {
-        id: `d${destinations.length + 1}`,
+      destination: { // This part needs real logic to find or create destination
+        id: `d${Math.random()}`,
         name: videoData.place,
         country: videoData.country,
-        slug: videoData.place.toLowerCase().replace(' ', '-'),
-        imageUrl: 'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxhbmltYWwlMjB0cmF2ZWx8ZW58MHx8fHwxNzY2Nzk3NDU3fDA&ixlib=rb-4.1.0&q=80&w=1080', // Replace
+        slug: videoData.place.toLowerCase().replace(/\s+/g, '-'),
+        imageUrl: 'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxhbmltYWwlMjB0cmF2ZWx8ZW58MHx8fHwxNzY2Nzk3NDU3fDA&ixlib=rb-4.1.0&q=80&w=1080',
       },
       category: videoData.category,
       description: videoData.description,
@@ -86,12 +92,30 @@ export const useVideoStore = create<VideoState>((set, get) => ({
   toggleFollow: (userId: string) => {
     set((state) => {
       const newFollowedUsers = new Set(state.followedUsers);
+      const user = state.users.find(u => u.id === userId);
+      const currentUser = state.users.find(u => u.id === state.currentUser.id);
+      if (!user || !currentUser) return {};
+
+      const newUsers = [...state.users];
+      
       if (newFollowedUsers.has(userId)) {
         newFollowedUsers.delete(userId);
+        user.followers = Math.max(0, (user.followers || 0) - 1);
+        currentUser.following = Math.max(0, (currentUser.following || 0) - 1);
       } else {
         newFollowedUsers.add(userId);
+        user.followers = (user.followers || 0) + 1;
+        currentUser.following = (currentUser.following || 0) + 1;
       }
-      return { followedUsers: newFollowedUsers };
+
+      const userIndex = newUsers.findIndex(u => u.id === userId);
+      if(userIndex > -1) newUsers[userIndex] = user;
+      
+      const currentUserIndex = newUsers.findIndex(u => u.id === currentUser.id);
+      if(currentUserIndex > -1) newUsers[currentUserIndex] = currentUser;
+
+
+      return { followedUsers: newFollowedUsers, users: newUsers };
     });
   },
 
@@ -117,7 +141,7 @@ export const useVideoStore = create<VideoState>((set, get) => ({
 
         const newComment: Comment = {
             id: `c${Date.now()}`,
-            user: get().users[0],
+            user: state.currentUser,
             text: text,
             createdAt: new Date().toISOString(),
         };
@@ -132,25 +156,28 @@ export const useVideoStore = create<VideoState>((set, get) => ({
   updateCurrentUser: (data: Partial<User>) => {
     set((state) => {
       const newUsers = [...state.users];
-      const currentUserIndex = newUsers.findIndex(u => u.id === state.users[0].id);
+      const currentUserIndex = newUsers.findIndex(u => u.id === state.currentUser.id);
       if (currentUserIndex !== -1) {
         newUsers[currentUserIndex] = { ...newUsers[currentUserIndex], ...data };
       }
+      
       // Also update user data in videos and comments
       const updatedVideos = state.videos.map(video => {
-        if (video.user.id === state.users[0].id) {
-          return { ...video, user: newUsers[currentUserIndex] };
+        let newVideo = {...video};
+        if (video.user.id === state.currentUser.id) {
+          newVideo.user = newUsers[currentUserIndex];
         }
         const updatedComments = video.comments.map(comment => {
-            if (comment.user.id === state.users[0].id) {
+            if (comment.user.id === state.currentUser.id) {
                 return { ...comment, user: newUsers[currentUserIndex] };
             }
             return comment;
         });
-        return { ...video, comments: updatedComments };
+        newVideo.comments = updatedComments;
+        return newVideo;
       });
       
-      return { users: newUsers, videos: updatedVideos };
+      return { users: newUsers, videos: updatedVideos, currentUser: newUsers[currentUserIndex] };
     });
   }
 }));

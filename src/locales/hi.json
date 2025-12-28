@@ -108,5 +108,8 @@
   "save_changes_button": "बदलाव सहेजें",
   "saving_button": "सहेज रहा है...",
   "profile_update_success": "प्रोफ़ाइल सफलतापूर्वक अपडेट की गई!",
-  "profile_update_error": "प्रोफ़ाइल अपडेट नहीं हो सकी।"
+  "profile_update_error": "प्रोफ़ाइल अपडेट नहीं हो सकी।",
+  "discover_people_title": "लोगों को खोजें",
+  "no_suggestions_title": "कोई नया सुझाव नहीं",
+  "no_suggestions_description": "आप अंत तक पहुँच गए हैं! फ़ॉलो करने के लिए और लोगों के लिए बाद में वापस देखें।"
 }

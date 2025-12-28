@@ -108,5 +108,8 @@
   "save_changes_button": "Save Changes",
   "saving_button": "Saving...",
   "profile_update_success": "Profile updated successfully!",
-  "profile_update_error": "Could not update profile."
+  "profile_update_error": "Could not update profile.",
+  "discover_people_title": "Discover People",
+  "no_suggestions_title": "No New Suggestions",
+  "no_suggestions_description": "You've reached the end! Check back later for more people to follow."
 }

@@ -3,12 +3,16 @@ import data from './placeholder-images.json';
 
 export const placeholderImages = data.placeholderImages;
 
-export const users: User[] = [
+export const initialUsers: User[] = [
   { id: 'u1', name: 'Alex Doe', username: 'alexdoe', avatarUrl: placeholderImages.find(p => p.id === 'avatar-1')?.imageUrl || '', bio: 'Travel enthusiast & storyteller.\nExploring the world one city at a time.', website: 'https://alexdoe.com', followers: 1258, following: 342 },
   { id: 'u2', name: 'Jane Smith', username: 'janesmith', avatarUrl: placeholderImages.find(p => p.id === 'avatar-2')?.imageUrl || '', bio: 'Mountain lover and avid hiker.\nAlways looking for the next peak to conquer.', website: 'https://janesmith.io', followers: 2345, following: 189 },
+  { id: 'u3', name: 'Chris Lee', username: 'chrislee', avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtYW4lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjgyNDIxNjB8MA&ixlib=rb-4.1.0&q=80&w=1080', bio: 'Foodie on a quest to taste the world. 🍜🌮🍕', website: 'https://chrisleeeats.com', followers: 5600, following: 89 },
+  { id: 'u4', name: 'Sarah Kim', username: 'sarahkim', avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx3b21hbiUyMHBvcnRyYWl0fGVufDB8fHx8MTc2NjUyNTk0MHww&ixlib=rb-4.1.0&q=80&w=1080', bio: 'Digital nomad and photographer. Capturing moments from around the globe.', website: 'https://sarahkim.photo', followers: 12300, following: 120 },
+  { id: 'u5', name: 'Mike Johnson', username: 'mikej', avatarUrl: 'https://images.unsplash.com/photo-1557862921-37829c790f19?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtYW58ZW58MHx8fHwxNzY4NTg1MDI3fDA&ixlib=rb-4.1.0&q=80&w=1080', bio: 'Adrenaline junkie. Surfing, skydiving, and everything in between.', website: '', followers: 875, following: 55 },
 ];
 
-export const currentUser = users[0];
+
+export const currentUser = initialUsers.find(u => u.id === 'u1')!;
 
 export const destinations: Destination[] = [
   { id: 'd1', name: 'Goa', country: 'India', slug: 'goa', imageUrl: placeholderImages.find(p => p.id === 'dest-goa')?.imageUrl || '' },
@@ -26,12 +30,12 @@ export const initialVideos: Video[] = [
     videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
     thumbnailUrl: placeholderImages.find(p => p.id === 'video-thumb-1')?.imageUrl || '',
     source: 'direct',
-    user: users[0],
+    user: initialUsers[0],
     views: 15000,
     likes: 1200,
     comments: [
-        { id: 'c1', user: users[1], text: 'Looks amazing!', createdAt: new Date(Date.now() - 1000 * 60 * 5).toISOString() },
-        { id: 'c2', user: users[0], text: 'It was the best trip!', createdAt: new Date(Date.now() - 1000 * 60 * 2).toISOString() },
+        { id: 'c1', user: initialUsers[1], text: 'Looks amazing!', createdAt: new Date(Date.now() - 1000 * 60 * 5).toISOString() },
+        { id: 'c2', user: initialUsers[0], text: 'It was the best trip!', createdAt: new Date(Date.now() - 1000 * 60 * 2).toISOString() },
     ],
     destination: destinations[0],
     category: 'Beach',
@@ -43,7 +47,7 @@ export const initialVideos: Video[] = [
     videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4',
     thumbnailUrl: placeholderImages.find(p => p.id === 'video-thumb-2')?.imageUrl || '',
     source: 'direct',
-    user: users[1],
+    user: initialUsers[1],
     views: 22000,
     likes: 2500,
     comments: [],
@@ -57,7 +61,7 @@ export const initialVideos: Video[] = [
     videoUrl: 'https://www.youtube.com/watch?v=z_jw3rB_Pto', // Example YouTube link
     thumbnailUrl: placeholderImages.find(p => p.id === 'video-thumb-3')?.imageUrl || '',
     source: 'youtube',
-    user: users[0],
+    user: initialUsers[0],
     views: 50000,
     likes: 4500,
     comments: [],
@@ -71,7 +75,7 @@ export const initialVideos: Video[] = [
     videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
     thumbnailUrl: placeholderImages.find(p => p.id === 'video-thumb-4')?.imageUrl || '',
     source: 'direct',
-    user: users[1],
+    user: initialUsers[1],
     views: 18000,
     likes: 1900,
     comments: [],
@@ -85,7 +89,7 @@ export const initialVideos: Video[] = [
     videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
     thumbnailUrl: placeholderImages.find(p => p.id === 'video-thumb-5')?.imageUrl || '',
     source: 'direct',
-    user: users[0],
+    user: initialUsers[0],
     views: 32000,
     likes: 3100,
     comments: [],
@@ -99,7 +103,7 @@ export const initialVideos: Video[] = [
     videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnAnAdventure.mp4',
     thumbnailUrl: placeholderImages.find(p => p.id === 'video-thumb-6')?.imageUrl || '',
     source: 'direct',
-    user: users[1],
+    user: initialUsers[1],
     views: 41000,
     likes: 3800,
     comments: [],
@@ -113,7 +117,7 @@ export const initialVideos: Video[] = [
     videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
     thumbnailUrl: placeholderImages.find(p => p.id === 'video-thumb-7')?.imageUrl || '',
     source: 'direct',
-    user: users[0],
+    user: initialUsers[0],
     views: 9000,
     likes: 850,
     comments: [],
@@ -127,7 +131,7 @@ export const initialVideos: Video[] = [
     videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
     thumbnailUrl: placeholderImages.find(p => p.id === 'video-thumb-8')?.imageUrl || '',
     source: 'direct',
-    user: users[1],
+    user: initialUsers[1],
     views: 12500,
     likes: 1100,
     comments: [],
@@ -138,8 +142,8 @@ export const initialVideos: Video[] = [
 ];
 
 export const stories: Story[] = [
-    { id: 's1', user: users[1], imageUrl: 'https://images.unsplash.com/photo-1533106418989-87423dec6928?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHx0cmF2ZWwlJTIwc3Rvcnl8ZW58MHx8fHwxNzY4MTYyMjIyfDA&ixlib=rb-4.1.0&q=80&w=1080' },
-    { id: 's2', user: users[0], imageUrl: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHx0cmF2ZWwlJTIwYmVhY2h8ZW58MHx8fHwxNzY4MTYyMjM4fDA&ixlib=rb-4.1.0&q=80&w=1080', viewed: true },
-    { id: 's3', user: {id: 'u3', name: 'Chris', username: 'chris', avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtYW4lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjgyNDIxNjB8MA&ixlib=rb-4.1.0&q=80&w=1080', bio: 'I love to travel', followers: 500, following: 100}, imageUrl: 'https://images.unsplash.com/photo-1473625247510-8ceb1760943f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx0cmF2ZWwlJTIwZm9yZXN0fGVufDB8fHx8MTc2ODE2MjI2MHww&ixlib=rb-4.1.0&q=80&w=1080' },
-    { id: 's4', user: {id: 'u4', name: 'Sarah', username: 'sarah', avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx3b21hbiUyMHBvcnRyYWl0fGVufDB8fHx8MTc2NjUyNTk0MHww&ixlib=rb-4.1.0&q=80&w=1080', bio: 'Just a girl who loves to travel', followers: 800, following: 200}, imageUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtb3VudGFpbiUyMHRyYXZlbHxlbnwwfHx8fDE3NjgyNDIxODB8MA&ixlib=rb-4.1.0&q=80&w=1080' },
+    { id: 's1', user: initialUsers[1], imageUrl: 'https://images.unsplash.com/photo-1533106418989-87423dec6928?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHx0cmF2ZWwlJTIwc3Rvcnl8ZW58MHx8fHwxNzY4MTYyMjIyfDA&ixlib=rb-4.1.0&q=80&w=1080' },
+    { id: 's2', user: initialUsers[0], imageUrl: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHx0cmF2ZWwlJTIwYmVhY2h8ZW58MHx8fHwxNzY4MTYyMjM4fDA&ixlib=rb-4.1.0&q=80&w=1080', viewed: true },
+    { id: 's3', user: initialUsers[2], imageUrl: 'https://images.unsplash.com/photo-1473625247510-8ceb1760943f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx0cmF2ZWwlJTIwZm9yZXN0fGVufDB8fHx8MTc2ODE2MjI2MHww&ixlib=rb-4.1.0&q=80&w=1080' },
+    { id: 's4', user: initialUsers[3], imageUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtb3VudGFpbiUyMHRyYXZlbHxlbnwwfHx8fDE3NjgyNDIxODB8MA&ixlib=rb-4.1.0&q=80&w=1080' },
 ];
