@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from 'react';
@@ -9,7 +8,7 @@ import { useRouter } from 'next/navigation';
 
 import { PageHeader } from '@/components/page-header';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
@@ -20,6 +19,8 @@ import Link from 'next/link';
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
+  username: z.string().min(3, "Username must be at least 3 characters.").regex(/^[a-z0-9_.]+$/, "Username can only contain lowercase letters, numbers, underscores, and periods."),
+  website: z.string().url("Please enter a valid URL.").optional().or(z.literal('')),
   bio: z.string().max(160, "Bio cannot be longer than 160 characters.").optional(),
 });
 
@@ -37,6 +38,8 @@ export default function EditProfilePage() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: currentUser.name,
+      username: currentUser.username,
+      website: currentUser.website || "",
       bio: currentUser.bio || "",
     },
   });
@@ -44,7 +47,7 @@ export default function EditProfilePage() {
   const onSubmit = (data: EditProfileFormValues) => {
     setIsSubmitting(true);
     try {
-      updateCurrentUser(data.name, data.bio || "");
+      updateCurrentUser(data);
       toast({
         title: t('profile_update_success'),
       });
@@ -70,7 +73,7 @@ export default function EditProfilePage() {
       </PageHeader>
       <div className="container max-w-2xl py-8">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
               name="name"
@@ -84,6 +87,37 @@ export default function EditProfilePage() {
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('username_label')}</FormLabel>
+                  <FormControl>
+                    <Input placeholder={t('username_placeholder')} {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    {t('username_description')}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+             <FormField
+              control={form.control}
+              name="website"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('website_label')}</FormLabel>
+                  <FormControl>
+                    <Input placeholder={t('website_placeholder')} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             
             <FormField
               control={form.control}
@@ -92,7 +126,7 @@ export default function EditProfilePage() {
                 <FormItem>
                   <FormLabel>{t('bio_label')}</FormLabel>
                   <FormControl>
-                    <Textarea placeholder={t('bio_placeholder')} className="resize-none" {...field} />
+                    <Textarea placeholder={t('bio_placeholder')} className="resize-none" rows={4} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

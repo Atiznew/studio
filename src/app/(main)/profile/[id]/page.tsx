@@ -1,7 +1,6 @@
 "use client";
 
 import Image from 'next/image';
-import { users as initialUsers } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -9,7 +8,7 @@ import { notFound } from 'next/navigation';
 import { VideoCard } from '@/components/video-card';
 import { PageHeader } from '@/components/page-header';
 import Link from 'next/link';
-import { ChevronLeft, LogOut } from 'lucide-react';
+import { ChevronLeft, LogOut, Link as LinkIcon } from 'lucide-react';
 import { currentUser } from '@/lib/data';
 import { useVideoStore } from '@/hooks/use-video-store';
 import { cn } from '@/lib/utils';
@@ -28,9 +27,6 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
 
   const userVideos = videos.filter((v) => v.user.id === user.id);
 
-  const totalLikes = userVideos.reduce((acc, video) => acc + video.likes, 0);
-  const totalViews = userVideos.reduce((acc, video) => acc + video.views, 0);
-
   const formatCount = (count: number) => {
     if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
     if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
@@ -41,7 +37,7 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
 
   return (
     <>
-    <PageHeader title={user.name}>
+    <PageHeader title={user.username || user.name}>
         <div className="flex items-center gap-2">
             {isCurrentUser ? (
                 <Button variant="ghost" size="icon" asChild>
@@ -61,30 +57,36 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
     <div className="container max-w-4xl mx-auto">
       <header className="py-8">
         <div className="flex items-center gap-4 md:gap-8">
-          <Avatar className="w-20 h-20 md:w-32 md:h-32 border-4 border-card">
+          <Avatar className="w-20 h-20 md:w-24 md:h-24 border-4 border-card">
             <AvatarImage src={user.avatarUrl} alt={user.name} />
             <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
           </Avatar>
           <div className="flex-1">
-            <div className="flex items-center gap-4">
-                <h1 className="text-2xl md:text-3xl font-bold font-headline">{user.name}</h1>
-            </div>
-             {user.bio && <p className="mt-2 text-muted-foreground">{user.bio}</p>}
-            <div className="flex items-center gap-6 mt-4 text-center">
+            <div className="flex items-center gap-6 text-center">
               <div>
                 <p className="font-bold text-lg">{userVideos.length}</p>
                 <p className="text-sm text-muted-foreground">{t('videos')}</p>
               </div>
               <div>
-                <p className="font-bold text-lg">{formatCount(totalLikes)}</p>
-                <p className="text-sm text-muted-foreground">{t('likes')}</p>
+                <p className="font-bold text-lg">{formatCount(user.followers || 0)}</p>
+                <p className="text-sm text-muted-foreground">{t('followers')}</p>
               </div>
               <div>
-                <p className="font-bold text-lg">{formatCount(totalViews)}</p>
-                <p className="text-sm text-muted-foreground">{t('views')}</p>
+                <p className="font-bold text-lg">{formatCount(user.following || 0)}</p>
+                <p className="text-sm text-muted-foreground">{t('following_count')}</p>
               </div>
             </div>
           </div>
+        </div>
+         <div className="mt-4">
+            <h1 className="text-lg font-bold font-headline">{user.name}</h1>
+            {user.bio && <p className="mt-1 text-muted-foreground whitespace-pre-line">{user.bio}</p>}
+            {user.website && (
+                <a href={user.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 mt-1 text-sm text-primary hover:underline">
+                    <LinkIcon className="h-4 w-4" />
+                    <span>{user.website.replace(/^(https?:\/\/)?(www\.)?/, '')}</span>
+                </a>
+            )}
         </div>
         <div className="mt-4">
             {isCurrentUser ? (
@@ -108,11 +110,17 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
           <TabsTrigger value="liked">{t('liked')}</TabsTrigger>
         </TabsList>
         <TabsContent value="videos">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 pt-4">
-            {userVideos.map((video) => (
-              <VideoCard key={video.id} video={video} />
-            ))}
-          </div>
+            {userVideos.length > 0 ? (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 pt-4">
+                    {userVideos.map((video) => (
+                    <VideoCard key={video.id} video={video} />
+                    ))}
+                </div>
+             ) : (
+                <div className="text-center py-16">
+                    <p className="text-muted-foreground">{t('no_videos_yet')}</p>
+                </div>
+            )}
         </TabsContent>
         <TabsContent value="liked">
             <div className="text-center py-16">

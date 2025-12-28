@@ -19,7 +19,7 @@ interface VideoState {
   openCommentSheet: (videoId: string) => void;
   closeCommentSheet: () => void;
   addComment: (videoId: string, text: string) => void;
-  updateCurrentUser: (name: string, bio: string) => void;
+  updateCurrentUser: (data: Partial<User>) => void;
 }
 
 export const useVideoStore = create<VideoState>((set, get) => ({
@@ -129,12 +129,12 @@ export const useVideoStore = create<VideoState>((set, get) => ({
         return { videos: newVideos };
     });
   },
-  updateCurrentUser: (name: string, bio: string) => {
+  updateCurrentUser: (data: Partial<User>) => {
     set((state) => {
       const newUsers = [...state.users];
       const currentUserIndex = newUsers.findIndex(u => u.id === state.users[0].id);
       if (currentUserIndex !== -1) {
-        newUsers[currentUserIndex] = { ...newUsers[currentUserIndex], name, bio };
+        newUsers[currentUserIndex] = { ...newUsers[currentUserIndex], ...data };
       }
       return { users: newUsers };
     });
