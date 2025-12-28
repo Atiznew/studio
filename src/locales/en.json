@@ -91,5 +91,14 @@
   "login_with_google": "Login with Google",
   "signup_prompt": "Don't have an account?",
   "signup_link": "Sign up",
-  "splash_title": "Discover Real Travel Stories"
+  "splash_title": "Discover Real Travel Stories",
+  "edit_profile_title": "Edit Profile",
+  "name_label": "Name",
+  "name_placeholder": "Your full name",
+  "bio_label": "Bio",
+  "bio_placeholder": "Tell us about yourself...",
+  "save_changes_button": "Save Changes",
+  "saving_button": "Saving...",
+  "profile_update_success": "Profile updated successfully!",
+  "profile_update_error": "Could not update profile."
 }

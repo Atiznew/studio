@@ -1,7 +1,6 @@
 "use client";
 
 import Image from 'next/image';
-import { currentUser } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Settings, LogOut } from 'lucide-react';
@@ -12,8 +11,11 @@ import { useVideoStore } from '@/hooks/use-video-store';
 import { useTranslation } from '@/context/language-context';
 
 export default function ProfilePage() {
-  const { videos, likedVideos } = useVideoStore();
+  const { videos, likedVideos, users } = useVideoStore();
   const { t } = useTranslation();
+
+  const currentUser = users[0];
+
   const userVideos = videos.filter((v) => v.user.id === currentUser.id);
   const userLikedVideos = videos.filter(v => likedVideos.has(v.id));
 
@@ -48,6 +50,7 @@ export default function ProfilePage() {
             <AvatarFallback>{currentUser.name.charAt(0)}</AvatarFallback>
           </Avatar>
           <div className="flex-1">
+             {currentUser.bio && <p className="mt-2 text-muted-foreground">{currentUser.bio}</p>}
             <div className="flex items-center gap-6 mt-4 text-center">
               <div>
                 <p className="font-bold text-lg">{userVideos.length}</p>
@@ -66,7 +69,7 @@ export default function ProfilePage() {
         </div>
         <div className="mt-4">
             <Button className="w-full bg-accent hover:bg-accent/90" asChild>
-                <Link href="#">{t('edit_profile')}</Link>
+                <Link href="/profile/edit">{t('edit_profile')}</Link>
             </Button>
         </div>
       </header>

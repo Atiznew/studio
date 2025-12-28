@@ -1,11 +1,12 @@
 "use client";
 
 import create from 'zustand';
-import { initialVideos, currentUser, destinations, users } from '@/lib/data';
-import type { Video, Comment } from '@/lib/types';
+import { initialVideos, currentUser, destinations, users as initialUsers } from '@/lib/data';
+import type { Video, Comment, User } from '@/lib/types';
 
 interface VideoState {
   videos: Video[];
+  users: User[];
   likedVideos: Set<string>;
   followedUsers: Set<string>;
   isCommentSheetOpen: boolean;
@@ -18,10 +19,12 @@ interface VideoState {
   openCommentSheet: (videoId: string) => void;
   closeCommentSheet: () => void;
   addComment: (videoId: string, text: string) => void;
+  updateCurrentUser: (name: string, bio: string) => void;
 }
 
 export const useVideoStore = create<VideoState>((set, get) => ({
   videos: initialVideos,
+  users: initialUsers,
   likedVideos: new Set(),
   followedUsers: new Set(),
   isCommentSheetOpen: false,
@@ -34,7 +37,7 @@ export const useVideoStore = create<VideoState>((set, get) => ({
       videoUrl: videoData.videoUrl,
       thumbnailUrl: 'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxhbmltYWwlMjB0cmF2ZWx8ZW58MHx8fHwxNzY2Nzk3NDU3fDA&ixlib=rb-4.1.0&q=80&w=1080', // Replace with a real thumbnail
       source: videoData.source,
-      user: currentUser,
+      user: get().users[0],
       views: 0,
       likes: 0,
       comments: [],
@@ -114,7 +117,7 @@ export const useVideoStore = create<VideoState>((set, get) => ({
 
         const newComment: Comment = {
             id: `c${Date.now()}`,
-            user: currentUser,
+            user: get().users[0],
             text: text,
             createdAt: new Date().toISOString(),
         };
@@ -124,6 +127,16 @@ export const useVideoStore = create<VideoState>((set, get) => ({
         newVideos[videoIndex] = video;
 
         return { videos: newVideos };
+    });
+  },
+  updateCurrentUser: (name: string, bio: string) => {
+    set((state) => {
+      const newUsers = [...state.users];
+      const currentUserIndex = newUsers.findIndex(u => u.id === state.users[0].id);
+      if (currentUserIndex !== -1) {
+        newUsers[currentUserIndex] = { ...newUsers[currentUserIndex], name, bio };
+      }
+      return { users: newUsers };
     });
   }
 }));

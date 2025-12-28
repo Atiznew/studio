@@ -1,7 +1,7 @@
 "use client";
 
 import Image from 'next/image';
-import { users } from '@/lib/data';
+import { users as initialUsers } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -16,7 +16,7 @@ import { cn } from '@/lib/utils';
 import { useTranslation } from '@/context/language-context';
 
 export default function UserProfilePage({ params }: { params: { id: string } }) {
-  const { videos, isFollowing, toggleFollow } = useVideoStore();
+  const { videos, isFollowing, toggleFollow, users } = useVideoStore();
   const { t } = useTranslation();
   const user = users.find((u) => u.id === params.id);
 
@@ -69,6 +69,7 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
             <div className="flex items-center gap-4">
                 <h1 className="text-2xl md:text-3xl font-bold font-headline">{user.name}</h1>
             </div>
+             {user.bio && <p className="mt-2 text-muted-foreground">{user.bio}</p>}
             <div className="flex items-center gap-6 mt-4 text-center">
               <div>
                 <p className="font-bold text-lg">{userVideos.length}</p>
@@ -88,7 +89,7 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
         <div className="mt-4">
             {isCurrentUser ? (
                 <Button className="w-full bg-accent hover:bg-accent/90" asChild>
-                    <Link href="#">{t('edit_profile')}</Link>
+                    <Link href="/profile/edit">{t('edit_profile')}</Link>
                 </Button>
             ) : (
                 <Button 

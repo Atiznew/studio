@@ -2,6 +2,7 @@ export interface User {
   id: string;
   name: string;
   avatarUrl: string;
+  bio?: string;
 }
 
 export interface Story {
@@ -43,4 +44,3 @@ export interface Destination {
   slug: string;
   country: string;
 }
-

@@ -91,5 +91,14 @@
   "login_with_google": "Google से लॉग इन करें",
   "signup_prompt": "क्या आपका खाता नहीं है?",
   "signup_link": "साइन अप करें",
-  "splash_title": "वास्तविक यात्रा कहानियों की खोज करें"
+  "splash_title": "वास्तविक यात्रा कहानियों की खोज करें",
+  "edit_profile_title": "प्रोफ़ाइल संपादित करें",
+  "name_label": "नाम",
+  "name_placeholder": "आपका पूरा नाम",
+  "bio_label": "बायो",
+  "bio_placeholder": "अपने बारे में कुछ बताएं...",
+  "save_changes_button": "बदलाव सहेजें",
+  "saving_button": "सहेज रहा है...",
+  "profile_update_success": "प्रोफ़ाइल सफलतापूर्वक अपडेट की गई!",
+  "profile_update_error": "प्रोफ़ाइल अपडेट नहीं हो सकी।"
 }
