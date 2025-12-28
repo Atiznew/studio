@@ -4,17 +4,19 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Video, PlusSquare, Map, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
-const navItems = [
-  { href: '/home', icon: Home, label: 'Home' },
-  { href: '/reels', icon: Video, label: 'Reels' },
-  { href: '/upload', icon: PlusSquare, label: 'Share' },
-  { href: '/destinations', icon: Map, label: 'Destinations' },
-  { href: '/profile', icon: User, label: 'Profile' },
-];
+import { useTranslation } from '@/context/language-context';
 
 export function BottomNav() {
   const pathname = usePathname();
+  const { t } = useTranslation();
+
+  const navItems = [
+    { href: '/home', icon: Home, label: t('nav_home') },
+    { href: '/reels', icon: Video, label: t('nav_reels') },
+    { href: '/upload', icon: PlusSquare, label: t('nav_share') },
+    { href: '/destinations', icon: Map, label: t('nav_destinations') },
+    { href: '/profile', icon: User, label: t('nav_profile') },
+  ];
 
   return (
     <nav className="fixed bottom-0 left-0 z-50 w-full h-16 border-t bg-background/95 backdrop-blur-sm">
@@ -22,21 +24,21 @@ export function BottomNav() {
         {navItems.map((item) => {
           let isActive = pathname === item.href;
           
-          if (item.href === '/home' && pathname !== '/home') {
+          if (item.label === t('nav_home') && pathname !== '/home') {
             isActive = false;
           } else if (pathname.startsWith(item.href) && item.href !== '/') {
             isActive = true;
           }
 
-          if (item.href === '/profile' && (pathname.startsWith('/profile') || pathname.startsWith('/users'))) {
+          if (item.label === t('nav_profile') && (pathname.startsWith('/profile') || pathname.startsWith('/users'))) {
             isActive = true;
           }
           
-          if (item.href === '/upload') {
+          if (item.label === t('nav_share')) {
             isActive = pathname.startsWith('/upload');
           }
 
-          if (item.href === '/destinations') {
+          if (item.label === t('nav_destinations')) {
              isActive = pathname.startsWith('/destinations') || pathname.startsWith('/category');
           }
 
@@ -63,5 +65,3 @@ export function BottomNav() {
     </nav>
   );
 }
-
-    

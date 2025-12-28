@@ -9,9 +9,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
 import { VideoCard } from '@/components/video-card';
 import { useVideoStore } from '@/hooks/use-video-store';
+import { useTranslation } from '@/context/language-context';
 
 export default function ProfilePage() {
   const { videos, likedVideos } = useVideoStore();
+  const { t } = useTranslation();
   const userVideos = videos.filter((v) => v.user.id === currentUser.id);
   const userLikedVideos = videos.filter(v => likedVideos.has(v.id));
 
@@ -31,7 +33,7 @@ export default function ProfilePage() {
             <h1 className="text-2xl md:text-3xl font-bold font-headline">{currentUser.name}</h1>
             <div className="flex items-center gap-2">
                 <Button variant="ghost" size="icon" asChild>
-                    <Link href="#"><Settings className="h-5 w-5" /></Link>
+                    <Link href="/settings"><Settings className="h-5 w-5" /></Link>
                 </Button>
                  <Button variant="ghost" size="icon" asChild>
                     <Link href="/login">
@@ -49,30 +51,30 @@ export default function ProfilePage() {
             <div className="flex items-center gap-6 mt-4 text-center">
               <div>
                 <p className="font-bold text-lg">{userVideos.length}</p>
-                <p className="text-sm text-muted-foreground">Videos</p>
+                <p className="text-sm text-muted-foreground">{t('videos')}</p>
               </div>
               <div>
                 <p className="font-bold text-lg">{formatCount(totalLikes)}</p>
-                <p className="text-sm text-muted-foreground">Likes</p>
+                <p className="text-sm text-muted-foreground">{t('likes')}</p>
               </div>
               <div>
                 <p className="font-bold text-lg">{formatCount(totalViews)}</p>
-                <p className="text-sm text-muted-foreground">Views</p>
+                <p className="text-sm text-muted-foreground">{t('views')}</p>
               </div>
             </div>
           </div>
         </div>
         <div className="mt-4">
             <Button className="w-full bg-accent hover:bg-accent/90" asChild>
-                <Link href="#">Edit Profile</Link>
+                <Link href="#">{t('edit_profile')}</Link>
             </Button>
         </div>
       </header>
 
       <Tabs defaultValue="videos" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="videos">My Videos</TabsTrigger>
-          <TabsTrigger value="liked">Liked</TabsTrigger>
+          <TabsTrigger value="videos">{t('my_videos')}</TabsTrigger>
+          <TabsTrigger value="liked">{t('liked')}</TabsTrigger>
         </TabsList>
         <TabsContent value="videos">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 pt-4">
@@ -90,7 +92,7 @@ export default function ProfilePage() {
                 </div>
             ) : (
                 <div className="text-center py-16">
-                    <p className="text-muted-foreground">You haven&apos;t liked any videos yet.</p>
+                    <p className="text-muted-foreground">{t('no_liked_videos')}</p>
                 </div>
             )}
         </TabsContent>

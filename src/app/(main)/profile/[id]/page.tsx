@@ -13,9 +13,11 @@ import { ChevronLeft, LogOut } from 'lucide-react';
 import { currentUser } from '@/lib/data';
 import { useVideoStore } from '@/hooks/use-video-store';
 import { cn } from '@/lib/utils';
+import { useTranslation } from '@/context/language-context';
 
 export default function UserProfilePage({ params }: { params: { id: string } }) {
   const { videos, isFollowing, toggleFollow } = useVideoStore();
+  const { t } = useTranslation();
   const user = users.find((u) => u.id === params.id);
 
   if (!user) {
@@ -70,15 +72,15 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
             <div className="flex items-center gap-6 mt-4 text-center">
               <div>
                 <p className="font-bold text-lg">{userVideos.length}</p>
-                <p className="text-sm text-muted-foreground">Videos</p>
+                <p className="text-sm text-muted-foreground">{t('videos')}</p>
               </div>
               <div>
                 <p className="font-bold text-lg">{formatCount(totalLikes)}</p>
-                <p className="text-sm text-muted-foreground">Likes</p>
+                <p className="text-sm text-muted-foreground">{t('likes')}</p>
               </div>
               <div>
                 <p className="font-bold text-lg">{formatCount(totalViews)}</p>
-                <p className="text-sm text-muted-foreground">Views</p>
+                <p className="text-sm text-muted-foreground">{t('views')}</p>
               </div>
             </div>
           </div>
@@ -86,14 +88,14 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
         <div className="mt-4">
             {isCurrentUser ? (
                 <Button className="w-full bg-accent hover:bg-accent/90" asChild>
-                    <Link href="#">Edit Profile</Link>
+                    <Link href="#">{t('edit_profile')}</Link>
                 </Button>
             ) : (
                 <Button 
                     className={cn("w-full", following ? "bg-secondary text-secondary-foreground hover:bg-secondary/80" : "bg-primary text-primary-foreground hover:bg-primary/90")}
                     onClick={() => toggleFollow(user.id)}
                 >
-                    {following ? 'Following' : 'Follow'}
+                    {following ? t('following') : t('follow')}
                 </Button>
             )}
         </div>
@@ -101,8 +103,8 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
 
       <Tabs defaultValue="videos" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="videos">Videos</TabsTrigger>
-          <TabsTrigger value="liked">Liked</TabsTrigger>
+          <TabsTrigger value="videos">{t('videos')}</TabsTrigger>
+          <TabsTrigger value="liked">{t('liked')}</TabsTrigger>
         </TabsList>
         <TabsContent value="videos">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 pt-4">
@@ -113,7 +115,7 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
         </TabsContent>
         <TabsContent value="liked">
             <div className="text-center py-16">
-                <p className="text-muted-foreground">This user hasn't liked any videos yet.</p>
+                <p className="text-muted-foreground">{t('user_no_liked_videos')}</p>
             </div>
         </TabsContent>
       </Tabs>

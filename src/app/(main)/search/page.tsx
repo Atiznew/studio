@@ -9,9 +9,11 @@ import { VideoCard } from '@/components/video-card';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 import { useVideoStore } from '@/hooks/use-video-store';
+import { useTranslation } from '@/context/language-context';
 
 export default function SearchPage() {
   const { videos } = useVideoStore();
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState(videos);
 
@@ -36,7 +38,7 @@ export default function SearchPage() {
 
   return (
     <>
-      <PageHeader title="Search">
+      <PageHeader title={t('search_button')}>
          <Button variant="ghost" size="icon" asChild>
             <Link href="/home">
                 <ChevronLeft className="h-5 w-5" />
@@ -49,7 +51,7 @@ export default function SearchPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <Input
               type="text"
-              placeholder="Search for videos, destinations, or users..."
+              placeholder={t('search_placeholder')}
               className="pl-10"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -61,7 +63,7 @@ export default function SearchPage() {
                 </Button>
             )}
           </div>
-          <Button onClick={handleSearch}>Search</Button>
+          <Button onClick={handleSearch}>{t('search_button')}</Button>
         </div>
         
         <div className="grid gap-6 md:grid-cols-2">
@@ -71,8 +73,8 @@ export default function SearchPage() {
                 ))
             ) : (
                 <div className="text-center md:col-span-2 text-muted-foreground">
-                    <p className="font-bold text-lg">No results found</p>
-                    <p>Try searching for something else.</p>
+                    <p className="font-bold text-lg">{t('no_results_title')}</p>
+                    <p>{t('no_results_subtitle')}</p>
                 </div>
             )}
         </div>
