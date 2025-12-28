@@ -90,7 +90,7 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
         </div>
         <div className="mt-4">
             {isCurrentUser ? (
-                <Button className="w-full bg-accent hover:bg-accent/90" asChild>
+                <Button className="w-full bg-yellow-400 text-black hover:bg-yellow-500" asChild>
                     <Link href="/profile/edit">{t('edit_profile')}</Link>
                 </Button>
             ) : (
