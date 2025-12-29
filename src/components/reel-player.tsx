@@ -22,11 +22,14 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   
-  const { likedVideos, toggleLike, openCommentSheet } = useVideoStore();
+  const { likedVideos, toggleLike, openCommentSheet, currentUser, isFollowing, toggleFollow } = useVideoStore();
   const { toast } = useToast();
   const { t } = useTranslation();
   const isLiked = likedVideos.has(video.id);
   const commentCount = video.comments?.length || 0;
+  const following = isFollowing(video.user.id);
+  const isCurrentUserVideo = video.user.id === currentUser.id;
+
 
   useEffect(() => {
     const videoElement = videoRef.current;
@@ -110,6 +113,16 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
               <Link href={`/profile/${video.user.id}`}>
                 <h3 className="font-bold text-lg">{video.user.name}</h3>
               </Link>
+               {!isCurrentUserVideo && (
+                <Button 
+                    size="sm"
+                    variant={following ? 'secondary' : 'default'}
+                    onClick={() => toggleFollow(video.user.id)}
+                    className={cn("h-7 px-3 rounded-full text-xs", following ? "bg-white/20 text-white" : "bg-primary text-primary-foreground")}
+                >
+                    {following ? t('following') : t('follow')}
+                </Button>
+              )}
             </div>
             <p className="text-sm line-clamp-2">{video.title} - #{video.destination.name}</p>
             <div className="flex items-center gap-2 mt-2 text-sm">
