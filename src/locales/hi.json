@@ -16,9 +16,12 @@
   "edit_profile": "प्रोफ़ाइल एडिट करें",
   "my_videos": "मेरे वीडियो",
   "liked": "लाइक किए हुए",
+  "reposts": "रीपोस्ट",
   "no_liked_videos": "आपने अभी तक कोई वीडियो लाइक नहीं किया है।",
   "user_no_liked_videos": "इस यूज़र ने अभी तक कोई वीडियो लाइक नहीं किया है।",
   "no_videos_yet": "अभी तक कोई वीडियो पोस्ट नहीं किया गया है।",
+  "no_reposts_yet": "आपने अभी तक कोई वीडियो रीपोस्ट नहीं किया है।",
+  "user_no_reposts_yet": "इस यूज़र ने अभी तक कोई वीडियो रीपोस्ट नहीं किया है।",
   "follow": "फ़ॉलो करें",
   "following": "फ़ॉलो कर रहे हैं",
   "settings_title": "सेटिंग्स",
@@ -85,6 +88,10 @@
   "add_a_comment": "एक टिप्पणी जोड़ें...",
   "link_copied_title": "लिंक कॉपी हो गया!",
   "link_copied_description": "वीडियो लिंक आपके क्लिपबोर्ड पर कॉपी कर लिया गया है।",
+  "repost_successful_title": "वीडियो रीपोस्ट हो गया",
+  "repost_successful_description": "आपने वीडियो को सफलतापूर्वक रीपोस्ट कर दिया है।",
+  "repost_undo_title": "रीपोस्ट वापस ले लिया गया",
+  "repost_undo_description": "आपने रीपोस्ट वापस ले लिया है।",
   "original_audio": "मूल ऑडियो",
   "views_count": "बार देखा गया",
   "login_title": "लॉग इन करें",
@@ -111,5 +118,6 @@
   "profile_update_error": "प्रोफ़ाइल अपडेट नहीं हो सकी।",
   "discover_people_title": "लोगों को खोजें",
   "no_suggestions_title": "कोई नया सुझाव नहीं",
-  "no_suggestions_description": "आप अंत तक पहुँच गए हैं! फ़ॉलो करने के लिए और लोगों के लिए बाद में वापस देखें।"
+  "no_suggestions_description": "आप अंत तक पहुँच गए हैं! फ़ॉलो करने के लिए और लोगों के लिए बाद में वापस देखें।",
+  "reposted_by": "{name} द्वारा रीपोस्ट किया गया"
 }

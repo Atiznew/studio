@@ -3,7 +3,7 @@ import Link from 'next/link';
 import type { Video } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Eye, Heart, MoreVertical, Trash2 } from 'lucide-react';
+import { Eye, Heart, MoreVertical, Trash2, Repeat } from 'lucide-react';
 import { currentUser } from '@/lib/data';
 import { useVideoStore } from '@/hooks/use-video-store';
 import {
@@ -40,6 +40,12 @@ export function VideoCard({ video, className }: VideoCardProps) {
 
   return (
     <Card className={`w-full overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 ${className}`}>
+      {video.repostedBy && (
+        <div className="px-4 pt-3 flex items-center gap-2 text-sm text-muted-foreground">
+          <Repeat className="w-4 h-4" />
+          <span>{t('reposted_by').replace('{name}', video.repostedBy.name)}</span>
+        </div>
+      )}
       <CardContent className="p-0">
         <Link href={`/reels?v=${video.id}`} className="block">
           <div className="aspect-video relative">

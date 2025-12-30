@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Video } from "@/lib/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Heart, Eye, Music, Play, Pause, Volume2, VolumeX, Share2, MessageCircle } from "lucide-react";
+import { Heart, Eye, Music, Play, Pause, Volume2, VolumeX, Share2, MessageCircle, Repeat } from "lucide-react";
 import { useVideoStore } from "@/hooks/use-video-store";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -22,10 +22,11 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   
-  const { likedVideos, toggleLike, openCommentSheet, currentUser, isFollowing, toggleFollow } = useVideoStore();
+  const { likedVideos, toggleLike, openCommentSheet, currentUser, isFollowing, toggleFollow, toggleRepost, isReposted } = useVideoStore();
   const { toast } = useToast();
   const { t } = useTranslation();
   const isLiked = likedVideos.has(video.id);
+  const reposted = isReposted(video.id);
   const commentCount = video.comments?.length || 0;
   const following = isFollowing(video.user.id);
   const isCurrentUserVideo = video.user.id === currentUser.id;
@@ -75,6 +76,22 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
       description: t('link_copied_description'),
     });
   };
+
+  const handleRepost = () => {
+    toggleRepost(video.id);
+    if (!reposted) {
+        toast({
+            title: t('repost_successful_title'),
+            description: t('repost_successful_description'),
+        });
+    } else {
+        toast({
+            title: t('repost_undo_title'),
+            description: t('repost_undo_description'),
+        });
+    }
+  };
+
 
   const formatCount = (count: number) => {
     if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
@@ -139,6 +156,11 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
               <MessageCircle className="h-8 w-8" />
               <span className="text-xs font-bold">{formatCount(commentCount)}</span>
             </Button>
+            {!isCurrentUserVideo && (
+               <Button onClick={handleRepost} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
+                    <Repeat className={cn("h-8 w-8", reposted && "text-primary")} />
+                </Button>
+            )}
             <Button variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
               <Eye className="h-8 w-8" />
               <span className="text-xs font-bold">{formatCount(video.views)}</span>

@@ -11,7 +11,7 @@ import { useVideoStore } from '@/hooks/use-video-store';
 import { useTranslation } from '@/context/language-context';
 
 export default function ProfilePage() {
-  const { videos, likedVideos, users } = useVideoStore();
+  const { videos, likedVideos, users, repostedVideos } = useVideoStore();
   const { t } = useTranslation();
 
   const currentUser = users.find(u => u.id === 'u1'); // Assume current user is u1
@@ -22,6 +22,12 @@ export default function ProfilePage() {
 
   const userVideos = videos.filter((v) => v.user.id === currentUser.id);
   const userLikedVideos = videos.filter(v => likedVideos.has(v.id));
+
+  const userRepostIds = repostedVideos.get(currentUser.id) || new Set();
+  const userRepostedVideos = videos
+    .filter(video => userRepostIds.has(video.id))
+    .map(video => ({ ...video, repostedBy: currentUser }));
+
 
   const totalLikes = userVideos.reduce((acc, video) => acc + video.likes, 0);
 
@@ -90,8 +96,9 @@ export default function ProfilePage() {
       </header>
 
       <Tabs defaultValue="videos" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="videos">{t('my_videos')}</TabsTrigger>
+          <TabsTrigger value="reposts">{t('reposts')}</TabsTrigger>
           <TabsTrigger value="liked">{t('liked')}</TabsTrigger>
         </TabsList>
         <TabsContent value="videos">
@@ -106,6 +113,19 @@ export default function ProfilePage() {
                     <p className="text-muted-foreground">{t('no_videos_yet')}</p>
                 </div>
             )}
+        </TabsContent>
+        <TabsContent value="reposts">
+          {userRepostedVideos.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 pt-4">
+              {userRepostedVideos.map((video) => (
+                <VideoCard key={`repost-${video.id}`} video={video} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16">
+              <p className="text-muted-foreground">{t('no_reposts_yet')}</p>
+            </div>
+          )}
         </TabsContent>
         <TabsContent value="liked">
             {userLikedVideos.length > 0 ? (

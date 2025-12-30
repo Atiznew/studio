@@ -39,6 +39,7 @@ export interface Video {
   destination: Destination;
   category: VideoCategory;
   description: string;
+  repostedBy?: User;
 }
 
 export interface Destination {

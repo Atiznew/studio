@@ -15,17 +15,23 @@ import { cn } from '@/lib/utils';
 import { useTranslation } from '@/context/language-context';
 
 export default function UserProfilePage({ params }: { params: { id: string } }) {
-  const { videos, isFollowing, toggleFollow, users } = useVideoStore();
+  const { videos, isFollowing, toggleFollow, users, repostedVideos } = useVideoStore();
   const { t } = useTranslation();
   const user = users.find((u) => u.id === params.id);
 
   if (!user) {
     notFound();
   }
-
+  
   const isCurrentUser = user.id === currentUser.id;
 
   const userVideos = videos.filter((v) => v.user.id === user.id);
+
+  const userRepostIds = repostedVideos.get(user.id) || new Set();
+  const userRepostedVideos = videos
+    .filter(video => userRepostIds.has(video.id))
+    .map(video => ({ ...video, repostedBy: user }));
+
 
   const formatCount = (count: number) => {
     if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
@@ -107,7 +113,7 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
       <Tabs defaultValue="videos" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="videos">{t('videos')}</TabsTrigger>
-          <TabsTrigger value="liked">{t('liked')}</TabsTrigger>
+          <TabsTrigger value="reposts">{t('reposts')}</TabsTrigger>
         </TabsList>
         <TabsContent value="videos">
             {userVideos.length > 0 ? (
@@ -122,10 +128,18 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
                 </div>
             )}
         </TabsContent>
-        <TabsContent value="liked">
-            <div className="text-center py-16">
-                <p className="text-muted-foreground">{t('user_no_liked_videos')}</p>
-            </div>
+        <TabsContent value="reposts">
+             {userRepostedVideos.length > 0 ? (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 pt-4">
+                    {userRepostedVideos.map((video) => (
+                    <VideoCard key={`repost-${video.id}`} video={video} />
+                    ))}
+                </div>
+             ) : (
+                <div className="text-center py-16">
+                    <p className="text-muted-foreground">{t('user_no_reposts_yet')}</p>
+                </div>
+            )}
         </TabsContent>
       </Tabs>
     </div>

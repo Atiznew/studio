@@ -16,9 +16,12 @@
   "edit_profile": "Edit Profile",
   "my_videos": "My Videos",
   "liked": "Liked",
+  "reposts": "Reposts",
   "no_liked_videos": "You haven't liked any videos yet.",
   "user_no_liked_videos": "This user hasn't liked any videos yet.",
   "no_videos_yet": "No videos posted yet.",
+  "no_reposts_yet": "You haven't reposted any videos yet.",
+  "user_no_reposts_yet": "This user hasn't reposted any videos yet.",
   "follow": "Follow",
   "following": "Following",
   "settings_title": "Settings",
@@ -85,6 +88,10 @@
   "add_a_comment": "Add a comment...",
   "link_copied_title": "Link Copied!",
   "link_copied_description": "The video link has been copied to your clipboard.",
+  "repost_successful_title": "Video Reposted",
+  "repost_successful_description": "You have successfully reposted the video.",
+  "repost_undo_title": "Repost Undone",
+  "repost_undo_description": "You have undone the repost.",
   "original_audio": "Original Audio",
   "views_count": "views",
   "login_title": "Login",
@@ -111,5 +118,6 @@
   "profile_update_error": "Could not update profile.",
   "discover_people_title": "Discover People",
   "no_suggestions_title": "No New Suggestions",
-  "no_suggestions_description": "You've reached the end! Check back later for more people to follow."
+  "no_suggestions_description": "You've reached the end! Check back later for more people to follow.",
+  "reposted_by": "Reposted by {name}"
 }

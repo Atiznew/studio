@@ -9,6 +9,7 @@ interface VideoState {
   users: User[];
   currentUser: User;
   likedVideos: Set<string>;
+  repostedVideos: Map<string, Set<string>>; // Map<userId, Set<videoId>>
   followedUsers: Set<string>;
   isCommentSheetOpen: boolean;
   activeVideoId: string | null;
@@ -21,6 +22,8 @@ interface VideoState {
   closeCommentSheet: () => void;
   addComment: (videoId: string, text: string) => void;
   updateCurrentUser: (data: Partial<User>) => void;
+  toggleRepost: (videoId: string) => void;
+  isReposted: (videoId: string) => boolean;
 }
 
 const currentUser = allUsers.find(u => u.id === 'u1')!;
@@ -30,6 +33,7 @@ export const useVideoStore = create<VideoState>((set, get) => ({
   users: allUsers,
   currentUser: currentUser,
   likedVideos: new Set(),
+  repostedVideos: new Map(),
   followedUsers: new Set(['u2']), // Initially follow Jane Smith
   isCommentSheetOpen: false,
   activeVideoId: null,
@@ -87,6 +91,28 @@ export const useVideoStore = create<VideoState>((set, get) => ({
 
       return { likedVideos: newLikedVideos, videos: newVideos };
     });
+  },
+
+  toggleRepost: (videoId: string) => {
+    set((state) => {
+      const { currentUser } = state;
+      const newRepostedVideos = new Map(state.repostedVideos);
+      const userReposts = new Set(newRepostedVideos.get(currentUser.id) || []);
+
+      if (userReposts.has(videoId)) {
+        userReposts.delete(videoId);
+      } else {
+        userReposts.add(videoId);
+      }
+
+      newRepostedVideos.set(currentUser.id, userReposts);
+      return { repostedVideos: newRepostedVideos };
+    });
+  },
+
+  isReposted: (videoId: string) => {
+    const { currentUser, repostedVideos } = get();
+    return repostedVideos.get(currentUser.id)?.has(videoId) || false;
   },
 
   toggleFollow: (userId: string) => {
