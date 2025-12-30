@@ -245,7 +245,7 @@ export default function HomePage() {
         <header className="sticky top-0 z-40 w-full bg-background/95 backdrop-blur-sm">
             <div className="flex h-16 items-center justify-between">
                 <Logo />
-                 <TabsList className="grid w-full grid-cols-2 max-w-xs">
+                 <TabsList className="grid w-full grid-cols-2 max-w-[200px]">
                     <TabsTrigger value="forYou">{t('for_you_tab')}</TabsTrigger>
                     <TabsTrigger value="following">{t('following_tab')}</TabsTrigger>
                 </TabsList>
