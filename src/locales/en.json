@@ -119,5 +119,9 @@
   "discover_people_title": "Discover People",
   "no_suggestions_title": "No New Suggestions",
   "no_suggestions_description": "You've reached the end! Check back later for more people to follow.",
-  "reposted_by": "Reposted by {name}"
+  "reposted_by": "Reposted by {name}",
+  "for_you_tab": "For You",
+  "following_tab": "Following",
+  "no_following_videos_title": "No videos yet",
+  "no_following_videos_description": "Start following creators to see their videos here."
 }

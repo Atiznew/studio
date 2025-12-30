@@ -21,6 +21,7 @@ import { cn } from '@/lib/utils';
 import { Mountain, Palmtree, Utensils, Tent, Building, FerrisWheel, Trees, Leaf } from 'lucide-react';
 import { ReactNode, useRef } from 'react';
 import { useTranslation } from '@/context/language-context';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 
 const categories: { name: VideoCategory, icon: ReactNode, slug: string }[] = [
@@ -37,12 +38,13 @@ const categories: { name: VideoCategory, icon: ReactNode, slug: string }[] = [
 
 
 export default function HomePage() {
-  const { videos } = useVideoStore();
+  const { videos, isFollowing } = useVideoStore();
   const { t } = useTranslation();
   const trendingDestinations = destinations.slice(0, 5);
   const featuredDestinations = destinations.slice(0, 4);
   const exploreVideos = videos.slice(0, 6);
   const trendingShorts = videos.slice(0,5);
+  const followingVideos = videos.filter(video => isFollowing(video.user.id));
 
   const goaVideos = videos.filter(v => v.destination.slug === 'goa');
   const mountainVideos = videos.filter(v => v.category === 'Mountain');
@@ -52,20 +54,9 @@ export default function HomePage() {
     Autoplay({ delay: 3000, stopOnInteraction: true })
   );
 
-  return (
-    <div className="container max-w-5xl mx-auto">
-        <header className="sticky top-0 z-40 w-full bg-background/95 backdrop-blur-sm">
-            <div className="flex h-16 items-center justify-between">
-                <Logo />
-                <Button variant="ghost" size="icon" asChild>
-                    <Link href="/search">
-                        <Search className="h-5 w-5" />
-                    </Link>
-                </Button>
-            </div>
-        </header>
-        
-        <section className="py-4">
+  const ForYouFeed = () => (
+    <>
+         <section className="py-4">
             <Carousel
                 plugins={[plugin.current]}
                 opts={{
@@ -225,6 +216,54 @@ export default function HomePage() {
                 ))}
             </div>
         </section>
+    </>
+  )
+
+  const FollowingFeed = () => (
+    <div className="py-8">
+        {followingVideos.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {followingVideos.map((video) => (
+                    <VideoCard key={video.id} video={video} />
+                ))}
+            </div>
+        ) : (
+            <div className="text-center py-16">
+                <p className="text-lg font-semibold">{t('no_following_videos_title')}</p>
+                <p className="text-muted-foreground mt-2">{t('no_following_videos_description')}</p>
+                <Button asChild className="mt-4">
+                    <Link href="/discover">{t('discover_people_title')}</Link>
+                </Button>
+            </div>
+        )}
+    </div>
+  );
+
+  return (
+    <div className="container max-w-5xl mx-auto">
+      <Tabs defaultValue="forYou">
+        <header className="sticky top-0 z-40 w-full bg-background/95 backdrop-blur-sm">
+            <div className="flex h-16 items-center justify-between">
+                <Logo />
+                 <TabsList className="grid w-full grid-cols-2 max-w-xs">
+                    <TabsTrigger value="forYou">{t('for_you_tab')}</TabsTrigger>
+                    <TabsTrigger value="following">{t('following_tab')}</TabsTrigger>
+                </TabsList>
+                <Button variant="ghost" size="icon" asChild>
+                    <Link href="/search">
+                        <Search className="h-5 w-5" />
+                    </Link>
+                </Button>
+            </div>
+        </header>
+
+        <TabsContent value="forYou">
+            <ForYouFeed />
+        </TabsContent>
+        <TabsContent value="following">
+            <FollowingFeed />
+        </TabsContent>
+       </Tabs>
     </div>
   );
 }
