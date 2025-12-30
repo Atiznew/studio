@@ -8,9 +8,14 @@ import { Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { useTranslation } from '@/context/language-context';
+import { useVideoStore } from '@/hooks/use-video-store';
 
 export function StoryReel() {
   const { t } = useTranslation();
+  const { isFollowing } = useVideoStore();
+
+  const followingStories = stories.filter(story => isFollowing(story.user.id));
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-3 font-headline">{t('stories')}</h2>
@@ -30,7 +35,7 @@ export function StoryReel() {
             <p className="text-xs text-center truncate w-full">{t('your_story')}</p>
           </Link>
           {/* Friend Stories */}
-          {stories.map((story) => (
+          {followingStories.map((story) => (
             <Link href="#" key={story.id} className="flex flex-col items-center gap-1 w-20">
               <Avatar className={cn(
                 "h-16 w-16 p-[2px] bg-gradient-to-tr",
