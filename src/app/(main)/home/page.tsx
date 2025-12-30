@@ -121,7 +121,7 @@ export default function HomePage() {
            <ScrollArea className="w-full whitespace-nowrap">
             <div className="flex w-max space-x-4 pb-4">
               {trendingShorts.map((video) => (
-                <div key={video.id} className="w-40">
+                <div key={video.id} className="w-48">
                   <ShortCard video={video} />
                 </div>
               ))}
