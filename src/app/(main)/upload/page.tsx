@@ -49,11 +49,16 @@ export default function UploadPage() {
   const { t } = useTranslation();
   const router = useRouter();
   const { currentUser, addVideo } = useVideoStore();
+
+  // List of user IDs authorized for direct uploads
+  const directUploadAuthorizedUsers = ['u1']; 
   
+  const canDirectUpload = currentUser ? directUploadAuthorizedUsers.includes(currentUser.id) : false;
+
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadComplete, setUploadComplete] = useState(false);
-  const [uploadType, setUploadType] = useState("direct");
+  const [uploadType, setUploadType] = useState(canDirectUpload ? "direct" : "url");
   const [fileName, setFileName] = useState('');
   const videoFileRef = useRef<File | null>(null);
   const [urlSource, setUrlSource] = useState<'youtube' | 'instagram' | 'telegram' | 'url' | null>(null);
@@ -75,6 +80,12 @@ export default function UploadPage() {
   const videoUrlValue = form.watch('videoUrl');
 
   useEffect(() => {
+    if (!canDirectUpload) {
+      setUploadType('url');
+    }
+  }, [canDirectUpload]);
+
+  useEffect(() => {
     if (videoUrlValue) {
         if (videoUrlValue.includes('youtube.com') || videoUrlValue.includes('youtu.be')) {
             setUrlSource('youtube');
@@ -91,7 +102,7 @@ export default function UploadPage() {
   }, [videoUrlValue]);
   
   const uploadOptions = [
-    { value: 'direct', label: t('direct_upload_label'), icon: <UploadCloud className="h-5 w-5" /> },
+    ...(canDirectUpload ? [{ value: 'direct', label: t('direct_upload_label'), icon: <UploadCloud className="h-5 w-5" /> }] : []),
     { value: 'url', label: t('from_url_label'), icon: <Link2 className="h-5 w-5" /> },
   ]
 
@@ -109,6 +120,14 @@ export default function UploadPage() {
     let sourceType: 'direct' | 'youtube' | 'instagram' | 'telegram' | 'url' = 'direct';
 
     if (uploadType === 'direct') {
+        if (!canDirectUpload) {
+             toast({
+                variant: 'destructive',
+                title: 'Access Denied',
+                description: "You don't have permission for direct uploads.",
+            });
+            return;
+        }
         if (!data.videoFile) {
             form.setError('videoFile', { message: 'Please select a video file to upload.' });
             return;
@@ -157,7 +176,7 @@ export default function UploadPage() {
           description: "Your video has been submitted for processing.",
         });
         form.reset();
-        setUploadType('direct');
+        setUploadType(canDirectUpload ? 'direct' : 'url');
         setFileName('');
         videoFileRef.current = null;
       }, 500);
@@ -192,60 +211,64 @@ export default function UploadPage() {
       <PageHeader title={t('share_experience_page_title')} />
       <div className="container max-w-2xl py-8">
         <Tabs value={uploadType} onValueChange={setUploadType} className="w-full">
-          <div className="pb-4">
-            <ScrollArea className="w-full whitespace-nowrap">
-              <div className="flex w-max space-x-2 pb-2">
-                {uploadOptions.map((option) => (
-                   <button
-                    key={option.value}
-                    onClick={() => setUploadType(option.value)}
-                    className={cn(
-                      "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 px-4 py-2",
-                      uploadType === option.value
-                        ? "bg-primary text-primary-foreground shadow-sm"
-                        : "bg-card text-card-foreground border hover:bg-accent/50"
-                    )}
-                  >
-                    {option.icon}
-                    {option.label}
-                  </button>
-                ))}
-              </div>
-              <ScrollBar orientation="horizontal" />
-            </ScrollArea>
-          </div>
+          {uploadOptions.length > 1 && (
+            <div className="pb-4">
+              <ScrollArea className="w-full whitespace-nowrap">
+                <div className="flex w-max space-x-2 pb-2">
+                  {uploadOptions.map((option) => (
+                    <button
+                      key={option.value}
+                      onClick={() => setUploadType(option.value)}
+                      className={cn(
+                        "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 px-4 py-2",
+                        uploadType === option.value
+                          ? "bg-primary text-primary-foreground shadow-sm"
+                          : "bg-card text-card-foreground border hover:bg-accent/50"
+                      )}
+                    >
+                      {option.icon}
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
+            </div>
+          )}
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-6">
-              <TabsContent value="direct" className="m-0">
-                <FormField
-                  control={form.control}
-                  name="videoFile"
-                  render={() => (
-                    <FormItem>
-                      <FormLabel>{t('video_file_label')}</FormLabel>
-                      <FormControl>
-                        <div className="flex items-center justify-center w-full">
-                          <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-lg cursor-pointer bg-card hover:bg-accent/50">
-                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                              <UploadCloud className="w-10 h-10 mb-3 text-muted-foreground" />
-                              {fileName ? (
-                                <p className="font-semibold text-primary">{fileName}</p>
-                              ) : (
-                                <>
-                                <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">{t('upload_click_drag_drop')}</span></p>
-                                <p className="text-xs text-muted-foreground">{t('upload_video_formats')}</p>
-                                </>
-                              )}
-                            </div>
-                            <Input id="dropzone-file" type="file" className="hidden" accept="video/*" onChange={handleFileChange} />
-                          </label>
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </TabsContent>
+              {canDirectUpload && (
+                <TabsContent value="direct" className="m-0">
+                  <FormField
+                    control={form.control}
+                    name="videoFile"
+                    render={() => (
+                      <FormItem>
+                        <FormLabel>{t('video_file_label')}</FormLabel>
+                        <FormControl>
+                          <div className="flex items-center justify-center w-full">
+                            <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-lg cursor-pointer bg-card hover:bg-accent/50">
+                              <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                <UploadCloud className="w-10 h-10 mb-3 text-muted-foreground" />
+                                {fileName ? (
+                                  <p className="font-semibold text-primary">{fileName}</p>
+                                ) : (
+                                  <>
+                                  <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">{t('upload_click_drag_drop')}</span></p>
+                                  <p className="text-xs text-muted-foreground">{t('upload_video_formats')}</p>
+                                  </>
+                                )}
+                              </div>
+                              <Input id="dropzone-file" type="file" className="hidden" accept="video/*" onChange={handleFileChange} />
+                            </label>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </TabsContent>
+              )}
               <TabsContent value="url" className="m-0">
                 <FormField
                   control={form.control}
@@ -397,4 +420,5 @@ export default function UploadPage() {
   );
 }
 
+    
     
