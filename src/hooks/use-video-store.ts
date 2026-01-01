@@ -9,6 +9,7 @@ interface VideoState {
   users: User[];
   currentUser: User;
   likedVideos: Set<string>;
+  savedVideos: Set<string>;
   repostedVideos: Map<string, Set<string>>; // Map<userId, Set<videoId>>
   followedUsers: Set<string>;
   isCommentSheetOpen: boolean;
@@ -16,7 +17,7 @@ interface VideoState {
   addVideo: (videoData: any) => void;
   deleteVideo: (videoId: string) => void;
   toggleLike: (videoId: string) => void;
-  toggleFollow: (userId: string) => void;
+  toggleFollow: (userId: string) => boolean;
   isFollowing: (userId: string) => boolean;
   openCommentSheet: (videoId: string) => void;
   closeCommentSheet: () => void;
@@ -24,6 +25,7 @@ interface VideoState {
   updateCurrentUser: (data: Partial<User>) => void;
   toggleRepost: (videoId: string) => void;
   isReposted: (videoId: string) => boolean;
+  toggleSaveVideo: (videoId: string) => void;
 }
 
 const currentUser = allUsers.find(u => u.id === 'u1')!;
@@ -33,6 +35,7 @@ export const useVideoStore = create<VideoState>((set, get) => ({
   users: allUsers,
   currentUser: currentUser,
   likedVideos: new Set(),
+  savedVideos: new Set(),
   repostedVideos: new Map(),
   followedUsers: new Set(['u2']), // Initially follow Jane Smith
   isCommentSheetOpen: false,
@@ -93,6 +96,18 @@ export const useVideoStore = create<VideoState>((set, get) => ({
     });
   },
 
+  toggleSaveVideo: (videoId: string) => {
+    set((state) => {
+      const newSavedVideos = new Set(state.savedVideos);
+      if (newSavedVideos.has(videoId)) {
+        newSavedVideos.delete(videoId);
+      } else {
+        newSavedVideos.add(videoId);
+      }
+      return { savedVideos: newSavedVideos };
+    });
+  },
+
   toggleRepost: (videoId: string) => {
     set((state) => {
       const { currentUser } = state;
@@ -116,6 +131,7 @@ export const useVideoStore = create<VideoState>((set, get) => ({
   },
 
   toggleFollow: (userId: string) => {
+    let isNowFollowing = false;
     set((state) => {
       const newFollowedUsers = new Set(state.followedUsers);
       const user = state.users.find(u => u.id === userId);
@@ -128,10 +144,12 @@ export const useVideoStore = create<VideoState>((set, get) => ({
         newFollowedUsers.delete(userId);
         user.followers = Math.max(0, (user.followers || 0) - 1);
         currentUser.following = Math.max(0, (currentUser.following || 0) - 1);
+        isNowFollowing = false;
       } else {
         newFollowedUsers.add(userId);
         user.followers = (user.followers || 0) + 1;
         currentUser.following = (currentUser.following || 0) + 1;
+        isNowFollowing = true;
       }
 
       const userIndex = newUsers.findIndex(u => u.id === userId);
@@ -143,6 +161,7 @@ export const useVideoStore = create<VideoState>((set, get) => ({
 
       return { followedUsers: newFollowedUsers, users: newUsers };
     });
+    return isNowFollowing;
   },
 
   isFollowing: (userId: string) => {

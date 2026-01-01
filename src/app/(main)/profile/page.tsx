@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Settings, LogOut, Link as LinkIcon, Users } from 'lucide-react';
+import { Settings, LogOut, Link as LinkIcon, Users, Bookmark } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
 import { VideoCard } from '@/components/video-card';
@@ -11,7 +11,7 @@ import { useVideoStore } from '@/hooks/use-video-store';
 import { useTranslation } from '@/context/language-context';
 
 export default function ProfilePage() {
-  const { videos, likedVideos, users, repostedVideos } = useVideoStore();
+  const { videos, likedVideos, users, repostedVideos, savedVideos } = useVideoStore();
   const { t } = useTranslation();
 
   const currentUser = users.find(u => u.id === 'u1'); // Assume current user is u1
@@ -22,6 +22,7 @@ export default function ProfilePage() {
 
   const userVideos = videos.filter((v) => v.user.id === currentUser.id);
   const userLikedVideos = videos.filter(v => likedVideos.has(v.id));
+  const userSavedVideos = videos.filter(v => savedVideos.has(v.id));
 
   const userRepostIds = repostedVideos.get(currentUser.id) || new Set();
   const userRepostedVideos = videos
@@ -96,10 +97,11 @@ export default function ProfilePage() {
       </header>
 
       <Tabs defaultValue="videos" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="videos">{t('my_videos')}</TabsTrigger>
           <TabsTrigger value="reposts">{t('reposts')}</TabsTrigger>
           <TabsTrigger value="liked">{t('liked')}</TabsTrigger>
+          <TabsTrigger value="saved">{t('saved_tab')}</TabsTrigger>
         </TabsList>
         <TabsContent value="videos">
            {userVideos.length > 0 ? (
@@ -137,6 +139,19 @@ export default function ProfilePage() {
             ) : (
                 <div className="text-center py-16">
                     <p className="text-muted-foreground">{t('no_liked_videos')}</p>
+                </div>
+            )}
+        </TabsContent>
+         <TabsContent value="saved">
+            {userSavedVideos.length > 0 ? (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 pt-4">
+                    {userSavedVideos.map((video) => (
+                    <VideoCard key={`saved-${video.id}`} video={video} />
+                    ))}
+                </div>
+            ) : (
+                <div className="text-center py-16">
+                    <p className="text-muted-foreground">{t('no_saved_videos')}</p>
                 </div>
             )}
         </TabsContent>

@@ -123,5 +123,11 @@
   "for_you_tab": "आपके लिए",
   "following_tab": "फ़ॉलो कर रहे हैं",
   "no_following_videos_title": "अभी तक कोई वीडियो नहीं",
-  "no_following_videos_description": "यहां उनके वीडियो देखने के लिए क्रिएटर्स को फ़ॉलो करना शुरू करें।"
+  "no_following_videos_description": "यहां उनके वीडियो देखने के लिए क्रिएटर्स को फ़ॉलो करना शुरू करें।",
+  "saved_tab": "सेव किए गए",
+  "no_saved_videos": "आपने अभी तक कोई वीडियो सेव नहीं किया है।",
+  "video_saved_title": "वीडियो सेव हो गया",
+  "video_saved_description": "वीडियो को आपकी सेव की गई सूची में जोड़ दिया गया है।",
+  "video_unsaved_title": "वीडियो अनसेव हो गया",
+  "video_unsaved_description": "वीडियो को आपकी सेव की गई सूची से हटा दिया गया है।"
 }

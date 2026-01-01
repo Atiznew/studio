@@ -123,5 +123,11 @@
   "for_you_tab": "For You",
   "following_tab": "Following",
   "no_following_videos_title": "No videos yet",
-  "no_following_videos_description": "Start following creators to see their videos here."
+  "no_following_videos_description": "Start following creators to see their videos here.",
+  "saved_tab": "Saved",
+  "no_saved_videos": "You haven't saved any videos yet.",
+  "video_saved_title": "Video Saved",
+  "video_saved_description": "The video has been added to your saved list.",
+  "video_unsaved_title": "Video Unsaved",
+  "video_unsaved_description": "The video has been removed from your saved list."
 }
