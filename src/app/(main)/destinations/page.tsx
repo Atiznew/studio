@@ -6,6 +6,7 @@ import { Search, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useTranslation } from '@/context/language-context';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 export default function DestinationsPage() {
   const { t } = useTranslation();
@@ -26,11 +27,16 @@ export default function DestinationsPage() {
         </div>
       </PageHeader>
       <div className="container py-8">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-          {destinations.map((dest) => (
-            <DestinationCard key={dest.id} destination={dest} />
-          ))}
-        </div>
+        <ScrollArea className="w-full whitespace-nowrap">
+            <div className="flex w-max space-x-4 pb-4">
+              {destinations.map((dest) => (
+                <div key={dest.id} className="w-60">
+                  <DestinationCard destination={dest} />
+                </div>
+              ))}
+            </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
       </div>
     </>
   );
