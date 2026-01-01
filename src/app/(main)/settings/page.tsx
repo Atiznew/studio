@@ -7,7 +7,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { useTranslation } from '@/context/language-context';
 import Link from 'next/link';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTheme } from '@/context/theme-context';
 import { Separator } from '@/components/ui/separator';
 
@@ -73,10 +73,41 @@ export default function SettingsPage() {
               </div>
             </RadioGroup>
           </div>
+           <Separator />
+            <div>
+                <h3 className="text-lg font-medium mb-2">{t('more_information_title')}</h3>
+                <div className="rounded-md border bg-card">
+                    <Button variant="ghost" asChild className="w-full justify-between">
+                        <Link href="/settings/about">
+                            <span>{t('about_us_title')}</span>
+                            <ChevronRight className="h-4 w-4" />
+                        </Link>
+                    </Button>
+                    <Separator />
+                    <Button variant="ghost" asChild className="w-full justify-between">
+                        <Link href="/settings/contact">
+                            <span>{t('contact_us_title')}</span>
+                            <ChevronRight className="h-4 w-4" />
+                        </Link>
+                    </Button>
+                    <Separator />
+                    <Button variant="ghost" asChild className="w-full justify-between">
+                        <Link href="/settings/privacy">
+                            <span>{t('privacy_policy_title')}</span>
+                            <ChevronRight className="h-4 w-4" />
+                        </Link>
+                    </Button>
+                     <Separator />
+                    <Button variant="ghost" asChild className="w-full justify-between">
+                        <Link href="/settings/disclaimer">
+                            <span>{t('disclaimer_title')}</span>
+                            <ChevronRight className="h-4 w-4" />
+                        </Link>
+                    </Button>
+                </div>
+            </div>
         </div>
       </div>
     </>
   );
 }
-
-    
