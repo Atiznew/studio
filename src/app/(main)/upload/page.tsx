@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useRef, ChangeEvent } from 'react';
+import { useState, useRef, ChangeEvent, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -13,7 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
-import { CheckCircle, UploadCloud, Link2 } from 'lucide-react';
+import { CheckCircle, UploadCloud, Link2, Youtube, Instagram } from 'lucide-react';
 import { VideoCategory } from '@/lib/types';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
@@ -37,6 +37,9 @@ const formSchema = z.object({
 
 type UploadFormValues = z.infer<typeof formSchema>;
 
+const TelegramIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+);
 
 
 export default function UploadPage() {
@@ -48,6 +51,7 @@ export default function UploadPage() {
   const [uploadType, setUploadType] = useState("direct");
   const [fileName, setFileName] = useState('');
   const videoFileRef = useRef<File | null>(null);
+  const [urlSource, setUrlSource] = useState<'youtube' | 'instagram' | 'telegram' | 'url' | null>(null);
 
   const { addVideo } = useVideoStore();
 
@@ -63,6 +67,24 @@ export default function UploadPage() {
       videoUrl: "",
     },
   });
+
+  const videoUrlValue = form.watch('videoUrl');
+
+  useEffect(() => {
+    if (videoUrlValue) {
+        if (videoUrlValue.includes('youtube.com') || videoUrlValue.includes('youtu.be')) {
+            setUrlSource('youtube');
+        } else if (videoUrlValue.includes('instagram.com')) {
+            setUrlSource('instagram');
+        } else if (videoUrlValue.includes('t.me')) {
+            setUrlSource('telegram');
+        } else {
+            setUrlSource('url');
+        }
+    } else {
+        setUrlSource(null);
+    }
+  }, [videoUrlValue]);
   
   const uploadOptions = [
     { value: 'direct', label: t('direct_upload_label'), icon: <UploadCloud className="h-5 w-5" /> },
@@ -204,9 +226,23 @@ export default function UploadPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>{t('video_url_label')}</FormLabel>
-                      <FormControl>
-                        <Input placeholder={t('video_url_placeholder')} {...field} />
-                      </FormControl>
+                        <div className="relative">
+                            <FormControl>
+                                <Input 
+                                    placeholder={t('video_url_placeholder')} 
+                                    {...field} 
+                                    className={cn(urlSource && 'pl-10')}
+                                />
+                            </FormControl>
+                            {urlSource && (
+                                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                                    {urlSource === 'youtube' && <Youtube className="h-5 w-5 text-red-500" />}
+                                    {urlSource === 'instagram' && <Instagram className="h-5 w-5 text-pink-500" />}
+                                    {urlSource === 'telegram' && <TelegramIcon />}
+                                    {urlSource === 'url' && <Link2 className="h-5 w-5" />}
+                                </div>
+                            )}
+                        </div>
                        <FormMessage />
                     </FormItem>
                   )}
@@ -336,3 +372,6 @@ export default function UploadPage() {
     
 
 
+
+
+    
