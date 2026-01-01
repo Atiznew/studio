@@ -128,9 +128,6 @@
   "video_unsaved_title": "वीडियो अनसेव हो गया",
   "video_unsaved_description": "वीडियो को आपकी सेव की गई सूची से हटा दिया गया है।",
   "apply_for_direct_upload": "डायरेक्ट अपलोड एक्सेस के लिए आवेदन करें",
-  "direct_upload_access_title": "डायरेक्ट अपलोड एक्सेस",
-  "direct_upload_access_description": "अपने डिवाइस से सीधे वीडियो अपलोड करने की सुविधा पाने के लिए आवेदन करें।",
-  "apply_for_access_button": "एक्सेस के लिए आवेदन करें",
   "apply_for_direct_upload_title": "डायरेक्ट अपलोड के लिए आवेदन करें",
   "apply_for_direct_upload_description": "अपने डिवाइस से सीधे वीडियो अपलोड करने की सुविधा का अनुरोध करने के लिए यह फ़ॉर्म भरें। हम आपके आवेदन की समीक्षा करेंगे और आपसे संपर्क करेंगे।",
   "your_name_label": "आपका नाम",
@@ -142,5 +139,10 @@
   "submit_application_button": "आवेदन जमा करें",
   "submitting_application_button": "जमा हो रहा है...",
   "application_submitted_title": "आवेदन जमा हो गया",
-  "application_submitted_description": "आवेदन करने के लिए धन्यवाद! हम आपके आवेदन की समीक्षा करेंगे और जल्द ही आपसे संपर्क करेंगे।"
+  "application_submitted_description": "आवेदन करने के लिए धन्यवाद! हम आपके आवेदन की समीक्षा करेंगे और जल्द ही आपसे संपर्क करेंगे।",
+  "are_you_a_traveller_label": "क्या आप एक यात्री हैं?",
+  "yes": "हाँ",
+  "no": "नहीं",
+  "page_link_label": "पेज लिंक",
+  "page_link_placeholder": "https://..."
 }

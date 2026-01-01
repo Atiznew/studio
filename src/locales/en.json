@@ -128,9 +128,6 @@
   "video_unsaved_title": "Video Unsaved",
   "video_unsaved_description": "The video has been removed from your saved list.",
   "apply_for_direct_upload": "Apply for Direct Upload Access",
-  "direct_upload_access_title": "Direct Upload Access",
-  "direct_upload_access_description": "Apply to get access to upload videos directly from your device.",
-  "apply_for_access_button": "Apply for Access",
   "apply_for_direct_upload_title": "Apply for Direct Upload",
   "apply_for_direct_upload_description": "Fill out this form to request access for uploading videos directly from your device. We'll review your application and get back to you.",
   "your_name_label": "Your Name",
@@ -142,5 +139,10 @@
   "submit_application_button": "Submit Application",
   "submitting_application_button": "Submitting...",
   "application_submitted_title": "Application Submitted",
-  "application_submitted_description": "Thank you for applying! We'll review your application and get back to you soon."
+  "application_submitted_description": "Thank you for applying! We'll review your application and get back to you soon.",
+  "are_you_a_traveller_label": "Are you a traveller?",
+  "yes": "Yes",
+  "no": "No",
+  "page_link_label": "Page Link",
+  "page_link_placeholder": "https://..."
 }
