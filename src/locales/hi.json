@@ -129,5 +129,18 @@
   "video_saved_title": "वीडियो सेव हो गया",
   "video_saved_description": "वीडियो को आपकी सेव की गई सूची में जोड़ दिया गया है।",
   "video_unsaved_title": "वीडियो अनसेव हो गया",
-  "video_unsaved_description": "वीडियो को आपकी सेव की गई सूची से हटा दिया गया है।"
+  "video_unsaved_description": "वीडियो को आपकी सेव की गई सूची से हटा दिया गया है।",
+  "direct_upload_access_title": "डायरेक्ट अपलोड एक्सेस",
+  "direct_upload_access_description": "अपने डिवाइस से सीधे वीडियो अपलोड करने के लिए एक्सेस प्राप्त करने के लिए आवेदन करें।",
+  "access_granted_title": "एक्सेस प्रदान किया गया",
+  "access_granted_description": "आपके पास डायरेक्ट वीडियो अपलोड का एक्सेस है।",
+  "apply_for_access_button": "एक्सेस के लिए आवेदन करें",
+  "apply_for_access_description": "सीधे उच्च-गुणवत्ता वाले वीडियो अपलोड करने के लिए स्वीकृति प्राप्त करें।",
+  "apply_direct_upload_title": "डायरेक्ट अपलोड के लिए आवेदन करें",
+  "apply_direct_upload_description": "एक्सेस का अनुरोध करने के लिए नीचे दिया गया फ़ॉर्म भरें। हम ऐसे क्रिएटर्स की तलाश में हैं जो लगातार उच्च-गुणवत्ता वाली यात्रा सामग्री पोस्ट करते हैं।",
+  "why_access_label": "आप डायरेक्ट अपलोड एक्सेस क्यों चाहते हैं?",
+  "why_access_placeholder": "हमें बताएं कि आप किस तरह की सामग्री बनाते हैं और आप इसके लिए एक अच्छे उम्मीदवार क्यों होंगे।",
+  "submit_application_button": "आवेदन जमा करें",
+  "application_submitted_title": "आवेदन जमा हो गया",
+  "application_submitted_description": "हमें आपका आवेदन मिल गया है और हम जल्द ही इसकी समीक्षा करेंगे। हमारे निर्णय के बारे में आपको सूचित किया जाएगा।"
 }
