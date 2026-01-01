@@ -126,7 +126,21 @@
   "video_saved_title": "Video Saved",
   "video_saved_description": "The video has been added to your saved list.",
   "video_unsaved_title": "Video Unsaved",
-  "video_unsaved_description": "The video has been removed from your saved list."
+  "video_unsaved_description": "The video has been removed from your saved list.",
+  "apply_for_direct_upload": "Apply for Direct Upload Access",
+  "direct_upload_access_title": "Direct Upload Access",
+  "direct_upload_access_description": "Apply to get access to upload videos directly from your device.",
+  "apply_for_access_button": "Apply for Access",
+  "apply_for_direct_upload_title": "Apply for Direct Upload",
+  "apply_for_direct_upload_description": "Fill out this form to request access for uploading videos directly from your device. We'll review your application and get back to you.",
+  "your_name_label": "Your Name",
+  "your_name_placeholder": "e.g. John Doe",
+  "your_email_label": "Your Email",
+  "your_email_placeholder": "e.g. john@example.com",
+  "why_direct_upload_label": "Why do you want direct upload access?",
+  "why_direct_upload_placeholder": "Tell us about the content you create...",
+  "submit_application_button": "Submit Application",
+  "submitting_application_button": "Submitting...",
+  "application_submitted_title": "Application Submitted",
+  "application_submitted_description": "Thank you for applying! We'll review your application and get back to you soon."
 }
-
-    

@@ -13,7 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
-import { CheckCircle, Link2, Youtube, Instagram, AlertTriangle } from 'lucide-react';
+import { CheckCircle, Link2, Youtube, Instagram, AlertTriangle, ChevronRight } from 'lucide-react';
 import { VideoCategory } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { useVideoStore } from '@/hooks/use-video-store';
@@ -182,6 +182,15 @@ export default function UploadPage() {
                   )}
                 />
 
+                <div className="border-t border-b border-border/50 py-4">
+                    <Button variant="ghost" asChild className="w-full justify-between">
+                      <Link href="/settings/apply-direct-upload">
+                        {t('apply_for_direct_upload')}
+                        <ChevronRight className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                </div>
+
               <FormField
                 control={form.control}
                 name="title"
@@ -301,8 +310,3 @@ export default function UploadPage() {
     </>
   );
 }
-
-    
-    
-
-    
