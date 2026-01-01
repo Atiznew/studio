@@ -35,6 +35,12 @@ export const destinations: Destination[] = [
   { id: 'd18', name: 'Venice', country: 'Italy', slug: 'venice', imageUrl: placeholderImages.find(p => p.id === 'dest-venice')?.imageUrl || '' },
   { id: 'd19', name: 'Serengeti', country: 'Tanzania', slug: 'serengeti', imageUrl: placeholderImages.find(p => p.id === 'dest-serengeti')?.imageUrl || '' },
   { id: 'd20', name: 'Jaipur', country: 'India', slug: 'jaipur', imageUrl: placeholderImages.find(p => p.id === 'dest-jaipur')?.imageUrl || '' },
+  { id: 'd21', name: 'Amritsar', country: 'India', slug: 'amritsar', imageUrl: placeholderImages.find(p => p.id === 'dest-amritsar')?.imageUrl || '' },
+  { id: 'd22', name: 'Varanasi', country: 'India', slug: 'varanasi', imageUrl: placeholderImages.find(p => p.id === 'dest-varanasi')?.imageUrl || '' },
+  { id: 'd23', name: 'Seoul', country: 'South Korea', slug: 'seoul', imageUrl: placeholderImages.find(p => p.id === 'dest-seoul')?.imageUrl || '' },
+  { id: 'd24', name: 'Bangkok', country: 'Thailand', slug: 'bangkok', imageUrl: placeholderImages.find(p => p.id === 'dest-bangkok')?.imageUrl || '' },
+  { id: 'd25', name: 'Istanbul', country: 'Turkey', slug: 'istanbul', imageUrl: placeholderImages.find(p => p.id === 'dest-istanbul')?.imageUrl || '' },
+  { id: 'd26', name: 'Prague', country: 'Czech Republic', slug: 'prague', imageUrl: placeholderImages.find(p => p.id === 'dest-prague')?.imageUrl || '' },
 ];
 
 export const initialVideos: Video[] = [

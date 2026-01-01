@@ -127,6 +127,42 @@
       "imageHint": "jaipur india"
     },
     {
+      "id": "dest-amritsar",
+      "description": "The Golden Temple in Amritsar, India, reflecting in the holy water.",
+      "imageUrl": "https://images.unsplash.com/photo-1588939225134-207e428135a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTkyMzN8MHwxfHNlYXJjaHwxfHxhbXJpdHNhciUyMGdvbGRlbiUyMHRlbXBsZXxlbnwwfHx8fDE2OTE1MDYzMDF8MA&ixlib=rb-4.0.3&q=80&w=1080",
+      "imageHint": "amritsar india"
+    },
+    {
+      "id": "dest-varanasi",
+      "description": "Boats on the Ganges river at sunrise in Varanasi, India.",
+      "imageUrl": "https://images.unsplash.com/photo-1583587233355-69b83b380629?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTkyMzN8MHwxfHNlYXJjaHwxfHx2YXJhbmFzaSUyMGdoYXR8ZW58MHx8fHwxNjkxNTA2MzM5fDA&ixlib=rb-4.0.3&q=80&w=1080",
+      "imageHint": "varanasi india"
+    },
+    {
+      "id": "dest-seoul",
+      "description": "Gyeongbok Palace in Seoul, South Korea.",
+      "imageUrl": "https://images.unsplash.com/photo-1542051841857-5f90071e7989?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTkyMzN8MHwxfHNlYXJjaHwxfHxzZW91bCUyMHNvdXRoJTIwa29yZWF8ZW58MHx8fHwxNjkxNTA2NDAyfDA&ixlib=rb-4.0.3&q=80&w=1080",
+      "imageHint": "seoul korea"
+    },
+    {
+      "id": "dest-bangkok",
+      "description": "The Grand Palace in Bangkok, Thailand.",
+      "imageUrl": "https://images.unsplash.com/photo-1552590633-222030999554?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTkyMzN8MHwxfHNlYXJjaHwxfHxiYW5na29rJTIwdGhhaWxhbmR8ZW58MHx8fHwxNjkxNTA2NDMyfDA&ixlib=rb-4.0.3&q=80&w=1080",
+      "imageHint": "bangkok thailand"
+    },
+    {
+      "id": "dest-istanbul",
+      "description": "The Hagia Sophia in Istanbul, Turkey.",
+      "imageUrl": "https://images.unsplash.com/photo-1587474260584-136574528990?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTkyMzN8MHwxfHNlYXJjaHwxfHxpbnN0YW5idWwlMjB0dXJrZXl8ZW58MHx8fHwxNjkxNTA2NDU3fDA&ixlib=rb-4.0.3&q=80&w=1080",
+      "imageHint": "istanbul turkey"
+    },
+    {
+      "id": "dest-prague",
+      "description": "The Charles Bridge in Prague, Czech Republic, at sunrise.",
+      "imageUrl": "https://images.unsplash.com/photo-1589178393593-b7875a5f1e1a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTkyMzN8MHwxfHNlYXJjaHwxfHxwcmFndWUlMjBjaGFybGVzJTIwYnJpZGdlfGVufDB8fHx8MTY5MTUwNjQ4NHww&ixlib=rb-4.0.3&q=80&w=1080",
+      "imageHint": "prague bridge"
+    },
+    {
       "id": "avatar-1",
       "description": "Portrait of a smiling young woman.",
       "imageUrl": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8d29tYW4lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjY1MjU5NDB8MA&ixlib=rb-4.1.0&q=80&w=1080",
