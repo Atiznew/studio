@@ -4,7 +4,7 @@
 import { PageHeader } from '@/components/page-header';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/context/language-context';
-import { ChevronLeft, Mail, Phone, MapPin } from 'lucide-react';
+import { ChevronLeft, Mail } from 'lucide-react';
 import Link from 'next/link';
 
 export default function ContactUsPage() {
@@ -28,21 +28,7 @@ export default function ContactUsPage() {
                 <Mail className="h-6 w-6 text-primary" />
                 <div>
                     <h3 className="font-semibold">{t('email_label')}</h3>
-                    <a href="mailto:support@bharatyatra.com" className="text-primary hover:underline">support@bharatyatra.com</a>
-                </div>
-            </div>
-             <div className="flex items-center gap-4">
-                <Phone className="h-6 w-6 text-primary" />
-                <div>
-                    <h3 className="font-semibold">{t('phone_label')}</h3>
-                    <p>+91-123-456-7890</p>
-                </div>
-            </div>
-             <div className="flex items-center gap-4">
-                <MapPin className="h-6 w-6 text-primary" />
-                <div>
-                    <h3 className="font-semibold">{t('address_label')}</h3>
-                    <p>123 Travel Lane, New Delhi, India</p>
+                    <a href="mailto:atozproductaser@gmail.com" className="text-primary hover:underline">atozproductaser@gmail.com</a>
                 </div>
             </div>
           </div>
