@@ -1,3 +1,4 @@
+
 "use client";
 
 import create from 'zustand';
@@ -7,7 +8,7 @@ import type { Video, Comment, User } from '@/lib/types';
 interface VideoState {
   videos: Video[];
   users: User[];
-  currentUser: User;
+  currentUser: User | null; // Can be null now
   likedVideos: Set<string>;
   savedVideos: Set<string>;
   repostedVideos: Map<string, Set<string>>; // Map<userId, Set<videoId>>
@@ -28,12 +29,17 @@ interface VideoState {
   toggleSaveVideo: (videoId: string) => void;
 }
 
-const currentUser = allUsers.find(u => u.id === 'u1')!;
+// In a real app, you'd get this from an auth context
+const getInitialUser = (): User | null => {
+    // For now, we'll simulate the user being logged in.
+    // To test the login wall, change this to return null.
+    return allUsers.find(u => u.id === 'u1') || null;
+};
 
 export const useVideoStore = create<VideoState>((set, get) => ({
   videos: initialVideos,
   users: allUsers,
-  currentUser: currentUser,
+  currentUser: getInitialUser(),
   likedVideos: new Set(),
   savedVideos: new Set(),
   repostedVideos: new Map(),
@@ -42,8 +48,9 @@ export const useVideoStore = create<VideoState>((set, get) => ({
   activeVideoId: null,
   
   addVideo: (videoData) => {
-    const { videos, users } = get();
-    const currentUser = users.find(u => u.id === 'u1')!;
+    const { videos, currentUser } = get();
+    if (!currentUser) return; // Guard against adding video if not logged in
+
     const newVideo: Video = {
       id: `v${videos.length + 1}`,
       title: videoData.title,
@@ -111,6 +118,7 @@ export const useVideoStore = create<VideoState>((set, get) => ({
   toggleRepost: (videoId: string) => {
     set((state) => {
       const { currentUser } = state;
+      if (!currentUser) return {};
       const newRepostedVideos = new Map(state.repostedVideos);
       const userReposts = new Set(newRepostedVideos.get(currentUser.id) || []);
 
@@ -127,18 +135,22 @@ export const useVideoStore = create<VideoState>((set, get) => ({
 
   isReposted: (videoId: string) => {
     const { currentUser, repostedVideos } = get();
+    if (!currentUser) return false;
     return repostedVideos.get(currentUser.id)?.has(videoId) || false;
   },
 
   toggleFollow: (userId: string) => {
     let isNowFollowing = false;
     set((state) => {
+      if (!state.currentUser) return {};
       const newFollowedUsers = new Set(state.followedUsers);
       const user = state.users.find(u => u.id === userId);
-      const currentUser = state.users.find(u => u.id === state.currentUser.id);
-      if (!user || !currentUser) return {};
+      
+      const currentUserIndex = state.users.findIndex(u => u.id === state.currentUser!.id);
+      if (!user || currentUserIndex === -1) return {};
 
       const newUsers = [...state.users];
+      const currentUser = { ...newUsers[currentUserIndex] };
       
       if (newFollowedUsers.has(userId)) {
         newFollowedUsers.delete(userId);
@@ -155,11 +167,9 @@ export const useVideoStore = create<VideoState>((set, get) => ({
       const userIndex = newUsers.findIndex(u => u.id === userId);
       if(userIndex > -1) newUsers[userIndex] = user;
       
-      const currentUserIndex = newUsers.findIndex(u => u.id === currentUser.id);
-      if(currentUserIndex > -1) newUsers[currentUserIndex] = currentUser;
+      newUsers[currentUserIndex] = currentUser;
 
-
-      return { followedUsers: newFollowedUsers, users: newUsers };
+      return { followedUsers: newFollowedUsers, users: newUsers, currentUser };
     });
     return isNowFollowing;
   },
@@ -178,6 +188,9 @@ export const useVideoStore = create<VideoState>((set, get) => ({
 
   addComment: (videoId: string, text: string) => {
     set((state) => {
+        const { currentUser } = state;
+        if (!currentUser) return state;
+
         const videoIndex = state.videos.findIndex(v => v.id === videoId);
         if (videoIndex === -1) return state;
 
@@ -186,7 +199,7 @@ export const useVideoStore = create<VideoState>((set, get) => ({
 
         const newComment: Comment = {
             id: `c${Date.now()}`,
-            user: state.currentUser,
+            user: currentUser,
             text: text,
             createdAt: new Date().toISOString(),
         };
@@ -200,20 +213,20 @@ export const useVideoStore = create<VideoState>((set, get) => ({
   },
   updateCurrentUser: (data: Partial<User>) => {
     set((state) => {
+        if (!state.currentUser) return {};
       const newUsers = [...state.users];
-      const currentUserIndex = newUsers.findIndex(u => u.id === state.currentUser.id);
+      const currentUserIndex = newUsers.findIndex(u => u.id === state.currentUser!.id);
       if (currentUserIndex !== -1) {
         newUsers[currentUserIndex] = { ...newUsers[currentUserIndex], ...data };
       }
       
-      // Also update user data in videos and comments
       const updatedVideos = state.videos.map(video => {
         let newVideo = {...video};
-        if (video.user.id === state.currentUser.id) {
+        if (video.user.id === state.currentUser!.id) {
           newVideo.user = newUsers[currentUserIndex];
         }
         const updatedComments = video.comments.map(comment => {
-            if (comment.user.id === state.currentUser.id) {
+            if (comment.user.id === state.currentUser!.id) {
                 return { ...comment, user: newUsers[currentUserIndex] };
             }
             return comment;
@@ -226,3 +239,5 @@ export const useVideoStore = create<VideoState>((set, get) => ({
     });
   }
 }));
+
+    

@@ -1,6 +1,7 @@
+
 "use client";
 
-import { useState, useRef, ChangeEvent } from 'react';
+import { useState, useRef, ChangeEvent, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -33,21 +34,26 @@ export default function EditProfilePage() {
   const { toast } = useToast();
   const { t } = useTranslation();
   const router = useRouter();
-  const { users, updateCurrentUser } = useVideoStore();
-  const currentUser = users[0];
+  const { currentUser, updateCurrentUser } = useVideoStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(currentUser.avatarUrl);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(currentUser?.avatarUrl || null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!currentUser) {
+      router.push('/login');
+    }
+  }, [currentUser, router]);
 
   const form = useForm<EditProfileFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    defaultValues: currentUser ? {
       name: currentUser.name,
       username: currentUser.username,
       website: currentUser.website || "",
       bio: currentUser.bio || "",
       avatarUrl: currentUser.avatarUrl,
-    },
+    } : {},
   });
 
   const handleAvatarChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -81,6 +87,10 @@ export default function EditProfilePage() {
       setIsSubmitting(false);
     }
   };
+  
+  if (!currentUser) {
+    return null; // Or a loading spinner
+  }
 
   return (
     <>
@@ -179,3 +189,5 @@ export default function EditProfilePage() {
     </>
   );
 }
+
+    

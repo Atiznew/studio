@@ -1,10 +1,10 @@
+
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Video } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Eye, Heart, MoreVertical, Trash2, Repeat, MapPin } from 'lucide-react';
-import { currentUser } from '@/lib/data';
 import { useVideoStore } from '@/hooks/use-video-store';
 import {
   DropdownMenu,
@@ -22,9 +22,9 @@ interface VideoCardProps {
 }
 
 export function VideoCard({ video, className }: VideoCardProps) {
-  const { deleteVideo } = useVideoStore();
+  const { deleteVideo, currentUser } = useVideoStore();
   const { t } = useTranslation();
-  const isCurrentUserVideo = video.user.id === currentUser.id;
+  const isCurrentUserVideo = currentUser ? video.user.id === currentUser.id : false;
 
   const formatCount = (count: number) => {
     if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
@@ -112,3 +112,5 @@ export function VideoCard({ video, className }: VideoCardProps) {
     </Card>
   );
 }
+
+    

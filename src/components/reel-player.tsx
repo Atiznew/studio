@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -30,7 +31,7 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
   const reposted = isReposted(video.id);
   const commentCount = video.comments?.length || 0;
   const following = isFollowing(video.user.id);
-  const isCurrentUserVideo = video.user.id === currentUser.id;
+  const isCurrentUserVideo = currentUser && video.user.id === currentUser.id;
 
 
   useEffect(() => {
@@ -79,6 +80,7 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
   };
 
   const handleRepost = () => {
+    if (!currentUser) return;
     toggleRepost(video.id);
     if (!reposted) {
         toast({
@@ -193,3 +195,5 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
     </div>
   );
 }
+
+    

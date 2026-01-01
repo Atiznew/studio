@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from 'next/image';
@@ -9,15 +10,22 @@ import Link from 'next/link';
 import { VideoCard } from '@/components/video-card';
 import { useVideoStore } from '@/hooks/use-video-store';
 import { useTranslation } from '@/context/language-context';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function ProfilePage() {
-  const { videos, likedVideos, users, repostedVideos, savedVideos } = useVideoStore();
+  const { videos, likedVideos, currentUser, repostedVideos, savedVideos } = useVideoStore();
   const { t } = useTranslation();
-
-  const currentUser = users.find(u => u.id === 'u1'); // Assume current user is u1
+  const router = useRouter();
+  
+  useEffect(() => {
+    if (!currentUser) {
+      router.push('/login');
+    }
+  }, [currentUser, router]);
 
   if (!currentUser) {
-    return <div>Loading...</div>; // Or handle user not found
+    return null; // Or a loading spinner
   }
 
   const userVideos = videos.filter((v) => v.user.id === currentUser.id);
@@ -159,3 +167,5 @@ export default function ProfilePage() {
     </div>
   );
 }
+
+    

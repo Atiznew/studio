@@ -1,7 +1,7 @@
 
 'use client';
 
-import { stories, currentUser } from '@/lib/data';
+import { stories } from '@/lib/data';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Plus } from 'lucide-react';
@@ -12,7 +12,7 @@ import { useVideoStore } from '@/hooks/use-video-store';
 
 export function StoryReel() {
   const { t } = useTranslation();
-  const { isFollowing } = useVideoStore();
+  const { isFollowing, currentUser } = useVideoStore();
 
   const followingStories = stories.filter(story => isFollowing(story.user.id));
 
@@ -22,18 +22,20 @@ export function StoryReel() {
       <ScrollArea className="w-full whitespace-nowrap">
         <div className="flex w-max space-x-4 pb-2">
           {/* Add Story */}
-          <Link href="#" className="flex flex-col items-center gap-1 w-20">
-             <div className="relative">
-                <Avatar className="h-16 w-16 border-2 border-dashed border-muted-foreground">
-                    <AvatarImage src={currentUser.avatarUrl} alt="Your Story" />
-                    <AvatarFallback>{currentUser.name.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <div className="absolute -bottom-1 -right-1 bg-primary rounded-full p-0.5 text-primary-foreground">
-                    <Plus className="h-4 w-4" />
-                </div>
-            </div>
-            <p className="text-xs text-center truncate w-full">{t('your_story')}</p>
-          </Link>
+          {currentUser && (
+            <Link href="#" className="flex flex-col items-center gap-1 w-20">
+               <div className="relative">
+                  <Avatar className="h-16 w-16 border-2 border-dashed border-muted-foreground">
+                      <AvatarImage src={currentUser.avatarUrl} alt="Your Story" />
+                      <AvatarFallback>{currentUser.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                  <div className="absolute -bottom-1 -right-1 bg-primary rounded-full p-0.5 text-primary-foreground">
+                      <Plus className="h-4 w-4" />
+                  </div>
+              </div>
+              <p className="text-xs text-center truncate w-full">{t('your_story')}</p>
+            </Link>
+          )}
           {/* Friend Stories */}
           {followingStories.map((story) => (
             <Link href="#" key={story.id} className="flex flex-col items-center gap-1 w-20">
@@ -55,3 +57,5 @@ export function StoryReel() {
     </div>
   );
 }
+
+    

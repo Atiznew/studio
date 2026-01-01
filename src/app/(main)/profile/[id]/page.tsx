@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from 'next/image';
@@ -9,13 +10,12 @@ import { VideoCard } from '@/components/video-card';
 import { PageHeader } from '@/components/page-header';
 import Link from 'next/link';
 import { ChevronLeft, LogOut, Link as LinkIcon } from 'lucide-react';
-import { currentUser } from '@/lib/data';
 import { useVideoStore } from '@/hooks/use-video-store';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/context/language-context';
 
 export default function UserProfilePage({ params }: { params: { id: string } }) {
-  const { videos, isFollowing, toggleFollow, users, repostedVideos } = useVideoStore();
+  const { videos, isFollowing, toggleFollow, users, repostedVideos, currentUser } = useVideoStore();
   const { t } = useTranslation();
   const user = users.find((u) => u.id === params.id);
 
@@ -23,7 +23,7 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
     notFound();
   }
   
-  const isCurrentUser = user.id === currentUser.id;
+  const isCurrentUser = currentUser ? user.id === currentUser.id : false;
 
   const userVideos = videos.filter((v) => v.user.id === user.id);
 
@@ -103,6 +103,7 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
                 <Button 
                     className={cn("w-full", following ? "bg-secondary text-secondary-foreground hover:bg-secondary/80" : "bg-primary text-primary-foreground hover:bg-primary/90")}
                     onClick={() => toggleFollow(user.id)}
+                    disabled={!currentUser}
                 >
                     {following ? t('following') : t('follow')}
                 </Button>
@@ -146,3 +147,5 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
     </>
   );
 }
+
+    

@@ -13,13 +13,15 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
-import { CheckCircle, UploadCloud, Link2, Youtube, Instagram } from 'lucide-react';
+import { CheckCircle, UploadCloud, Link2, Youtube, Instagram, AlertTriangle } from 'lucide-react';
 import { VideoCategory } from '@/lib/types';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
 import { useVideoStore } from '@/hooks/use-video-store';
 import { useTranslation } from '@/context/language-context';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 
 const categories: VideoCategory[] = ["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"];
@@ -45,6 +47,9 @@ const TelegramIcon = () => (
 export default function UploadPage() {
   const { toast } = useToast();
   const { t } = useTranslation();
+  const router = useRouter();
+  const { currentUser, addVideo } = useVideoStore();
+  
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadComplete, setUploadComplete] = useState(false);
@@ -53,7 +58,6 @@ export default function UploadPage() {
   const videoFileRef = useRef<File | null>(null);
   const [urlSource, setUrlSource] = useState<'youtube' | 'instagram' | 'telegram' | 'url' | null>(null);
 
-  const { addVideo } = useVideoStore();
 
   const form = useForm<UploadFormValues>({
     resolver: zodResolver(formSchema),
@@ -159,6 +163,29 @@ export default function UploadPage() {
       }, 500);
     }, 3500);
   };
+  
+   if (!currentUser) {
+    return (
+      <>
+        <PageHeader title={t('share_experience_page_title')} />
+        <div className="container max-w-2xl py-8 text-center">
+            <div className="flex flex-col items-center gap-4 p-8 border rounded-lg bg-card">
+                 <AlertTriangle className="h-12 w-12 text-destructive" />
+                <h2 className="text-2xl font-bold">Authentication Required</h2>
+                <p className="text-muted-foreground">You need to be logged in to share your experience.</p>
+                <div className="flex gap-4 mt-4">
+                    <Button asChild>
+                        <Link href="/login">Login</Link>
+                    </Button>
+                    <Button variant="outline" asChild>
+                         <Link href="/login">Sign Up</Link>
+                    </Button>
+                </div>
+            </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -368,10 +395,6 @@ export default function UploadPage() {
       </div>
     </>
   );
-
-    
-
-
-
+}
 
     

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -9,18 +10,17 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Send } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
-import { currentUser } from '@/lib/data';
 import { useTranslation } from '@/context/language-context';
 
 export function CommentSheet() {
-  const { isCommentSheetOpen, closeCommentSheet, activeVideoId, videos, addComment } = useVideoStore();
+  const { isCommentSheetOpen, closeCommentSheet, activeVideoId, videos, addComment, currentUser } = useVideoStore();
   const { t } = useTranslation();
   const [newComment, setNewComment] = useState('');
 
   const activeVideo = videos.find(v => v.id === activeVideoId);
 
   const handleAddComment = () => {
-    if (newComment.trim() && activeVideoId) {
+    if (newComment.trim() && activeVideoId && currentUser) {
       addComment(activeVideoId, newComment.trim());
       setNewComment('');
     }
@@ -64,24 +64,32 @@ export function CommentSheet() {
           </div>
         </ScrollArea>
         <div className="p-4 border-t">
-          <div className="flex items-center gap-2">
-            <Avatar className="h-9 w-9">
-              <AvatarImage src={currentUser.avatarUrl} />
-              <AvatarFallback>{currentUser.name.charAt(0)}</AvatarFallback>
-            </Avatar>
-            <Input
-              placeholder={t('add_a_comment')}
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleAddComment()}
-              className="rounded-full"
-            />
-            <Button onClick={handleAddComment} size="icon" disabled={!newComment.trim()} className="rounded-full">
-              <Send className="h-4 w-4" />
-            </Button>
-          </div>
+          {currentUser ? (
+            <div className="flex items-center gap-2">
+              <Avatar className="h-9 w-9">
+                <AvatarImage src={currentUser.avatarUrl} />
+                <AvatarFallback>{currentUser.name.charAt(0)}</AvatarFallback>
+              </Avatar>
+              <Input
+                placeholder={t('add_a_comment')}
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleAddComment()}
+                className="rounded-full"
+              />
+              <Button onClick={handleAddComment} size="icon" disabled={!newComment.trim()} className="rounded-full">
+                <Send className="h-4 w-4" />
+              </Button>
+            </div>
+          ) : (
+            <p className="text-center text-sm text-muted-foreground">
+              Please log in to add a comment.
+            </p>
+          )}
         </div>
       </SheetContent>
     </Sheet>
   );
 }
+
+    
