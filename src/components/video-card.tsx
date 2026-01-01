@@ -3,7 +3,7 @@ import Link from 'next/link';
 import type { Video } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Eye, Heart, MoreVertical, Trash2, Repeat } from 'lucide-react';
+import { Eye, Heart, MoreVertical, Trash2, Repeat, MapPin } from 'lucide-react';
 import { currentUser } from '@/lib/data';
 import { useVideoStore } from '@/hooks/use-video-store';
 import {
@@ -63,21 +63,30 @@ export function VideoCard({ video, className }: VideoCardProps) {
              <Link href={`/reels?v=${video.id}`} className="flex-1">
                 <h3 className="font-bold leading-tight truncate font-headline">{video.title}</h3>
              </Link>
-             {isCurrentUserVideo && (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 flex-shrink-0">
-                        <MoreVertical className="w-4 h-4"/>
+             <div className="flex items-center">
+                {video.destination.lat && video.destination.lng && (
+                    <Button variant="ghost" size="icon" className="h-8 w-8 flex-shrink-0" asChild>
+                        <Link href={`/map?slug=${video.destination.slug}`}>
+                            <MapPin className="w-4 h-4 text-muted-foreground" />
+                        </Link>
                     </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={handleDelete} className="text-destructive">
-                      <Trash2 className="mr-2 h-4 w-4" />
-                      <span>{t('delete')}</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-             )}
+                )}
+                {isCurrentUserVideo && (
+                    <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 flex-shrink-0">
+                            <MoreVertical className="w-4 h-4"/>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={handleDelete} className="text-destructive">
+                        <Trash2 className="mr-2 h-4 w-4" />
+                        <span>{t('delete')}</span>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                    </DropdownMenu>
+                )}
+             </div>
           </div>
           <div className="flex items-center justify-between mt-2 text-sm text-muted-foreground">
             <Link href={`/profile/${video.user.id}`} className="flex items-center gap-2 hover:text-primary">

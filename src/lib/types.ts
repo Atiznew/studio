@@ -48,4 +48,6 @@ export interface Destination {
   imageUrl: string;
   slug: string;
   country: string;
+  lat?: number;
+  lng?: number;
 }
