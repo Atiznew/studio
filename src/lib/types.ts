@@ -26,12 +26,14 @@ export interface Comment {
   createdAt: string;
 }
 
+export type VideoSource = 'youtube' | 'instagram' | 'telegram' | 'url' | 'direct';
+
 export interface Video {
   id: string;
   title: string;
   videoUrl: string;
   thumbnailUrl: string;
-  source: 'youtube' | 'direct' | 'instagram' | 'telegram' | 'url';
+  source: VideoSource;
   user: User;
   views: number;
   likes: number;

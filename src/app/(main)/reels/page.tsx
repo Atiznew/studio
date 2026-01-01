@@ -18,25 +18,25 @@ function ReelsContent() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    let initialReelId = videos[0]?.id || null;
-
-    if (videoId) {
-      const targetVideo = videos.find(v => v.id === videoId);
-      if (targetVideo) {
-        initialReelId = videoId;
-      }
-    }
-    
-    if (initialReelId && containerRef.current) {
-        const targetReel = containerRef.current.querySelector(`[data-video-id="${initialReelId}"]`);
-        if (targetReel) {
-            targetReel.scrollIntoView({ behavior: 'instant' });
-            setVisibleReel(initialReelId);
+    const handleInitialScroll = () => {
+      let initialReelId = videos[0]?.id || null;
+      if (videoId) {
+        const targetVideoIndex = videos.findIndex(v => v.id === videoId);
+        if (targetVideoIndex !== -1) {
+          initialReelId = videoId;
+          const container = containerRef.current;
+          if (container) {
+            const reelHeight = container.clientHeight;
+            container.scrollTop = targetVideoIndex * reelHeight;
+          }
         }
-    }
-
+      }
+      setVisibleReel(initialReelId);
+    };
+    // Need a slight delay for the browser to calculate layout
+    const timeoutId = setTimeout(handleInitialScroll, 100);
+    return () => clearTimeout(timeoutId);
   }, [videoId, videos]);
-
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -87,7 +87,7 @@ function ReelsContent() {
         </Button>
       </div>
       {videos.map((video) => (
-        <div key={video.id} id={`reel-${video.id}`} data-video-id={video.id} className="h-screen w-screen snap-start flex items-center justify-center">
+        <div key={video.id} id={`reel-${video.id}`} data-video-id={video.id} className="h-screen w-screen snap-start flex items-center justify-center relative">
           <ReelPlayer video={video} isIntersecting={visibleReel === video.id} />
         </div>
       ))}

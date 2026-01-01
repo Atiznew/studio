@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { Video } from "@/lib/types";
+import type { Video, VideoSource } from "@/lib/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Heart, Eye, Music, Play, Pause, Volume2, VolumeX, Share2, MessageCircle, Repeat, Bookmark } from "lucide-react";
@@ -11,7 +11,9 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "@/context/language-context";
+import dynamic from 'next/dynamic';
 
+const ReactPlayer = dynamic(() => import('react-player/lazy'), { ssr: false });
 
 interface ReelPlayerProps {
   video: Video;
@@ -19,7 +21,7 @@ interface ReelPlayerProps {
 }
 
 export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const playerRef = useRef<any>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   
@@ -33,38 +35,19 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
   const following = isFollowing(video.user.id);
   const isCurrentUserVideo = currentUser && video.user.id === currentUser.id;
 
-
   useEffect(() => {
-    const videoElement = videoRef.current;
-    if (!videoElement) return;
-
-    if (isIntersecting) {
-      videoElement.play().catch(error => console.error("Video autoplay failed:", error));
-      setIsPlaying(true);
-    } else {
-      videoElement.pause();
-      setIsPlaying(false);
-      videoElement.currentTime = 0; // Optional: Reset video on scroll away
+    setIsPlaying(isIntersecting);
+    if (!isIntersecting && playerRef.current) {
+        playerRef.current.seekTo(0);
     }
   }, [isIntersecting]);
 
   const togglePlay = () => {
-    if (videoRef.current) {
-      if (videoRef.current.paused) {
-        videoRef.current.play();
-        setIsPlaying(true);
-      } else {
-        videoRef.current.pause();
-        setIsPlaying(false);
-      }
-    }
+    setIsPlaying(prev => !prev);
   };
 
   const toggleMute = () => {
-    if (videoRef.current) {
-        videoRef.current.muted = !videoRef.current.muted;
-        setIsMuted(videoRef.current.muted);
-    }
+    setIsMuted(prev => !prev);
   }
   
   const handleLike = () => {
@@ -103,7 +86,6 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
     });
   };
 
-
   const formatCount = (count: number) => {
     if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
     if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
@@ -111,16 +93,23 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
   };
 
   return (
-    <div className="relative h-full w-full bg-black">
-      <video
-        ref={videoRef}
-        src={video.videoUrl}
-        className="h-full w-full object-contain"
-        loop
-        muted
-        playsInline
-        onClick={togglePlay}
-      />
+    <div className="relative h-full w-full bg-black" onClick={togglePlay}>
+       <ReactPlayer
+            ref={playerRef}
+            url={video.videoUrl}
+            playing={isPlaying}
+            muted={isMuted}
+            loop
+            width="100%"
+            height="100%"
+            playsinline
+            className="react-player"
+            config={{
+                youtube: {
+                    playerVars: { showinfo: 0, controls: 0, modestbranding: 1 }
+                }
+            }}
+        />
       
       {!isPlaying && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
@@ -128,10 +117,10 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
         </div>
       )}
 
-      <div className="absolute bottom-0 left-0 right-0 p-4 text-white bg-gradient-to-t from-black/60 to-transparent">
+      <div className="absolute bottom-0 left-0 right-0 p-4 text-white bg-gradient-to-t from-black/60 to-transparent pointer-events-none">
         <div className="flex items-end">
           <div className="flex-1">
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex items-center gap-2 mb-2 pointer-events-auto">
               <Link href={`/profile/${video.user.id}`}>
                 <Avatar>
                   <AvatarImage src={video.user.avatarUrl} alt={video.user.name} />
@@ -145,7 +134,7 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
                 <Button 
                     size="sm"
                     variant={following ? 'secondary' : 'default'}
-                    onClick={() => toggleFollow(video.user.id)}
+                    onClick={(e) => { e.stopPropagation(); toggleFollow(video.user.id); }}
                     className={cn("h-7 px-3 rounded-full text-xs", following ? "bg-white/20 text-white" : "bg-primary text-primary-foreground")}
                 >
                     {following ? t('following') : t('follow')}
@@ -158,20 +147,20 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
                 <span>{t('original_audio')}</span>
             </div>
           </div>
-          <div className="flex flex-col items-center gap-4">
-            <Button onClick={handleLike} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
+          <div className="flex flex-col items-center gap-4 pointer-events-auto">
+            <Button onClick={(e) => { e.stopPropagation(); handleLike(); }} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
               <Heart className={cn("h-8 w-8", isLiked && "fill-primary text-primary")} />
               <span className="text-xs font-bold">{formatCount(video.likes)}</span>
             </Button>
-            <Button onClick={() => openCommentSheet(video.id)} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
+            <Button onClick={(e) => { e.stopPropagation(); openCommentSheet(video.id); }} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
               <MessageCircle className="h-8 w-8" />
               <span className="text-xs font-bold">{formatCount(commentCount)}</span>
             </Button>
-             <Button onClick={handleSave} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
+             <Button onClick={(e) => { e.stopPropagation(); handleSave(); }} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
               <Bookmark className={cn("h-8 w-8", isSaved && "fill-primary text-primary")} />
             </Button>
             {!isCurrentUserVideo && (
-               <Button onClick={handleRepost} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
+               <Button onClick={(e) => { e.stopPropagation(); handleRepost(); }} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
                     <Repeat className={cn("h-8 w-8", reposted && "text-primary")} />
                 </Button>
             )}
@@ -179,21 +168,34 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
               <Eye className="h-8 w-8" />
               <span className="text-xs font-bold">{formatCount(video.views)}</span>
             </Button>
-            <Button onClick={handleShare} variant="ghost" size="icon" className="text-white h-12 w-12">
+            <Button onClick={(e) => { e.stopPropagation(); handleShare(); }} variant="ghost" size="icon" className="text-white h-12 w-12">
               <Share2 className="h-8 w-8" />
             </Button>
           </div>
         </div>
       </div>
 
-       <div className="absolute top-4 right-4">
-        <Button onClick={toggleMute} variant="ghost" size="icon" className="text-white bg-black/30 hover:bg-black/50">
+       <div className="absolute top-4 right-4 pointer-events-auto">
+        <Button onClick={(e) => { e.stopPropagation(); toggleMute(); }} variant="ghost" size="icon" className="text-white bg-black/30 hover:bg-black/50">
           {isMuted ? <VolumeX className="h-6 w-6" /> : <Volume2 className="h-6 w-6" />}
         </Button>
       </div>
-
+      <style jsx global>{`
+        .react-player {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .react-player > div {
+            width: 100% !important;
+            height: 100% !important;
+        }
+        .react-player video {
+            object-fit: contain;
+        }
+      `}</style>
     </div>
   );
 }
-
-    
