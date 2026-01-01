@@ -1,3 +1,4 @@
+
 {
   "nav_home": "Home",
   "nav_reels": "Reels",
@@ -68,10 +69,6 @@
   "suggestion_success_title": "Suggestion Submitted!",
   "suggestion_success_description": "Thanks for helping us grow. We'll review your suggestion.",
   "share_experience_page_title": "Share Experience",
-  "direct_upload_label": "Direct Upload",
-  "from_url_label": "From URL",
-  "video_file_label": "Video File",
-  "upload_video_formats": "MP4, MOV, AVI (MAX. 500MB)",
   "video_url_label": "Video URL",
   "video_url_placeholder": "e.g. https://www.youtube.com/watch?v=...",
   "video_title_label": "Video Title",
@@ -129,18 +126,7 @@
   "video_saved_title": "Video Saved",
   "video_saved_description": "The video has been added to your saved list.",
   "video_unsaved_title": "Video Unsaved",
-  "video_unsaved_description": "The video has been removed from your saved list.",
-  "direct_upload_access_title": "Direct Upload Access",
-  "direct_upload_access_description": "Apply to get access to upload videos directly from your device.",
-  "access_granted_title": "Access Granted",
-  "access_granted_description": "You have access to direct video uploads.",
-  "apply_for_access_button": "Apply for Access",
-  "apply_for_access_description": "Get approved to upload high-quality videos directly.",
-  "apply_direct_upload_title": "Apply for Direct Upload",
-  "apply_direct_upload_description": "Fill out the form below to request access. We're looking for creators who consistently post high-quality travel content.",
-  "why_access_label": "Why do you want direct upload access?",
-  "why_access_placeholder": "Tell us about the kind of content you create and why you'd be a good fit.",
-  "submit_application_button": "Submit Application",
-  "application_submitted_title": "Application Submitted",
-  "application_submitted_description": "We've received your application and will review it shortly. You'll be notified of our decision."
+  "video_unsaved_description": "The video has been removed from your saved list."
 }
+
+    
