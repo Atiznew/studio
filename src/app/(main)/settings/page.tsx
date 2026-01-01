@@ -75,6 +75,18 @@ export default function SettingsPage() {
           </div>
            <Separator />
             <div>
+                <h3 className="text-lg font-medium mb-2">{t('support_us')}</h3>
+                 <div className="rounded-md border bg-card">
+                    <Button variant="ghost" asChild className="w-full justify-between">
+                        <Link href="/settings/donate">
+                            <span>{t('donate_title')}</span>
+                            <ChevronRight className="h-4 w-4" />
+                        </Link>
+                    </Button>
+                </div>
+            </div>
+           <Separator />
+            <div>
                 <h3 className="text-lg font-medium mb-2">{t('more_information_title')}</h3>
                 <div className="rounded-md border bg-card">
                     <Button variant="ghost" asChild className="w-full justify-between">
