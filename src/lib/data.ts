@@ -29,6 +29,12 @@ export const destinations: Destination[] = [
   { id: 'd12', name: 'Cairo', country: 'Egypt', slug: 'cairo', imageUrl: placeholderImages.find(p => p.id === 'dest-cairo')?.imageUrl || '' },
   { id: 'd13', name: 'Rio de Janeiro', country: 'Brazil', slug: 'rio-de-janeiro', imageUrl: placeholderImages.find(p => p.id === 'dest-rio')?.imageUrl || '' },
   { id: 'd14', name: 'Dubai', country: 'UAE', slug: 'dubai', imageUrl: placeholderImages.find(p => p.id === 'dest-dubai')?.imageUrl || '' },
+  { id: 'd15', name: 'Santorini', country: 'Greece', slug: 'santorini', imageUrl: placeholderImages.find(p => p.id === 'dest-santorini')?.imageUrl || '' },
+  { id: 'd16', name: 'Machu Picchu', country: 'Peru', slug: 'machu-picchu', imageUrl: placeholderImages.find(p => p.id === 'dest-machu-picchu')?.imageUrl || '' },
+  { id: 'd17', name: 'Bora Bora', country: 'French Polynesia', slug: 'bora-bora', imageUrl: placeholderImages.find(p => p.id === 'dest-bora-bora')?.imageUrl || '' },
+  { id: 'd18', name: 'Venice', country: 'Italy', slug: 'venice', imageUrl: placeholderImages.find(p => p.id === 'dest-venice')?.imageUrl || '' },
+  { id: 'd19', name: 'Serengeti', country: 'Tanzania', slug: 'serengeti', imageUrl: placeholderImages.find(p => p.id === 'dest-serengeti')?.imageUrl || '' },
+  { id: 'd20', name: 'Jaipur', country: 'India', slug: 'jaipur', imageUrl: placeholderImages.find(p => p.id === 'dest-jaipur')?.imageUrl || '' },
 ];
 
 export const initialVideos: Video[] = [
