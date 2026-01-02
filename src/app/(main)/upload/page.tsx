@@ -13,7 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
-import { CheckCircle, Link2, Youtube, Instagram, AlertTriangle, ChevronRight } from 'lucide-react';
+import { CheckCircle, Link2, Youtube, Instagram, AlertTriangle, ChevronRight, Heart } from 'lucide-react';
 import { VideoCategory } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { useVideoStore } from '@/hooks/use-video-store';
@@ -182,10 +182,16 @@ export default function UploadPage() {
                   )}
                 />
 
-                <div className="border-t border-b border-border/50 py-4">
+                <div className="border-t border-b border-border/50 divide-y divide-border/50">
                     <Button variant="ghost" asChild className="w-full justify-between">
                       <Link href="/settings/apply-direct-upload">
                         {t('apply_for_direct_upload')}
+                        <ChevronRight className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                     <Button variant="ghost" asChild className="w-full justify-between">
+                      <Link href="/settings/donate">
+                          <span className="flex items-center gap-2">{t('donate_title')} <Heart className="h-4 w-4 text-red-500"/></span>
                         <ChevronRight className="h-4 w-4" />
                       </Link>
                     </Button>
