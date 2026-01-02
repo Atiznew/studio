@@ -24,7 +24,7 @@ const WhatsAppIcon = () => (
 export default function DonatePage() {
   const { t } = useTranslation();
   const { toast } = useToast();
-  const upiId = "donation@upi";
+  const upiId = "karanroy2025@upi";
 
   const handleCopy = () => {
     navigator.clipboard.writeText(upiId);
