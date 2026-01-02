@@ -24,7 +24,16 @@ const WhatsAppIcon = () => (
 export default function DonatePage() {
   const { t } = useTranslation();
   const { toast } = useToast();
-  const qrCodeImage = placeholderImages.find(p => p.id === 'donation-qr');
+  const upiId = "donation@upi";
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(upiId);
+    toast({
+      title: t('upi_id_copied_title'),
+      description: t('upi_id_copied_description'),
+    });
+  };
+
 
   return (
     <>
@@ -59,17 +68,12 @@ export default function DonatePage() {
 
             <div className="w-full space-y-4">
                 <h3 className="font-bold text-lg">{t('donate_title')}</h3>
-                {qrCodeImage && (
-                    <div className="p-4 border rounded-lg bg-card inline-block">
-                        <Image
-                            src={qrCodeImage.imageUrl}
-                            alt="Donation QR Code"
-                            width={200}
-                            height={200}
-                            data-ai-hint={qrCodeImage.imageHint}
-                        />
-                    </div>
-                )}
+                <div className="flex items-center space-x-2">
+                    <Input value={upiId} readOnly className="text-center"/>
+                    <Button variant="outline" size="icon" onClick={handleCopy}>
+                        <Copy className="h-4 w-4" />
+                    </Button>
+                </div>
             </div>
 
         </div>

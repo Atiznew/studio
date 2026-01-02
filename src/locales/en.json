@@ -186,5 +186,7 @@
   "donate_title": "Donate",
   "donate_description": "Please donate to help us keep this website going.",
   "or_use_link": "Or use the link below",
-  "join_us": "Join Us"
+  "join_us": "Join Us",
+  "upi_id_copied_title": "UPI ID Copied",
+  "upi_id_copied_description": "The UPI ID has been copied to your clipboard."
 }
