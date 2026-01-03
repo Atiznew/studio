@@ -13,7 +13,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import Autoplay from "embla-carousel-autoplay";
 import { useVideoStore } from '@/hooks/use-video-store';
 import { DestinationCard } from '@/components/destination-card';
-import { destinations } from '@/lib/data';
+import { destinations, placeholderImages } from '@/lib/data';
 import Image from 'next/image';
 import { StoryReel } from '@/components/story-reel';
 import { ShortCard } from '@/components/short-card';
@@ -54,6 +54,7 @@ export default function HomePage() {
   const plugin = useRef(
     Autoplay({ delay: 3000, stopOnInteraction: true })
   );
+  const donationBg = placeholderImages.find(p => p.id === 'donation-bg');
 
   const ForYouFeed = () => (
     <>
@@ -101,12 +102,22 @@ export default function HomePage() {
         </section>
         
         <section className="py-8">
-            <Card className="bg-primary/10 border-primary/30">
-                <CardContent className="p-6 text-center">
-                    <Heart className="mx-auto h-8 w-8 text-primary mb-2" />
-                    <h2 className="text-xl font-bold font-headline text-primary">{t('donation_cta_title')}</h2>
-                    <p className="text-muted-foreground mt-1 mb-4">{t('donation_cta_description')}</p>
-                    <Button asChild>
+             <Card className="relative overflow-hidden rounded-lg">
+                {donationBg && (
+                    <Image
+                        src={donationBg.imageUrl}
+                        alt={donationBg.description}
+                        data-ai-hint={donationBg.imageHint}
+                        fill
+                        className="object-cover z-0"
+                    />
+                )}
+                 <div className="absolute inset-0 bg-black/60 z-10" />
+                <CardContent className="relative z-20 p-6 text-center text-white">
+                    <Heart className="mx-auto h-8 w-8 text-red-400 mb-2" />
+                    <h2 className="text-xl font-bold font-headline">{t('donation_cta_title')}</h2>
+                    <p className="mt-1 mb-4">{t('donation_cta_description')}</p>
+                    <Button asChild variant="secondary">
                         <Link href="/settings/donate">{t('support_us')}</Link>
                     </Button>
                 </CardContent>
