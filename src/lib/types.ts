@@ -53,3 +53,11 @@ export interface Destination {
   lat?: number;
   lng?: number;
 }
+
+export interface ShopItem {
+  id: string;
+  name: string;
+  imageUrl: string;
+  productUrl: string;
+  price: string;
+}

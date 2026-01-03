@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Video, PlusSquare, Map, User } from 'lucide-react';
+import { Home, Video, PlusSquare, Map, User, ShoppingCart } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/context/language-context';
 
@@ -14,7 +14,7 @@ export function BottomNav() {
     { href: '/home', icon: Home, label: t('nav_home') },
     { href: '/reels', icon: Video, label: t('nav_reels') },
     { href: '/upload', icon: PlusSquare, label: t('nav_share') },
-    { href: '/destinations', icon: Map, label: t('nav_destinations') },
+    { href: '/shop', icon: ShoppingCart, label: t('nav_shop') },
     { href: '/profile', icon: User, label: t('nav_profile') },
   ];
 
@@ -38,8 +38,12 @@ export function BottomNav() {
             isActive = pathname.startsWith('/upload');
           }
 
-          if (item.label === t('nav_destinations')) {
-             isActive = pathname.startsWith('/destinations') || pathname.startsWith('/category');
+          if (item.href === '/destinations' && (pathname.startsWith('/destinations') || pathname.startsWith('/category'))) {
+             isActive = true;
+          }
+
+          if (item.href === '/shop' && pathname.startsWith('/shop')) {
+            isActive = true;
           }
 
 

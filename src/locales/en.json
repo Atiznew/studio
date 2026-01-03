@@ -5,6 +5,7 @@
   "nav_share": "Share",
   "nav_destinations": "Destinations",
   "nav_profile": "Profile",
+  "nav_shop": "Shop",
   "search_placeholder": "Search for videos, destinations, or users...",
   "search_button": "Search",
   "no_results_title": "No results found",
@@ -190,7 +191,8 @@
   "upi_id_copied_title": "UPI ID Copied",
   "upi_id_copied_description": "The UPI ID has been copied to your clipboard.",
   "donation_cta_title": "Help Us Grow!",
-  "donation_cta_description": "Your support helps us build new features and improve the app."
+  "donation_cta_description": "Your support helps us build new features and improve the app.",
+  "shop_page_title": "Shop Travel Gear",
+  "shop_page_description": "Find the best gear for your next adventure. Curated by our team.",
+  "buy_now_button": "Buy Now"
 }
-
-    

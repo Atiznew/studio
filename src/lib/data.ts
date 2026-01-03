@@ -1,4 +1,4 @@
-import type { User, Destination, Video, Story } from './types';
+import type { User, Destination, Video, Story, ShopItem } from './types';
 import data from './placeholder-images.json';
 
 export const placeholderImages = data.placeholderImages;
@@ -166,4 +166,49 @@ export const stories: Story[] = [
     { id: 's2', user: initialUsers[0], imageUrl: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHx0cmF2ZWwlJTIwYmVhY2h8ZW58MHx8fHwxNzY4MTYyMjM4fDA&ixlib=rb-4.1.0&q=80&w=1080', viewed: true },
     { id: 's3', user: initialUsers[2], imageUrl: 'https://images.unsplash.com/photo-1473625247510-8ceb1760943f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx0cmF2ZWwlJTIwZm9yZXN0fGVufDB8fHx8MTc2ODE2MjI2MHww&ixlib=rb-4.1.0&q=80&w=1080' },
     { id: 's4', user: initialUsers[3], imageUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtb3VudGFpbiUyMHRyYXZlbHxlbnwwfHx8fDE3NjgyNDIxODB8MA&ixlib=rb-4.1.0&q=80&w=1080' },
+];
+
+export const shopItems: ShopItem[] = [
+    {
+        id: 'shop1',
+        name: 'Travel Backpack',
+        imageUrl: 'https://images.unsplash.com/photo-1553062407-98eeb68c6a62?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTkyMzN8MHwxfHNlYXJjaHwxfHx0cmF2ZWwlMjBiYWNrcGFja3xlbnwwfHx8fDE2OTE1MDY4ODd8MA&ixlib=rb-4.0.3&q=80&w=1080',
+        productUrl: 'https://www.amazon.in/s?k=travel+backpack',
+        price: '₹2,499'
+    },
+    {
+        id: 'shop2',
+        name: 'Hiking Boots',
+        imageUrl: 'https://images.unsplash.com/photo-1599739482868-809c95d98c1c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTkyMzN8MHwxfHNlYXJjaHwxfHzoaWtpbmslMjBib290c3xlbnwwfHx8fDE2OTE1MDY5MTB8MA&ixlib=rb-4.0.3&q=80&w=1080',
+        productUrl: 'https://www.amazon.in/s?k=hiking+boots',
+        price: '₹4,999'
+    },
+    {
+        id: 'shop3',
+        name: 'Portable Tent',
+        imageUrl: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTkyMzN8MHwxfHNlYXJjaHwxfHxwb3J0YWJsZSUyMHRlbnR8ZW58MHx8fHwxNjkxNTA2OTMwfDA&ixlib=rb-4.0.3&q=80&w=1080',
+        productUrl: 'https://www.amazon.in/s?k=portable+tent',
+        price: '₹3,299'
+    },
+    {
+        id: 'shop4',
+        name: 'Travel Camera',
+        imageUrl: 'https://images.unsplash.com/photo-1510127034890-ba27e982f636?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTkyMzN8MHwxfHNlYXJjaHwxfHx0cmF2ZWwlMjBjYW1yYXxlbnwwfHx8fDE2OTE1MDY5NTF8MA&ixlib=rb-4.0.3&q=80&w=1080',
+        productUrl: 'https://www.amazon.in/s?k=travel+camera',
+        price: '₹45,990'
+    },
+    {
+        id: 'shop5',
+        name: 'Travel Pillow',
+        imageUrl: 'https://images.unsplash.com/photo-1574763523473-51a8f9b9a5e1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTkyMzN8MHwxfHNlYXJjaHwxfHx0cmF2ZWwlMjBwaWxsb3d8ZW58MHx8fHwxNjkxNTA3MDA3fDA&ixlib=rb-4.0.3&q=80&w=1080',
+        productUrl: 'https://www.amazon.in/s?k=travel+pillow',
+        price: '₹799'
+    },
+    {
+        id: 'shop6',
+        name: 'Sunglasses',
+        imageUrl: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTkyMzN8MHwxfHNlYXJjaHwxfHxzdW5nbGFzc2VzfGVufDB8fHx8MTY5MTUwNzAzMnww&ixlib=rb-4.0.3&q=80&w=1080',
+        productUrl: 'https://www.amazon.in/s?k=sunglasses',
+        price: '₹1,499'
+    },
 ];

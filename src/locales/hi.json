@@ -5,6 +5,7 @@
   "nav_share": "शेयर",
   "nav_destinations": "डेस्टिनेशन",
   "nav_profile": "प्रोफ़ाइल",
+  "nav_shop": "शॉप",
   "search_placeholder": "वीडियो, डेस्टिनेशन, या यूज़र खोजें...",
   "search_button": "खोजें",
   "no_results_title": "कोई परिणाम नहीं मिला",
@@ -190,7 +191,8 @@
   "upi_id_copied_title": "UPI आईडी कॉपी हो गई",
   "upi_id_copied_description": "UPI आईडी आपके क्लिपबोर्ड पर कॉपी कर ली गई है।",
   "donation_cta_title": "हमें बढ़ने में मदद करें!",
-  "donation_cta_description": "आपका समर्थन हमें नई सुविधाएँ बनाने और ऐप को बेहतर बनाने में मदद करता है।"
+  "donation_cta_description": "आपका समर्थन हमें नई सुविधाएँ बनाने और ऐप को बेहतर बनाने में मदद करता है।",
+  "shop_page_title": "यात्रा गियर खरीदें",
+  "shop_page_description": "अपने अगले साहसिक कार्य के लिए सबसे अच्छा गियर खोजें। हमारी टीम द्वारा क्यूरेट किया गया।",
+  "buy_now_button": "अभी खरीदें"
 }
-
-    
