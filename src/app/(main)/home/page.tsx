@@ -1,8 +1,9 @@
 
+
 "use client";
 
 import Link from 'next/link';
-import { Search } from 'lucide-react';
+import { Search, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { VideoCard } from '@/components/video-card';
 import { Logo } from '@/components/logo';
@@ -99,6 +100,19 @@ export default function HomePage() {
             <StoryReel />
         </section>
         
+        <section className="py-8">
+            <Card className="bg-primary/10 border-primary/30">
+                <CardContent className="p-6 text-center">
+                    <Heart className="mx-auto h-8 w-8 text-primary mb-2" />
+                    <h2 className="text-xl font-bold font-headline text-primary">{t('donation_cta_title')}</h2>
+                    <p className="text-muted-foreground mt-1 mb-4">{t('donation_cta_description')}</p>
+                    <Button asChild>
+                        <Link href="/settings/donate">{t('support_us')}</Link>
+                    </Button>
+                </CardContent>
+            </Card>
+        </section>
+
         <section className="py-8">
             <h2 className="text-2xl font-bold mb-4 font-headline">{t('categories')}</h2>
             <ScrollArea className="w-full whitespace-nowrap">
@@ -267,3 +281,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+    
