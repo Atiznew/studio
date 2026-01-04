@@ -106,7 +106,10 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
             className="react-player"
             config={{
                 youtube: {
-                    playerVars: { showinfo: 0, controls: 0, modestbranding: 1 }
+                    playerVars: { showinfo: 0, controls: 0, modestbranding: 1, rel: 0 }
+                },
+                facebook: {
+                    appId: '12345'
                 }
             }}
         />
@@ -193,7 +196,7 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
             height: 100% !important;
         }
         .react-player video {
-            object-fit: contain;
+            object-fit: cover;
         }
       `}</style>
     </div>
