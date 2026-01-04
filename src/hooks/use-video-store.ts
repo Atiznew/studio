@@ -15,7 +15,7 @@ interface VideoState {
   followedUsers: Set<string>;
   isCommentSheetOpen: boolean;
   activeVideoId: string | null;
-  addVideo: (videoData: any) => void;
+  addVideo: (videoData: any) => Video;
   deleteVideo: (videoId: string) => void;
   toggleLike: (videoId: string) => void;
   toggleFollow: (userId: string) => boolean;
@@ -49,7 +49,9 @@ export const useVideoStore = create<VideoState>((set, get) => ({
   
   addVideo: (videoData) => {
     const { videos, currentUser } = get();
-    if (!currentUser) return; // Guard against adding video if not logged in
+    if (!currentUser) {
+        throw new Error("User not logged in");
+    };
 
     const newVideo: Video = {
       id: `v${videos.length + 1}`,
@@ -72,6 +74,7 @@ export const useVideoStore = create<VideoState>((set, get) => ({
       description: videoData.description,
     };
     set((state) => ({ videos: [newVideo, ...state.videos] }));
+    return newVideo;
   },
   
   deleteVideo: (videoId: string) => {
@@ -239,5 +242,3 @@ export const useVideoStore = create<VideoState>((set, get) => ({
     });
   }
 }));
-
-    

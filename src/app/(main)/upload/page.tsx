@@ -21,6 +21,9 @@ import { useTranslation } from '@/context/language-context';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { VideoCard } from '@/components/video-card';
+import dynamic from 'next/dynamic';
+
+const ReactPlayer = dynamic(() => import('react-player/lazy'), { ssr: false });
 
 
 const categories: VideoCategory[] = ["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"];
@@ -41,12 +44,13 @@ export default function UploadPage() {
   const { toast } = useToast();
   const { t } = useTranslation();
   const router = useRouter();
-  const { currentUser, addVideo, videos } = useVideoStore();
+  const { currentUser, addVideo, videos } = useVideoStore((state) => ({ currentUser: state.currentUser, addVideo: state.addVideo, videos: state.videos }));
   
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadComplete, setUploadComplete] = useState(false);
   const [recentVideo, setRecentVideo] = useState<Video | null>(null);
+  const [videoUrlPreview, setVideoUrlPreview] = useState('');
 
 
   const form = useForm<UploadFormValues>({
@@ -87,7 +91,7 @@ export default function UploadPage() {
       clearInterval(interval);
       setUploadProgress(100);
       setTimeout(() => {
-        addVideo({
+        const newVideo = addVideo({
             ...data,
             source: sourceType,
             videoUrl: sourceUrl
@@ -100,14 +104,9 @@ export default function UploadPage() {
           description: "Your video has been submitted for processing.",
         });
         
-        // The store updates asynchronously, so we wait a moment
-        // and then get the latest video from the store.
-        setTimeout(() => {
-            const latestVideo = get().videos[0];
-            setRecentVideo(latestVideo);
-        }, 100);
-
+        setRecentVideo(newVideo);
         form.reset();
+        setVideoUrlPreview('');
       }, 500);
     }, 3500);
   };
@@ -156,6 +155,7 @@ export default function UploadPage() {
                                         field.onChange(e);
                                         setUploadComplete(false);
                                         setRecentVideo(null);
+                                        setVideoUrlPreview(e.target.value);
                                     }}
                                 />
                             </FormControl>
@@ -164,6 +164,18 @@ export default function UploadPage() {
                     </FormItem>
                   )}
                 />
+
+                {videoUrlPreview && (
+                  <div className="aspect-video w-full rounded-lg overflow-hidden border bg-black">
+                     <ReactPlayer
+                        url={videoUrlPreview}
+                        width="100%"
+                        height="100%"
+                        controls={true}
+                        light={false}
+                     />
+                  </div>
+                )}
 
                 <div className="border-t border-b border-border/50 divide-y divide-border/50">
                     <Button variant="ghost" asChild className="w-full justify-between">
@@ -306,5 +318,3 @@ export default function UploadPage() {
     </>
   );
 }
-
-    
