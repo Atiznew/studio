@@ -14,12 +14,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
 import { CheckCircle, Link2, Youtube, Instagram, AlertTriangle, ChevronRight, Heart } from 'lucide-react';
-import { VideoCategory } from '@/lib/types';
+import { VideoCategory, Video } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { useVideoStore } from '@/hooks/use-video-store';
 import { useTranslation } from '@/context/language-context';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { VideoCard } from '@/components/video-card';
 
 
 const categories: VideoCategory[] = ["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"];
@@ -40,11 +41,12 @@ export default function UploadPage() {
   const { toast } = useToast();
   const { t } = useTranslation();
   const router = useRouter();
-  const { currentUser, addVideo } = useVideoStore();
+  const { currentUser, addVideo, videos } = useVideoStore();
   
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadComplete, setUploadComplete] = useState(false);
+  const [recentVideo, setRecentVideo] = useState<Video | null>(null);
 
 
   const form = useForm<UploadFormValues>({
@@ -74,6 +76,7 @@ export default function UploadPage() {
     
     setIsUploading(true);
     setUploadComplete(false);
+    setRecentVideo(null);
     setUploadProgress(0);
 
     const interval = setInterval(() => {
@@ -96,6 +99,14 @@ export default function UploadPage() {
           title: t('upload_complete_message'),
           description: "Your video has been submitted for processing.",
         });
+        
+        // The store updates asynchronously, so we wait a moment
+        // and then get the latest video from the store.
+        setTimeout(() => {
+            const latestVideo = get().videos[0];
+            setRecentVideo(latestVideo);
+        }, 100);
+
         form.reset();
       }, 500);
     }, 3500);
@@ -141,6 +152,11 @@ export default function UploadPage() {
                                 <Input 
                                     placeholder={t('video_url_placeholder')} 
                                     {...field}
+                                    onChange={(e) => {
+                                        field.onChange(e);
+                                        setUploadComplete(false);
+                                        setRecentVideo(null);
+                                    }}
                                 />
                             </FormControl>
                         </div>
@@ -277,9 +293,18 @@ export default function UploadPage() {
               <Button type="submit" className="w-full" disabled={isUploading}>
                 {isUploading ? t('uploading_progress') : t('share_experience_button')}
               </Button>
+
+              {uploadComplete && recentVideo && (
+                <div className="mt-8">
+                    <h2 className="text-lg font-bold mb-4">Recently Uploaded</h2>
+                    <VideoCard video={recentVideo} />
+                </div>
+              )}
             </form>
           </Form>
       </div>
     </>
   );
 }
+
+    
