@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Video, PlusSquare, Map, User, ShoppingCart } from 'lucide-react';
+import { Home, Video, PlusSquare, ShoppingCart, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/context/language-context';
 
@@ -22,30 +22,9 @@ export function BottomNav() {
     <nav className="fixed bottom-0 left-0 z-50 w-full h-16 border-t bg-background/95 backdrop-blur-sm">
       <div className="grid h-full max-w-lg grid-cols-5 mx-auto">
         {navItems.map((item) => {
-          let isActive = pathname === item.href;
-          
-          if (item.label === t('nav_home') && pathname !== '/home') {
-            isActive = false;
-          } else if (pathname.startsWith(item.href) && item.href !== '/') {
-            isActive = true;
-          }
-
-          if (item.label === t('nav_profile') && (pathname.startsWith('/profile') || pathname.startsWith('/users'))) {
-            isActive = true;
-          }
-          
-          if (item.label === t('nav_share')) {
-            isActive = pathname.startsWith('/upload');
-          }
-
-          if (item.href === '/destinations' && (pathname.startsWith('/destinations') || pathname.startsWith('/category'))) {
-             isActive = true;
-          }
-
-          if (item.href === '/shop' && pathname.startsWith('/shop')) {
-            isActive = true;
-          }
-
+          const isActive = (
+            item.href === '/home' ? pathname === item.href : pathname.startsWith(item.href)
+          );
 
           return (
             <Link

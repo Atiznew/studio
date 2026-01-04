@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { notFound } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation';
 import { VideoCard } from '@/components/video-card';
 import { PageHeader } from '@/components/page-header';
 import Link from 'next/link';
@@ -17,6 +17,7 @@ import { useTranslation } from '@/context/language-context';
 export default function UserProfilePage({ params }: { params: { id: string } }) {
   const { videos, isFollowing, toggleFollow, users, repostedVideos, currentUser } = useVideoStore();
   const { t } = useTranslation();
+  const router = useRouter();
   const user = users.find((u) => u.id === params.id);
 
   if (!user) {
@@ -24,6 +25,11 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
   }
   
   const isCurrentUser = currentUser ? user.id === currentUser.id : false;
+
+  if (isCurrentUser) {
+    router.replace('/profile');
+    return null;
+  }
 
   const userVideos = videos.filter((v) => v.user.id === user.id);
 
@@ -45,19 +51,9 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
     <>
     <PageHeader title={user.username || user.name}>
         <div className="flex items-center gap-2">
-            {isCurrentUser ? (
-                <Button variant="ghost" size="icon" asChild>
-                    <Link href="/login">
-                        <LogOut className="h-5 w-5" />
-                    </Link>
-                </Button>
-            ) : (
-                 <Button variant="ghost" size="icon" asChild>
-                    <Link href="/home">
-                        <ChevronLeft className="h-5 w-5" />
-                    </Link>
-                </Button>
-            )}
+            <Button variant="ghost" size="icon" onClick={() => router.back()}>
+                <ChevronLeft className="h-5 w-5" />
+            </Button>
         </div>
     </PageHeader>
     <div className="container max-w-4xl mx-auto">
@@ -95,19 +91,13 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
             )}
         </div>
         <div className="mt-4">
-            {isCurrentUser ? (
-                <Button className="w-full bg-yellow-400 text-black hover:bg-yellow-500" asChild>
-                    <Link href="/profile/edit">{t('edit_profile')}</Link>
-                </Button>
-            ) : (
-                <Button 
-                    className={cn("w-full", following ? "bg-secondary text-secondary-foreground hover:bg-secondary/80" : "bg-primary text-primary-foreground hover:bg-primary/90")}
-                    onClick={() => toggleFollow(user.id)}
-                    disabled={!currentUser}
-                >
-                    {following ? t('following') : t('follow')}
-                </Button>
-            )}
+            <Button 
+                className={cn("w-full", following ? "bg-secondary text-secondary-foreground hover:bg-secondary/80" : "bg-primary text-primary-foreground hover:bg-primary/90")}
+                onClick={() => toggleFollow(user.id)}
+                disabled={!currentUser}
+            >
+                {following ? t('following') : t('follow')}
+            </Button>
         </div>
       </header>
 
