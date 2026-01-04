@@ -194,5 +194,10 @@
   "donation_cta_description": "Your support helps us build new features and improve the app.",
   "shop_page_title": "Shop Travel Gear",
   "shop_page_description": "Find the best gear for your next adventure. Curated by our team.",
-  "buy_now_button": "Buy Now"
+  "buy_now_button": "Buy Now",
+  "for_indian_users": "For Indian Users",
+  "for_international_users": "For International Users",
+  "payoneer_description": "You can donate via Payoneer using this email address.",
+  "email_copied_title": "Email Copied",
+  "email_copied_description": "The email address has been copied to your clipboard."
 }

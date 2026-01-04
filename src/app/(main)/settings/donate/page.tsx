@@ -5,13 +5,14 @@ import { useState } from 'react';
 import { PageHeader } from '@/components/page-header';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/context/language-context';
-import { ChevronLeft, Copy } from 'lucide-react';
+import { ChevronLeft, Copy, Mail } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { placeholderImages } from '@/lib/data';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 
 const TelegramIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
@@ -25,12 +26,13 @@ export default function DonatePage() {
   const { t } = useTranslation();
   const { toast } = useToast();
   const upiId = "karanroy2025@upi";
+  const payoneerEmail = "bugnuroy@gmail.com";
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(upiId);
+  const handleCopy = (text: string, type: 'UPI' | 'email') => {
+    navigator.clipboard.writeText(text);
     toast({
-      title: t('upi_id_copied_title'),
-      description: t('upi_id_copied_description'),
+      title: type === 'UPI' ? t('upi_id_copied_title') : t('email_copied_title'),
+      description: type === 'UPI' ? t('upi_id_copied_description') : t('email_copied_description'),
     });
   };
 
@@ -66,11 +68,26 @@ export default function DonatePage() {
                  </div>
             </div>
 
+            <Separator />
+
             <div className="w-full space-y-4">
-                <h3 className="font-bold text-lg">{t('donate_title')}</h3>
+                <h3 className="font-bold text-lg">{t('donate_title')} ({t('for_indian_users')})</h3>
                 <div className="flex items-center space-x-2">
                     <Input value={upiId} readOnly className="text-center"/>
-                    <Button variant="outline" size="icon" onClick={handleCopy}>
+                    <Button variant="outline" size="icon" onClick={() => handleCopy(upiId, 'UPI')}>
+                        <Copy className="h-4 w-4" />
+                    </Button>
+                </div>
+            </div>
+
+            <Separator />
+            
+            <div className="w-full space-y-4">
+                <h3 className="font-bold text-lg">{t('for_international_users')}</h3>
+                <p className="text-sm text-muted-foreground">{t('payoneer_description')}</p>
+                <div className="flex items-center space-x-2">
+                    <Input value={payoneerEmail} readOnly className="text-center"/>
+                    <Button variant="outline" size="icon" onClick={() => handleCopy(payoneerEmail, 'email')}>
                         <Copy className="h-4 w-4" />
                     </Button>
                 </div>
