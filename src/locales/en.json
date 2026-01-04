@@ -199,5 +199,14 @@
   "for_international_users": "For International Users",
   "payoneer_description": "You can donate via Payoneer using this email address.",
   "email_copied_title": "Email Copied",
-  "email_copied_description": "The email address has been copied to your clipboard."
+  "email_copied_description": "The email address has been copied to your clipboard.",
+  "signup_title": "Create an account",
+  "signup_subtitle": "Enter your information to create an account",
+  "fullname_label": "Full Name",
+  "fullname_placeholder": "e.g. John Doe",
+  "how_heard_label": "How did you hear about us?",
+  "how_heard_placeholder": "Select an option",
+  "create_account_button": "Create Account",
+  "login_prompt": "Already have an account?",
+  "login_link": "Login"
 }

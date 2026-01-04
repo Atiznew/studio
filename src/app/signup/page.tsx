@@ -1,0 +1,86 @@
+import Link from 'next/link';
+import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Logo } from '@/components/logo';
+import { TranslationWrapper } from '@/components/translation-wrapper';
+
+const SignupPageContent = () => {
+    return (
+        <TranslationWrapper>
+            {t => (
+                <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2 xl:min-h-screen">
+                    <div className="flex items-center justify-center py-12">
+                        <div className="mx-auto grid w-[400px] gap-6">
+                            <div className="grid gap-2 text-center">
+                                <div className="mb-4 flex justify-center">
+                                    <Logo />
+                                </div>
+                                <h1 className="text-3xl font-bold">{t('signup_title')}</h1>
+                                <p className="text-balance text-muted-foreground">
+                                    {t('signup_subtitle')}
+                                </p>
+                            </div>
+                            <div className="grid gap-4">
+                                <div className="grid gap-2">
+                                    <Label htmlFor="fullname">{t('fullname_label')}</Label>
+                                    <Input id="fullname" placeholder={t('fullname_placeholder')} required />
+                                </div>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="email">{t('email_label')}</Label>
+                                    <Input id="email" type="email" placeholder="m@example.com" required />
+                                </div>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="password">{t('password_label')}</Label>
+                                    <Input id="password" type="password" required />
+                                </div>
+                                 <div className="grid gap-2">
+                                    <Label htmlFor="country">{t('country_label')}</Label>
+                                    <Input id="country" placeholder={t('country_placeholder')} required />
+                                </div>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="source">{t('how_heard_label')}</Label>
+                                    <Select>
+                                        <SelectTrigger id="source">
+                                            <SelectValue placeholder={t('how_heard_placeholder')} />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="google">Google</SelectItem>
+                                            <SelectItem value="social_media">Social Media</SelectItem>
+                                            <SelectItem value="friend">From a Friend</SelectItem>
+                                            <SelectItem value="other">Other</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                <Button type="submit" className="w-full bg-accent hover:bg-accent/90" asChild>
+                                    <Link href="/home">{t('create_account_button')}</Link>
+                                </Button>
+                            </div>
+                            <div className="mt-4 text-center text-sm">
+                                {t('login_prompt')}{" "}
+                                <Link href="/login" className="underline">
+                                    {t('login_link')}
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="hidden bg-muted lg:block">
+                        <Image
+                            src="https://images.unsplash.com/photo-1527632911563-ee5b6d5344b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0cmF2ZWwlMjBnaXJsfGVufDB8fHx8MTc2OTE4MTc2OXww&ixlib=rb-4.1.0&q=80&w=1080"
+                            alt="Image"
+                            width="1920"
+                            height="1080"
+                            className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+                        />
+                    </div>
+                </div>
+            )}
+        </TranslationWrapper>
+    )
+}
+
+export default function SignupPage() {
+    return <SignupPageContent />
+}

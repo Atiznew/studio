@@ -59,7 +59,7 @@ const LoginPageContent = () => {
                         </div>
                         <div className="mt-4 text-center text-sm">
                             {t('signup_prompt')}{" "}
-                            <Link href="/login" className="underline">
+                            <Link href="/signup" className="underline">
                             {t('signup_link')}
                             </Link>
                         </div>
