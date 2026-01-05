@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Logo } from '@/components/logo';
-import { TranslationWrapper } from '@/components/translation-wrapper';
 import { useVideoStore } from '@/hooks/use-video-store';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from '@/context/language-context';
 
 const GoogleIcon = () => (
     <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
@@ -21,9 +21,10 @@ const GoogleIcon = () => (
 );
 
 
-const LoginPageContent = () => {
+export default function LoginPage() {
     const { setCurrentUser, users } = useVideoStore();
     const router = useRouter();
+    const { t } = useTranslation();
 
     const handleLogin = () => {
         // In a real app, you'd validate credentials. Here, we'll just log in the first user.
@@ -39,69 +40,59 @@ const LoginPageContent = () => {
     }
 
     return (
-        <TranslationWrapper>
-            {t => (
-                 <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2 xl:min-h-screen">
-                    <div className="flex items-center justify-center py-12">
-                        <div className="mx-auto grid w-[350px] gap-6">
-                        <div className="grid gap-2 text-center">
-                            <div className="mb-4 flex justify-center">
-                                <Logo />
-                            </div>
-                            <h1 className="text-3xl font-bold">{t('login_title')}</h1>
-                            <p className="text-balance text-muted-foreground">
-                            {t('login_subtitle')}
-                            </p>
-                        </div>
-                        <div className="grid gap-4">
-                            <div className="grid gap-2">
-                            <Label htmlFor="email">{t('email_label')}</Label>
-                            <Input
-                                id="email"
-                                type="email"
-                                placeholder="m@example.com"
-                                required
-                                defaultValue="alexdoe@test.com"
-                            />
-                            </div>
-                            <div className="grid gap-2">
-                            <div className="flex items-center">
-                                <Label htmlFor="password">{t('password_label')}</Label>
-                            </div>
-                            <Input id="password" type="password" required defaultValue="password"/>
-                            </div>
-                            <Button type="button" onClick={handleLogin} className="w-full bg-accent hover:bg-accent/90">
-                                {t('login_title')}
-                            </Button>
-                            <Button variant="outline" className="w-full" onClick={handleGoogleLogin}>
-                                <GoogleIcon /> {t('login_with_google')}
-                            </Button>
-                        </div>
-                        <div className="mt-4 text-center text-sm">
-                            {t('signup_prompt')}{" "}
-                            <Link href="/signup" className="underline">
-                            {t('signup_link')}
-                            </Link>
-                        </div>
-                        </div>
+        <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2 xl:min-h-screen">
+            <div className="flex items-center justify-center py-12">
+                <div className="mx-auto grid w-[350px] gap-6">
+                <div className="grid gap-2 text-center">
+                    <div className="mb-4 flex justify-center">
+                        <Logo />
                     </div>
-                    <div className="hidden bg-muted lg:block">
-                        <Image
-                        src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHx0cmF2ZWx8ZW58MHx8fHwxNzY2NzgzMTI2fDA&ixlib=rb-4.1.0&q=80&w=1080"
-                        alt="Image"
-                        width="1920"
-                        height="1080"
-                        className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-                        />
+                    <h1 className="text-3xl font-bold">{t('login_title')}</h1>
+                    <p className="text-balance text-muted-foreground">
+                    {t('login_subtitle')}
+                    </p>
+                </div>
+                <div className="grid gap-4">
+                    <div className="grid gap-2">
+                    <Label htmlFor="email">{t('email_label')}</Label>
+                    <Input
+                        id="email"
+                        type="email"
+                        placeholder="m@example.com"
+                        required
+                        defaultValue="alexdoe@test.com"
+                    />
                     </div>
+                    <div className="grid gap-2">
+                    <div className="flex items-center">
+                        <Label htmlFor="password">{t('password_label')}</Label>
                     </div>
-            )}
-        </TranslationWrapper>
-    )
-}
-
-export default function LoginPage() {
-    return (
-        <LoginPageContent />
+                    <Input id="password" type="password" required defaultValue="password"/>
+                    </div>
+                    <Button type="button" onClick={handleLogin} className="w-full bg-accent hover:bg-accent/90">
+                        {t('login_title')}
+                    </Button>
+                    <Button variant="outline" className="w-full" onClick={handleGoogleLogin}>
+                        <GoogleIcon /> {t('login_with_google')}
+                    </Button>
+                </div>
+                <div className="mt-4 text-center text-sm">
+                    {t('signup_prompt')}{" "}
+                    <Link href="/signup" className="underline">
+                    {t('signup_link')}
+                    </Link>
+                </div>
+                </div>
+            </div>
+            <div className="hidden bg-muted lg:block">
+                <Image
+                src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHx0cmF2ZWx8ZW58MHx8fHwxNzY2NzgzMTI2fDA&ixlib=rb-4.1.0&q=80&w=1080"
+                alt="Image"
+                width="1920"
+                height="1080"
+                className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+                />
+            </div>
+        </div>
     )
 }
