@@ -165,14 +165,14 @@ export default function UploadPage() {
                   )}
                 />
 
-                {videoUrlPreview && (
+                {videoUrlPreview && ReactPlayer.canPlay(videoUrlPreview) && (
                   <div className="aspect-video w-full rounded-lg overflow-hidden border bg-black">
                      <ReactPlayer
                         url={videoUrlPreview}
                         width="100%"
                         height="100%"
                         controls={true}
-                        light={false}
+                        light={true}
                      />
                   </div>
                 )}

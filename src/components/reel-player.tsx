@@ -38,10 +38,10 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
 
   useEffect(() => {
     setIsPlaying(isIntersecting);
-    if (!isIntersecting && playerRef.current) {
+    if (!isIntersecting && playerRef.current && video.source !== 'telegram') {
         playerRef.current.seekTo(0);
     }
-  }, [isIntersecting]);
+  }, [isIntersecting, video.source]);
 
   const togglePlay = () => {
     if(video.source === 'telegram') return;
@@ -120,7 +120,7 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
                     }
                 },
                 facebook: {
-                    appId: '12345'
+                    appId: '12345' // Placeholder App ID for oEmbed
                 }
             }}
         />
@@ -205,12 +205,10 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
         }
         .react-player > div {
-            width: 100% !important;
-            height: 100% !important;
+           width: 100% !important;
+           height: 100% !important;
         }
         .react-player video,
         .react-player iframe {
