@@ -22,6 +22,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { VideoCard } from '@/components/video-card';
 import dynamic from 'next/dynamic';
+import { canPlay } from 'react-player';
 
 const ReactPlayer = dynamic(() => import('react-player/lazy'), { ssr: false });
 
@@ -154,7 +155,7 @@ export default function UploadPage() {
                         <div className="relative">
                             <FormControl>
                                 <Input 
-                                    placeholder={isClient ? t('video_url_placeholder') : "Video URL (YouTube/Telegram/Instagram)"}
+                                    placeholder={isClient ? t('video_url_placeholder') : ""}
                                     {...field}
                                     onChange={(e) => {
                                         field.onChange(e);
@@ -170,7 +171,7 @@ export default function UploadPage() {
                   )}
                 />
 
-                {videoUrlPreview && ReactPlayer.canPlay(videoUrlPreview) && (
+                {videoUrlPreview && canPlay(videoUrlPreview) && (
                   <div className="aspect-video w-full rounded-lg overflow-hidden border bg-black">
                      <ReactPlayer
                         url={videoUrlPreview}
@@ -206,7 +207,7 @@ export default function UploadPage() {
                         <FormLabel>{t('video_title_label')}</FormLabel>
                     </div>
                     <FormControl>
-                      <Input placeholder={isClient ? t('video_title_placeholder') : "e.g., My amazing trip to the mountains"} {...field} />
+                      <Input placeholder={isClient ? t('video_title_placeholder') : ""} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -220,7 +221,7 @@ export default function UploadPage() {
                     <FormItem>
                       <FormLabel>{t('country_label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder={isClient ? t('country_placeholder') : "e.g., India"} {...field} />
+                        <Input placeholder={isClient ? t('country_placeholder') : ""} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -233,7 +234,7 @@ export default function UploadPage() {
                     <FormItem>
                       <FormLabel>{t('state_province_label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder={isClient ? t('state_province_placeholder') : "e.g., Himachal Pradesh"} {...field} />
+                        <Input placeholder={isClient ? t('state_province_placeholder') : ""} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -246,7 +247,7 @@ export default function UploadPage() {
                     <FormItem>
                       <FormLabel>{t('place_city_label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder={isClient ? t('place_city_placeholder') : "e.g., Manali"} {...field} />
+                        <Input placeholder={isClient ? t('place_city_placeholder') : ""} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -263,7 +264,7 @@ export default function UploadPage() {
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder={isClient ? t('select_category_placeholder') : "Select a category"} />
+                          <SelectValue placeholder={isClient ? t('select_category_placeholder') : ""} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -286,7 +287,7 @@ export default function UploadPage() {
                         <FormLabel>{t('description_label')}</FormLabel>
                     </div>
                     <FormControl>
-                      <Textarea placeholder={isClient ? t('description_placeholder') : "Tell us more about your video..."} className="resize-none" {...field} />
+                      <Textarea placeholder={isClient ? t('description_placeholder') : ""} className="resize-none" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
