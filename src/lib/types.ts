@@ -1,3 +1,4 @@
+
 export interface User {
   id: string;
   name: string;
@@ -54,10 +55,13 @@ export interface Destination {
   lng?: number;
 }
 
+export type ShopItemCategory = "All" | "Gear" | "Apparel" | "Accessories";
+
 export interface ShopItem {
   id: string;
   name: string;
   imageUrl: string;
   productUrl: string;
   price: string;
+  category: "Gear" | "Apparel" | "Accessories";
 }

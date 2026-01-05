@@ -1,3 +1,4 @@
+
 import type { User, Destination, Video, Story, ShopItem } from './types';
 import data from './placeholder-images.json';
 
@@ -174,41 +175,47 @@ export const shopItems: ShopItem[] = [
         name: 'Travel Backpack',
         imageUrl: 'https://images.unsplash.com/photo-1553062407-98eeb68c6a62?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTkyMzN8MHwxfHNlYXJjaHwxfHx0cmF2ZWwlMjBiYWNrcGFja3xlbnwwfHx8fDE2OTE1MDY4ODd8MA&ixlib=rb-4.0.3&q=80&w=1080',
         productUrl: 'https://www.amazon.in/s?k=travel+backpack',
-        price: '₹2,499'
+        price: '₹2,499',
+        category: 'Gear'
     },
     {
         id: 'shop2',
         name: 'Hiking Boots',
         imageUrl: 'https://images.unsplash.com/photo-1599739482868-809c95d98c1c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTkyMzN8MHwxfHNlYXJjaHwxfHzoaWtpbmslMjBib290c3xlbnwwfHx8fDE2OTE1MDY5MTB8MA&ixlib=rb-4.0.3&q=80&w=1080',
         productUrl: 'https://www.amazon.in/s?k=hiking+boots',
-        price: '₹4,999'
+        price: '₹4,999',
+        category: 'Apparel'
     },
     {
         id: 'shop3',
         name: 'Portable Tent',
         imageUrl: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTkyMzN8MHwxfHNlYXJjaHwxfHxwb3J0YWJsZSUyMHRlbnR8ZW58MHx8fHwxNjkxNTA2OTMwfDA&ixlib=rb-4.0.3&q=80&w=1080',
         productUrl: 'https://www.amazon.in/s?k=portable+tent',
-        price: '₹3,299'
+        price: '₹3,299',
+        category: 'Gear'
     },
     {
         id: 'shop4',
         name: 'Travel Camera',
         imageUrl: 'https://images.unsplash.com/photo-1510127034890-ba27e982f636?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTkyMzN8MHwxfHNlYXJjaHwxfHx0cmF2ZWwlMjBjYW1yYXxlbnwwfHx8fDE2OTE1MDY5NTF8MA&ixlib=rb-4.0.3&q=80&w=1080',
         productUrl: 'https://www.amazon.in/s?k=travel+camera',
-        price: '₹45,990'
+        price: '₹45,990',
+        category: 'Gear'
     },
     {
         id: 'shop5',
         name: 'Travel Pillow',
         imageUrl: 'https://images.unsplash.com/photo-1574763523473-51a8f9b9a5e1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTkyMzN8MHwxfHNlYXJjaHwxfHx0cmF2ZWwlMjBwaWxsb3d8ZW58MHx8fHwxNjkxNTA3MDA3fDA&ixlib=rb-4.0.3&q=80&w=1080',
         productUrl: 'https://www.amazon.in/s?k=travel+pillow',
-        price: '₹799'
+        price: '₹799',
+        category: 'Accessories'
     },
     {
         id: 'shop6',
         name: 'Sunglasses',
         imageUrl: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTkyMzN8MHwxfHNlYXJjaHwxfHxzdW5nbGFzc2VzfGVufDB8fHx8MTY5MTUwNzAzMnww&ixlib=rb-4.0.3&q=80&w=1080',
         productUrl: 'https://www.amazon.in/s?k=sunglasses',
-        price: '₹1,499'
+        price: '₹1,499',
+        category: 'Accessories'
     },
 ];
