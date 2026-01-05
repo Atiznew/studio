@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import Image from 'next/image';
@@ -47,6 +48,14 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
   
   const following = isFollowing(user.id);
 
+  const handleFollowClick = () => {
+    if (!currentUser) {
+      router.push('/login');
+      return;
+    }
+    toggleFollow(user.id);
+  };
+
   return (
     <>
     <PageHeader title={user.username || user.name}>
@@ -91,13 +100,14 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
             )}
         </div>
         <div className="mt-4">
+           {currentUser && (
             <Button 
                 className={cn("w-full", following ? "bg-secondary text-secondary-foreground hover:bg-secondary/80" : "bg-primary text-primary-foreground hover:bg-primary/90")}
-                onClick={() => toggleFollow(user.id)}
-                disabled={!currentUser}
+                onClick={handleFollowClick}
             >
                 {following ? t('following') : t('follow')}
             </Button>
+           )}
         </div>
       </header>
 

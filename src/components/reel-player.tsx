@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -13,6 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "@/context/language-context";
 import dynamic from 'next/dynamic';
 import { TelegramEmbed } from "./telegram-embed";
+import { useRouter } from "next/navigation";
 
 const ReactPlayer = dynamic(() => import('react-player/lazy'), { ssr: false });
 
@@ -28,12 +30,13 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
   
   const { likedVideos, toggleLike, openCommentSheet, currentUser, isFollowing, toggleFollow, toggleRepost, isReposted, savedVideos, toggleSaveVideo } = useVideoStore();
   const { toast } = useToast();
+  const router = useRouter();
   const { t } = useTranslation();
   const isLiked = likedVideos.has(video.id);
   const isSaved = savedVideos.has(video.id);
-  const reposted = isReposted(video.id);
+  const reposted = currentUser ? isReposted(video.id) : false;
   const commentCount = video.comments?.length || 0;
-  const following = isFollowing(video.user.id);
+  const following = currentUser ? isFollowing(video.user.id) : false;
   const isCurrentUserVideo = currentUser && video.user.id === currentUser.id;
 
   useEffect(() => {
@@ -42,6 +45,14 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
         playerRef.current.seekTo(0);
     }
   }, [isIntersecting, video.source]);
+
+  const handleAction = (action: () => void) => {
+    if (!currentUser) {
+      router.push('/login');
+      return;
+    }
+    action();
+  };
 
   const togglePlay = () => {
     if(video.source === 'telegram') return;
@@ -52,9 +63,7 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
     setIsMuted(prev => !prev);
   }
   
-  const handleLike = () => {
-    toggleLike(video.id);
-  }
+  const handleLike = () => handleAction(() => toggleLike(video.id));
 
   const handleShare = () => {
     navigator.clipboard.writeText(`${window.location.origin}/reels?v=${video.id}`);
@@ -64,8 +73,7 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
     });
   };
 
-  const handleRepost = () => {
-    if (!currentUser) return;
+  const handleRepost = () => handleAction(() => {
     toggleRepost(video.id);
     if (!reposted) {
         toast({
@@ -78,15 +86,18 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
             description: t('repost_undo_description'),
         });
     }
-  };
+  });
 
-  const handleSave = () => {
+  const handleSave = () => handleAction(() => {
     toggleSaveVideo(video.id);
     toast({
       title: isSaved ? t('video_unsaved_title') : t('video_saved_title'),
       description: isSaved ? t('video_unsaved_description') : t('video_saved_description'),
     });
-  };
+  });
+  
+  const handleFollow = () => handleAction(() => toggleFollow(video.user.id));
+  const handleComment = () => handleAction(() => openCommentSheet(video.id));
 
   const formatCount = (count: number) => {
     if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
@@ -154,7 +165,7 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
                 <Button 
                     size="sm"
                     variant={following ? 'secondary' : 'default'}
-                    onClick={(e) => { e.stopPropagation(); toggleFollow(video.user.id); }}
+                    onClick={(e) => { e.stopPropagation(); handleFollow(); }}
                     className={cn("h-7 px-3 rounded-full text-xs", following ? "bg-white/20 text-white" : "bg-primary text-primary-foreground")}
                 >
                     {following ? t('following') : t('follow')}
@@ -172,7 +183,7 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
               <Heart className={cn("h-8 w-8", isLiked && "fill-primary text-primary")} />
               <span className="text-xs font-bold">{formatCount(video.likes)}</span>
             </Button>
-            <Button onClick={(e) => { e.stopPropagation(); openCommentSheet(video.id); }} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
+            <Button onClick={(e) => { e.stopPropagation(); handleComment(); }} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
               <MessageCircle className="h-8 w-8" />
               <span className="text-xs font-bold">{formatCount(commentCount)}</span>
             </Button>

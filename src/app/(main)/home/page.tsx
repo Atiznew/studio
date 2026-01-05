@@ -39,7 +39,7 @@ const categories: { name: VideoCategory, icon: ReactNode, slug: string }[] = [
 
 
 export default function HomePage() {
-  const { videos, isFollowing } = useVideoStore();
+  const { videos, isFollowing, currentUser } = useVideoStore();
   const { t } = useTranslation();
   const trendingDestinations = destinations.slice(0, 5);
   const featuredDestinations = destinations.slice(0, 4);
@@ -246,7 +246,15 @@ export default function HomePage() {
 
   const FollowingFeed = () => (
     <div className="py-8">
-        {followingVideos.length > 0 ? (
+        {!currentUser ? (
+             <div className="text-center py-16">
+                <p className="text-lg font-semibold">{t('login_to_see_following_title')}</p>
+                <p className="text-muted-foreground mt-2">{t('login_to_see_following_description')}</p>
+                <Button asChild className="mt-4">
+                    <Link href="/login">{t('login_title')}</Link>
+                </Button>
+            </div>
+        ) : followingVideos.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {followingVideos.map((video) => (
                     <VideoCard key={video.id} video={video} />

@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import Image from 'next/image';
@@ -14,15 +15,20 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function ProfilePage() {
-  const { videos, likedVideos, currentUser, repostedVideos, savedVideos } = useVideoStore();
+  const { videos, likedVideos, currentUser, repostedVideos, savedVideos, logout } = useVideoStore();
   const { t } = useTranslation();
   const router = useRouter();
   
   useEffect(() => {
     if (!currentUser) {
-      router.push('/login');
+      router.replace('/login');
     }
   }, [currentUser, router]);
+
+  const handleLogout = () => {
+    logout();
+    router.push('/login');
+  };
 
   if (!currentUser) {
     return null; // Or a loading spinner
@@ -58,10 +64,8 @@ export default function ProfilePage() {
                 <Button variant="ghost" size="icon" asChild>
                     <Link href="/settings"><Settings className="h-5 w-5" /></Link>
                 </Button>
-                 <Button variant="ghost" size="icon" asChild>
-                    <Link href="/login">
-                        <LogOut className="h-5 w-5" />
-                    </Link>
+                 <Button variant="ghost" size="icon" onClick={handleLogout}>
+                    <LogOut className="h-5 w-5" />
                 </Button>
             </div>
         </div>

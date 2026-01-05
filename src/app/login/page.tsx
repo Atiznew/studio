@@ -1,3 +1,6 @@
+
+"use client";
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -5,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Logo } from '@/components/logo';
 import { TranslationWrapper } from '@/components/translation-wrapper';
+import { useVideoStore } from '@/hooks/use-video-store';
+import { useRouter } from 'next/navigation';
 
 const GoogleIcon = () => (
     <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
@@ -17,6 +22,22 @@ const GoogleIcon = () => (
 
 
 const LoginPageContent = () => {
+    const { setCurrentUser, users } = useVideoStore();
+    const router = useRouter();
+
+    const handleLogin = () => {
+        // In a real app, you'd validate credentials. Here, we'll just log in the first user.
+        const userToLogin = users[0];
+        if (userToLogin) {
+            setCurrentUser(userToLogin);
+            router.push('/home');
+        }
+    };
+    
+    const handleGoogleLogin = () => {
+        handleLogin(); // Simulate Google login
+    }
+
     return (
         <TranslationWrapper>
             {t => (
@@ -40,21 +61,20 @@ const LoginPageContent = () => {
                                 type="email"
                                 placeholder="m@example.com"
                                 required
+                                defaultValue="alexdoe@test.com"
                             />
                             </div>
                             <div className="grid gap-2">
                             <div className="flex items-center">
                                 <Label htmlFor="password">{t('password_label')}</Label>
                             </div>
-                            <Input id="password" type="password" required />
+                            <Input id="password" type="password" required defaultValue="password"/>
                             </div>
-                            <Button type="submit" className="w-full bg-accent hover:bg-accent/90" asChild>
-                            <Link href="/home">{t('login_title')}</Link>
+                            <Button type="button" onClick={handleLogin} className="w-full bg-accent hover:bg-accent/90">
+                                {t('login_title')}
                             </Button>
-                            <Button variant="outline" className="w-full" asChild>
-                                <Link href="/home">
-                                    <GoogleIcon /> {t('login_with_google')}
-                                </Link>
+                            <Button variant="outline" className="w-full" onClick={handleGoogleLogin}>
+                                <GoogleIcon /> {t('login_with_google')}
                             </Button>
                         </div>
                         <div className="mt-4 text-center text-sm">

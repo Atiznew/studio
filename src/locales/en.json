@@ -1,4 +1,5 @@
 
+
 {
   "nav_home": "Home",
   "nav_reels": "Reels",
@@ -209,7 +210,9 @@
   "create_account_button": "Create Account",
   "login_prompt": "Already have an account?",
   "login_link": "Login",
-  "upi_donate_title": "Donate via UPI (For Indian Users)"
+  "upi_donate_title": "Donate via UPI (For Indian Users)",
+  "login_to_see_following_title": "Login to see videos",
+  "login_to_see_following_description": "Login to see videos from creators you follow."
 }
 
     
