@@ -22,7 +22,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { VideoCard } from '@/components/video-card';
 import dynamic from 'next/dynamic';
-import { canPlay } from 'react-player/lazy';
+import { canPlay } from 'react-player';
 import { useHydrated } from '@/hooks/use-hydrated';
 
 const ReactPlayer = dynamic(() => import('react-player/lazy'), { ssr: false });
