@@ -51,6 +51,11 @@ export default function UploadPage() {
   const [uploadComplete, setUploadComplete] = useState(false);
   const [recentVideo, setRecentVideo] = useState<Video | null>(null);
   const [videoUrlPreview, setVideoUrlPreview] = useState('');
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
 
   const form = useForm<UploadFormValues>({
@@ -149,7 +154,7 @@ export default function UploadPage() {
                         <div className="relative">
                             <FormControl>
                                 <Input 
-                                    placeholder={t('video_url_placeholder')} 
+                                    placeholder={isClient ? t('video_url_placeholder') : "Video URL (YouTube/Telegram/Instagram)"}
                                     {...field}
                                     onChange={(e) => {
                                         field.onChange(e);
@@ -201,7 +206,7 @@ export default function UploadPage() {
                         <FormLabel>{t('video_title_label')}</FormLabel>
                     </div>
                     <FormControl>
-                      <Input placeholder={t('video_title_placeholder')} {...field} />
+                      <Input placeholder={isClient ? t('video_title_placeholder') : "e.g., My amazing trip to the mountains"} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -215,7 +220,7 @@ export default function UploadPage() {
                     <FormItem>
                       <FormLabel>{t('country_label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder={t('country_placeholder')} {...field} />
+                        <Input placeholder={isClient ? t('country_placeholder') : "e.g., India"} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -228,7 +233,7 @@ export default function UploadPage() {
                     <FormItem>
                       <FormLabel>{t('state_province_label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder={t('state_province_placeholder')} {...field} />
+                        <Input placeholder={isClient ? t('state_province_placeholder') : "e.g., Himachal Pradesh"} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -241,7 +246,7 @@ export default function UploadPage() {
                     <FormItem>
                       <FormLabel>{t('place_city_label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder={t('place_city_placeholder')} {...field} />
+                        <Input placeholder={isClient ? t('place_city_placeholder') : "e.g., Manali"} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -258,7 +263,7 @@ export default function UploadPage() {
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder={t('select_category_placeholder')} />
+                          <SelectValue placeholder={isClient ? t('select_category_placeholder') : "Select a category"} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -281,7 +286,7 @@ export default function UploadPage() {
                         <FormLabel>{t('description_label')}</FormLabel>
                     </div>
                     <FormControl>
-                      <Textarea placeholder={t('description_placeholder')} className="resize-none" {...field} />
+                      <Textarea placeholder={isClient ? t('description_placeholder') : "Tell us more about your video..."} className="resize-none" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
