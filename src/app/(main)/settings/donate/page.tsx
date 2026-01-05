@@ -26,7 +26,7 @@ export default function DonatePage() {
   const { t } = useTranslation();
   const { toast } = useToast();
   const upiId = "karanroy2025@upi";
-  const payoneerEmail = "bugnuroy@gmail.com";
+  const internationalEmail = "bugnuroy@gmail.com";
 
   const handleCopy = (text: string, type: 'UPI' | 'email') => {
     navigator.clipboard.writeText(text);
@@ -71,7 +71,7 @@ export default function DonatePage() {
             <Separator />
 
             <div className="w-full space-y-4">
-                <h3 className="font-bold text-lg">{t('donate_title')} ({t('for_indian_users')})</h3>
+                <h3 className="font-bold text-lg">{t('upi_donate_title')}</h3>
                 <div className="flex items-center space-x-2">
                     <Input value={upiId} readOnly className="text-center"/>
                     <Button variant="outline" size="icon" onClick={() => handleCopy(upiId, 'UPI')}>
@@ -84,10 +84,10 @@ export default function DonatePage() {
             
             <div className="w-full space-y-4">
                 <h3 className="font-bold text-lg">{t('for_international_users')}</h3>
-                <p className="text-sm text-muted-foreground">{t('payoneer_description')}</p>
+                <p className="text-sm text-muted-foreground">{t('international_donation_description')}</p>
                 <div className="flex items-center space-x-2">
-                    <Input value={payoneerEmail} readOnly className="text-center"/>
-                    <Button variant="outline" size="icon" onClick={() => handleCopy(payoneerEmail, 'email')}>
+                    <Input value={internationalEmail} readOnly className="text-center"/>
+                    <Button variant="outline" size="icon" onClick={() => handleCopy(internationalEmail, 'email')}>
                         <Copy className="h-4 w-4" />
                     </Button>
                 </div>
