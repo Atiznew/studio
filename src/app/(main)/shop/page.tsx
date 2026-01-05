@@ -8,7 +8,7 @@ import { useVideoStore } from '@/hooks/use-video-store';
 import { useTranslation } from '@/context/language-context';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, X, Plus } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import { ShopItemCategory } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
@@ -45,13 +45,7 @@ export default function ShopPage() {
 
   return (
     <>
-      <PageHeader title={t('shop_page_title')}>
-        <Button variant="ghost" size="icon" asChild>
-          <Link href="/shop/add">
-            <Plus className="h-5 w-5" />
-          </Link>
-        </Button>
-      </PageHeader>
+      <PageHeader title={t('shop_page_title')} />
       <div className="container max-w-4xl mx-auto py-8">
         <p className="text-center text-muted-foreground mb-8">{t('shop_page_description')}</p>
         

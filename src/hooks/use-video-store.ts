@@ -28,7 +28,6 @@ interface VideoState {
   toggleRepost: (videoId: string) => void;
   isReposted: (videoId: string) => boolean;
   toggleSaveVideo: (videoId: string) => void;
-  addShopItem: (itemData: Omit<ShopItem, 'id'>) => void;
 }
 
 // In a real app, you'd get this from an auth context
@@ -244,13 +243,4 @@ export const useVideoStore = create<VideoState>((set, get) => ({
       return { users: newUsers, videos: updatedVideos, currentUser: newUsers[currentUserIndex] };
     });
   },
-  addShopItem: (itemData: Omit<ShopItem, 'id'>) => {
-    set((state) => {
-        const newItem: ShopItem = {
-            id: `shop${state.shopItems.length + 1}`,
-            ...itemData,
-        };
-        return { shopItems: [newItem, ...state.shopItems] };
-    });
-  }
 }));
