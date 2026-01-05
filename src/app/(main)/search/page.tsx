@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -10,12 +11,14 @@ import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 import { useVideoStore } from '@/hooks/use-video-store';
 import { useTranslation } from '@/context/language-context';
+import { useHydrated } from '@/hooks/use-hydrated';
 
 export default function SearchPage() {
   const { videos } = useVideoStore();
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState(videos);
+  const isHydrated = useHydrated();
 
   const handleSearch = () => {
     if (searchTerm.trim() === '') {
@@ -35,6 +38,10 @@ export default function SearchPage() {
     setSearchTerm('');
     setSearchResults(videos);
   };
+  
+  if (!isHydrated) {
+    return null;
+  }
 
   return (
     <>

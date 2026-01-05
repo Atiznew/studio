@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Button } from './ui/button';
 import { useTranslation } from '@/context/language-context';
+import React from 'react';
 
 
 interface VideoCardProps {
@@ -21,7 +22,7 @@ interface VideoCardProps {
   className?: string;
 }
 
-export function VideoCard({ video, className }: VideoCardProps) {
+export const VideoCard = React.memo(({ video, className }: VideoCardProps) => {
   const { deleteVideo, currentUser } = useVideoStore();
   const { t } = useTranslation();
   const isCurrentUserVideo = currentUser ? video.user.id === currentUser.id : false;
@@ -111,6 +112,6 @@ export function VideoCard({ video, className }: VideoCardProps) {
       </CardContent>
     </Card>
   );
-}
+});
 
-    
+VideoCard.displayName = 'VideoCard';

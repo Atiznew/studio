@@ -46,7 +46,7 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
     return count;
   };
   
-  const following = isFollowing(user.id);
+  const following = currentUser ? isFollowing(user.id) : false;
 
   const handleFollowClick = () => {
     if (!currentUser) {

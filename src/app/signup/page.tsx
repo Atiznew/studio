@@ -9,9 +9,15 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Logo } from '@/components/logo';
 import { useTranslation } from '@/context/language-context';
+import { useHydrated } from '@/hooks/use-hydrated';
 
 export default function SignupPage() {
     const { t } = useTranslation();
+    const isHydrated = useHydrated();
+
+    if (!isHydrated) {
+        return null;
+    }
 
     return (
         <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2 xl:min-h-screen">

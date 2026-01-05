@@ -14,6 +14,7 @@ import { useToast } from '@/hooks/use-toast';
 import { ChevronLeft, UploadCloud } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslation } from '@/context/language-context';
+import { useHydrated } from '@/hooks/use-hydrated';
 
 const formSchema = z.object({
   place: z.string().min(2, "Place name is required."),
@@ -31,6 +32,7 @@ export default function SuggestPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [fileName, setFileName] = useState('');
   const imageFileRef = useRef<File | null>(null);
+  const isHydrated = useHydrated();
 
   const form = useForm<SuggestionFormValues>({
     resolver: zodResolver(formSchema),
@@ -67,6 +69,10 @@ export default function SuggestPage() {
       imageFileRef.current = null;
     }, 1500);
   };
+  
+  if (!isHydrated) {
+    return null;
+  }
 
   return (
     <>

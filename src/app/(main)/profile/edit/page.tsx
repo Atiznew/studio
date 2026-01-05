@@ -19,6 +19,7 @@ import { useTranslation } from '@/context/language-context';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useHydrated } from '@/hooks/use-hydrated';
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -38,6 +39,7 @@ export default function EditProfilePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(currentUser?.avatarUrl || null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const isHydrated = useHydrated();
 
   useEffect(() => {
     if (!currentUser) {
@@ -88,7 +90,7 @@ export default function EditProfilePage() {
     }
   };
   
-  if (!currentUser) {
+  if (!currentUser || !isHydrated) {
     return null; // Or a loading spinner
   }
 
@@ -189,5 +191,3 @@ export default function EditProfilePage() {
     </>
   );
 }
-
-    
