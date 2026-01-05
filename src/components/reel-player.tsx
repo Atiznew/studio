@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "@/context/language-context";
 import dynamic from 'next/dynamic';
+import { TelegramEmbed } from "./telegram-embed";
 
 const ReactPlayer = dynamic(() => import('react-player/lazy'), { ssr: false });
 
@@ -43,6 +44,7 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
   }, [isIntersecting]);
 
   const togglePlay = () => {
+    if(video.source === 'telegram') return;
     setIsPlaying(prev => !prev);
   };
 
@@ -91,9 +93,12 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
     if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
     return count;
   };
-
-  return (
-    <div className="relative h-full w-full bg-black" onClick={togglePlay}>
+  
+  const renderPlayer = () => {
+    if (video.source === 'telegram') {
+      return <TelegramEmbed url={video.videoUrl} />;
+    }
+    return (
        <ReactPlayer
             ref={playerRef}
             url={video.videoUrl}
@@ -119,8 +124,14 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
                 }
             }}
         />
+    )
+  }
+
+  return (
+    <div className="relative h-full w-full bg-black" onClick={togglePlay}>
+      {renderPlayer()}
       
-      {!isPlaying && (
+      {!isPlaying && video.source !== 'telegram' && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
           <Play className="h-20 w-20 text-white/50" />
         </div>
@@ -201,7 +212,8 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
             width: 100% !important;
             height: 100% !important;
         }
-        .react-player video {
+        .react-player video,
+        .react-player iframe {
             object-fit: cover;
         }
       `}</style>

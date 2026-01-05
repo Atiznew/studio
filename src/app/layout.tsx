@@ -3,6 +3,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/context/theme-context';
 import { LanguageProvider } from '@/context/language-context';
 import './globals.css';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: 'Bharatyatra',
@@ -31,6 +32,7 @@ export default function RootLayout({
           </LanguageProvider>
           <Toaster />
         </ThemeProvider>
+        <Script src="https://telegram.org/js/telegram-widget.js?22" strategy="lazyOnload" />
       </body>
     </html>
   );
