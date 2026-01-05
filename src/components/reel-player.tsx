@@ -131,7 +131,7 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
                     }
                 },
                 facebook: {
-                    appId: '12345' // Placeholder App ID for oEmbed
+                    // appId is not strictly necessary for oEmbed but good practice
                 }
             }}
         />

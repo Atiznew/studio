@@ -25,11 +25,6 @@ import dynamic from 'next/dynamic';
 import { useHydrated } from '@/hooks/use-hydrated';
 
 const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
-const canPlay = (url: string) => {
-    if (typeof window === 'undefined') return false;
-    const { canPlay } = require('react-player/lazy');
-    return canPlay(url);
-}
 
 const categories: VideoCategory[] = ["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"];
 
@@ -74,7 +69,19 @@ export default function UploadPage() {
 
   useEffect(() => {
     if (videoUrlPreview) {
-      setShowPreview(canPlay(videoUrlPreview));
+      // ReactPlayer might not be available immediately on mount
+      if (ReactPlayer.canPlay(videoUrlPreview)) {
+        setShowPreview(true);
+      } else {
+        // Fallback for when canPlay is not ready yet, especially on first load
+        setTimeout(() => {
+            if (ReactPlayer.canPlay(videoUrlPreview)) {
+                setShowPreview(true);
+            } else {
+                setShowPreview(false);
+            }
+        }, 100);
+      }
     } else {
       setShowPreview(false);
     }
