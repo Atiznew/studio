@@ -22,11 +22,14 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { VideoCard } from '@/components/video-card';
 import dynamic from 'next/dynamic';
-import { canPlay } from 'react-player';
 import { useHydrated } from '@/hooks/use-hydrated';
 
-const ReactPlayer = dynamic(() => import('react-player/lazy'), { ssr: false });
-
+const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
+const canPlay = (url: string) => {
+    if (typeof window === 'undefined') return false;
+    const { canPlay } = require('react-player/lazy');
+    return canPlay(url);
+}
 
 const categories: VideoCategory[] = ["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"];
 
@@ -53,6 +56,7 @@ export default function UploadPage() {
   const [uploadComplete, setUploadComplete] = useState(false);
   const [recentVideo, setRecentVideo] = useState<Video | null>(null);
   const [videoUrlPreview, setVideoUrlPreview] = useState('');
+  const [showPreview, setShowPreview] = useState(false);
   const isHydrated = useHydrated();
 
   const form = useForm<UploadFormValues>({
@@ -67,6 +71,14 @@ export default function UploadPage() {
       videoUrl: "",
     },
   });
+
+  useEffect(() => {
+    if (videoUrlPreview) {
+      setShowPreview(canPlay(videoUrlPreview));
+    } else {
+      setShowPreview(false);
+    }
+  }, [videoUrlPreview]);
   
   const onSubmit = (data: UploadFormValues) => {
     let sourceType: 'youtube' | 'instagram' | 'telegram' | 'url' = 'url';
@@ -171,7 +183,7 @@ export default function UploadPage() {
                   )}
                 />
 
-                {videoUrlPreview && canPlay(videoUrlPreview) && (
+                {showPreview && (
                   <div className="aspect-video w-full rounded-lg overflow-hidden border bg-black">
                      <ReactPlayer
                         url={videoUrlPreview}

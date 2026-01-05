@@ -75,7 +75,7 @@ export default function LoginPage() {
                     </div>
                     <Input id="password" type="password" required defaultValue="password"/>
                     </div>
-                    <Button type="button" onClick={handleLogin} className="w-full bg-accent hover:bg-accent/90">
+                    <Button type="button" onClick={handleLogin} className="w-full">
                         {t('login_title')}
                     </Button>
                     <Button variant="outline" className="w-full" onClick={handleGoogleLogin}>

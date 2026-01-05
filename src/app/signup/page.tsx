@@ -35,7 +35,7 @@ export default function SignupPage() {
                     <div className="grid gap-4">
                         <div className="grid gap-2">
                             <Label htmlFor="fullname">{t('fullname_label')}</Label>
-                            <Input id="fullname" placeholder={t('fullname_placeholder')} required />
+                            <Input id="fullname" placeholder={isHydrated ? t('fullname_placeholder') : ''} required />
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="email">{t('email_label')}</Label>
@@ -47,13 +47,13 @@ export default function SignupPage() {
                         </div>
                          <div className="grid gap-2">
                             <Label htmlFor="country">{t('country_label')}</Label>
-                            <Input id="country" placeholder={t('country_placeholder')} required />
+                            <Input id="country" placeholder={isHydrated ? t('country_placeholder') : ''} required />
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="source">{t('how_heard_label')}</Label>
                             <Select>
                                 <SelectTrigger id="source">
-                                    <SelectValue placeholder={t('how_heard_placeholder')} />
+                                    <SelectValue placeholder={isHydrated ? t('how_heard_placeholder') : ''} />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="google">Google</SelectItem>
@@ -63,7 +63,7 @@ export default function SignupPage() {
                                 </SelectContent>
                             </Select>
                         </div>
-                        <Button type="submit" className="w-full bg-accent hover:bg-accent/90" asChild>
+                        <Button type="submit" className="w-full" asChild>
                             <Link href="/home">{t('create_account_button')}</Link>
                         </Button>
                     </div>

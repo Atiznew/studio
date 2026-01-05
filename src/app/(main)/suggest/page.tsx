@@ -125,7 +125,7 @@ export default function SuggestPage() {
                 <FormItem>
                   <FormLabel>{t('place_city_label')}</FormLabel>
                   <FormControl>
-                    <Input placeholder={t('place_city_placeholder')} {...field} />
+                    <Input placeholder={isHydrated ? t('place_city_placeholder') : ''} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -140,7 +140,7 @@ export default function SuggestPage() {
                   <FormItem>
                     <FormLabel>{t('state_province_label')}</FormLabel>
                     <FormControl>
-                      <Input placeholder={t('state_province_placeholder')} {...field} />
+                      <Input placeholder={isHydrated ? t('state_province_placeholder') : ''} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -153,7 +153,7 @@ export default function SuggestPage() {
                   <FormItem>
                     <FormLabel>{t('country_label')}</FormLabel>
                     <FormControl>
-                      <Input placeholder={t('country_placeholder')} {...field} />
+                      <Input placeholder={isHydrated ? t('country_placeholder') : ''} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -168,7 +168,7 @@ export default function SuggestPage() {
                 <FormItem>
                   <FormLabel>{t('reason_label')}</FormLabel>
                   <FormControl>
-                    <Textarea placeholder={t('reason_placeholder')} className="resize-none" {...field} />
+                    <Textarea placeholder={isHydrated ? t('reason_placeholder') : ''} className="resize-none" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

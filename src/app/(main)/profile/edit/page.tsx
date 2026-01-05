@@ -37,15 +37,18 @@ export default function EditProfilePage() {
   const router = useRouter();
   const { currentUser, updateCurrentUser } = useVideoStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(currentUser?.avatarUrl || null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const isHydrated = useHydrated();
 
   useEffect(() => {
-    if (!currentUser) {
+    if (isHydrated && !currentUser) {
       router.push('/login');
     }
-  }, [currentUser, router]);
+    if (currentUser) {
+      setAvatarPreview(currentUser.avatarUrl);
+    }
+  }, [currentUser, router, isHydrated]);
 
   const form = useForm<EditProfileFormValues>({
     resolver: zodResolver(formSchema),
@@ -57,6 +60,18 @@ export default function EditProfilePage() {
       avatarUrl: currentUser.avatarUrl,
     } : {},
   });
+
+   useEffect(() => {
+    if (currentUser) {
+      form.reset({
+        name: currentUser.name,
+        username: currentUser.username,
+        website: currentUser.website || '',
+        bio: currentUser.bio || '',
+        avatarUrl: currentUser.avatarUrl,
+      });
+    }
+  }, [currentUser, form]);
 
   const handleAvatarChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -90,7 +105,7 @@ export default function EditProfilePage() {
     }
   };
   
-  if (!currentUser || !isHydrated) {
+  if (!isHydrated || !currentUser) {
     return null; // Or a loading spinner
   }
 
@@ -108,7 +123,7 @@ export default function EditProfilePage() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="flex flex-col items-center space-y-4">
               <Avatar className="w-24 h-24">
-                <AvatarImage src={avatarPreview || currentUser.avatarUrl} alt={currentUser.name} />
+                <AvatarImage src={avatarPreview || ''} alt={currentUser.name} />
                 <AvatarFallback>{currentUser.name.charAt(0)}</AvatarFallback>
               </Avatar>
                <input 
@@ -130,7 +145,7 @@ export default function EditProfilePage() {
                 <FormItem>
                   <FormLabel>{t('name_label')}</FormLabel>
                   <FormControl>
-                    <Input placeholder={t('name_placeholder')} {...field} />
+                    <Input placeholder={isHydrated ? t('name_placeholder') : ''} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -144,7 +159,7 @@ export default function EditProfilePage() {
                 <FormItem>
                   <FormLabel>{t('username_label')}</FormLabel>
                   <FormControl>
-                    <Input placeholder={t('username_placeholder')} {...field} />
+                    <Input placeholder={isHydrated ? t('username_placeholder') : ''} {...field} />
                   </FormControl>
                   <FormDescription>
                     {t('username_description')}
@@ -161,7 +176,7 @@ export default function EditProfilePage() {
                 <FormItem>
                   <FormLabel>{t('website_label')}</FormLabel>
                   <FormControl>
-                    <Input placeholder={t('website_placeholder')} {...field} />
+                    <Input placeholder={isHydrated ? t('website_placeholder') : ''} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -175,7 +190,7 @@ export default function EditProfilePage() {
                 <FormItem>
                   <FormLabel>{t('bio_label')}</FormLabel>
                   <FormControl>
-                    <Textarea placeholder={t('bio_placeholder')} className="resize-none" rows={4} {...field} />
+                    <Textarea placeholder={isHydrated ? t('bio_placeholder') : ''} className="resize-none" rows={4} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
