@@ -155,7 +155,7 @@ export default function UploadPage() {
                         <div className="relative">
                             <FormControl>
                                 <Input 
-                                    placeholder={t('video_url_placeholder')}
+                                    placeholder={isHydrated ? t('video_url_placeholder') : ''}
                                     {...field}
                                     onChange={(e) => {
                                         field.onChange(e);
@@ -207,7 +207,7 @@ export default function UploadPage() {
                         <FormLabel>{t('video_title_label')}</FormLabel>
                     </div>
                     <FormControl>
-                      <Input placeholder={t('video_title_placeholder')} {...field} />
+                      <Input placeholder={isHydrated ? t('video_title_placeholder') : ''} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -221,7 +221,7 @@ export default function UploadPage() {
                     <FormItem>
                       <FormLabel>{t('country_label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder={t('country_placeholder')} {...field} />
+                        <Input placeholder={isHydrated ? t('country_placeholder') : ''} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -234,7 +234,7 @@ export default function UploadPage() {
                     <FormItem>
                       <FormLabel>{t('state_province_label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder={t('state_province_placeholder')} {...field} />
+                        <Input placeholder={isHydrated ? t('state_province_placeholder') : ''} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -247,7 +247,7 @@ export default function UploadPage() {
                     <FormItem>
                       <FormLabel>{t('place_city_label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder={t('place_city_placeholder')} {...field} />
+                        <Input placeholder={isHydrated ? t('place_city_placeholder') : ''} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -264,7 +264,7 @@ export default function UploadPage() {
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder={t('select_category_placeholder')} />
+                          <SelectValue placeholder={isHydrated ? t('select_category_placeholder') : ''} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -287,7 +287,7 @@ export default function UploadPage() {
                         <FormLabel>{t('description_label')}</FormLabel>
                     </div>
                     <FormControl>
-                      <Textarea placeholder={t('description_placeholder')} className="resize-none" {...field} />
+                      <Textarea placeholder={isHydrated ? t('description_placeholder') : ''} className="resize-none" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
