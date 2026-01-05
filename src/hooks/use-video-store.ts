@@ -2,12 +2,13 @@
 "use client";
 
 import create from 'zustand';
-import { initialVideos, initialUsers as allUsers } from '@/lib/data';
-import type { Video, Comment, User } from '@/lib/types';
+import { initialVideos, initialUsers as allUsers, shopItems as initialShopItems } from '@/lib/data';
+import type { Video, Comment, User, ShopItem } from '@/lib/types';
 
 interface VideoState {
   videos: Video[];
   users: User[];
+  shopItems: ShopItem[];
   currentUser: User | null; // Can be null now
   likedVideos: Set<string>;
   savedVideos: Set<string>;
@@ -27,6 +28,7 @@ interface VideoState {
   toggleRepost: (videoId: string) => void;
   isReposted: (videoId: string) => boolean;
   toggleSaveVideo: (videoId: string) => void;
+  addShopItem: (itemData: Omit<ShopItem, 'id'>) => void;
 }
 
 // In a real app, you'd get this from an auth context
@@ -39,6 +41,7 @@ const getInitialUser = (): User | null => {
 export const useVideoStore = create<VideoState>((set, get) => ({
   videos: initialVideos,
   users: allUsers,
+  shopItems: initialShopItems,
   currentUser: getInitialUser(),
   likedVideos: new Set(),
   savedVideos: new Set(),
@@ -239,6 +242,15 @@ export const useVideoStore = create<VideoState>((set, get) => ({
       });
       
       return { users: newUsers, videos: updatedVideos, currentUser: newUsers[currentUserIndex] };
+    });
+  },
+  addShopItem: (itemData: Omit<ShopItem, 'id'>) => {
+    set((state) => {
+        const newItem: ShopItem = {
+            id: `shop${state.shopItems.length + 1}`,
+            ...itemData,
+        };
+        return { shopItems: [newItem, ...state.shopItems] };
     });
   }
 }));

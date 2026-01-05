@@ -4,18 +4,20 @@
 import { useState } from 'react';
 import { PageHeader } from '@/components/page-header';
 import { ShopItemCard } from '@/components/shop-item-card';
-import { shopItems } from '@/lib/data';
+import { useVideoStore } from '@/hooks/use-video-store';
 import { useTranslation } from '@/context/language-context';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, X } from 'lucide-react';
+import { Search, X, Plus } from 'lucide-react';
 import { ShopItemCategory } from '@/lib/types';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 const categories: ShopItemCategory[] = ["All", "Digital", "Physical"];
 
 export default function ShopPage() {
   const { t } = useTranslation();
+  const { shopItems } = useVideoStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<ShopItemCategory>('All');
   
@@ -43,7 +45,13 @@ export default function ShopPage() {
 
   return (
     <>
-      <PageHeader title={t('shop_page_title')} />
+      <PageHeader title={t('shop_page_title')}>
+        <Button variant="ghost" size="icon" asChild>
+          <Link href="/shop/add">
+            <Plus className="h-5 w-5" />
+          </Link>
+        </Button>
+      </PageHeader>
       <div className="container max-w-4xl mx-auto py-8">
         <p className="text-center text-muted-foreground mb-8">{t('shop_page_description')}</p>
         
