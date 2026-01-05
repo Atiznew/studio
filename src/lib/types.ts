@@ -55,7 +55,7 @@ export interface Destination {
   lng?: number;
 }
 
-export type ShopItemCategory = "All" | "Gear" | "Apparel" | "Accessories";
+export type ShopItemCategory = "All" | "Digital" | "Physical";
 
 export interface ShopItem {
   id: string;
@@ -63,5 +63,5 @@ export interface ShopItem {
   imageUrl: string;
   productUrl: string;
   price: string;
-  category: "Gear" | "Apparel" | "Accessories";
+  category: "Digital" | "Physical";
 }

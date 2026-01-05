@@ -12,7 +12,7 @@ import { Search, X } from 'lucide-react';
 import { ShopItemCategory } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
-const categories: ShopItemCategory[] = ["All", "Gear", "Apparel", "Accessories"];
+const categories: ShopItemCategory[] = ["All", "Digital", "Physical"];
 
 export default function ShopPage() {
   const { t } = useTranslation();
