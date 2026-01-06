@@ -69,21 +69,9 @@ export default function UploadPage() {
 
   useEffect(() => {
     if (videoUrlPreview) {
-      // ReactPlayer might not be available immediately on mount
-      if (ReactPlayer.canPlay(videoUrlPreview)) {
         setShowPreview(true);
-      } else {
-        // Fallback for when canPlay is not ready yet, especially on first load
-        setTimeout(() => {
-            if (ReactPlayer.canPlay(videoUrlPreview)) {
-                setShowPreview(true);
-            } else {
-                setShowPreview(false);
-            }
-        }, 100);
-      }
     } else {
-      setShowPreview(false);
+        setShowPreview(false);
     }
   }, [videoUrlPreview]);
   
@@ -128,6 +116,7 @@ export default function UploadPage() {
         setRecentVideo(newVideo);
         form.reset();
         setVideoUrlPreview('');
+        setShowPreview(false);
       }, 500);
     }, 3500);
   };
@@ -150,7 +139,7 @@ export default function UploadPage() {
                         <Link href="/login">Login</Link>
                     </Button>
                     <Button variant="outline" asChild>
-                         <Link href="/login">Sign Up</Link>
+                         <Link href="/signup">Sign Up</Link>
                     </Button>
                 </div>
             </div>
@@ -190,7 +179,7 @@ export default function UploadPage() {
                   )}
                 />
 
-                {showPreview && (
+                {showPreview && videoUrlPreview && (
                   <div className="aspect-video w-full rounded-lg overflow-hidden border bg-black">
                      <ReactPlayer
                         url={videoUrlPreview}
@@ -198,6 +187,7 @@ export default function UploadPage() {
                         height="100%"
                         controls={true}
                         light={true}
+                        onError={() => setShowPreview(false)}
                      />
                   </div>
                 )}
