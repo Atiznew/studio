@@ -1,5 +1,4 @@
 
-
 {
   "nav_home": "Home",
   "nav_reels": "Reels",
@@ -72,7 +71,7 @@
   "suggestion_success_description": "Thanks for helping us grow. We'll review your suggestion.",
   "share_experience_page_title": "Share Experience",
   "video_url_label": "Video URL",
-  "video_url_placeholder": "Video URL (YouTube/Telegram/Instagram/Vimeo)",
+  "video_url_placeholder": "Video URL (YouTube/Telegram/Instagram/Vimeo Recommended)",
   "video_title_label": "Video Title",
   "video_title_placeholder": "e.g., My amazing trip to the mountains",
   "category_label": "Category",
