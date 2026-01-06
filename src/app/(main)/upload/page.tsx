@@ -14,7 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
 import { CheckCircle, Link2, Youtube, Instagram, AlertTriangle, ChevronRight, Heart } from 'lucide-react';
-import { VideoCategory, Video } from '@/lib/types';
+import { VideoCategory, Video, VideoSource } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { useVideoStore } from '@/hooks/use-video-store';
 import { useTranslation } from '@/context/language-context';
@@ -24,7 +24,7 @@ import { VideoCard } from '@/components/video-card';
 import dynamic from 'next/dynamic';
 import { useHydrated } from '@/hooks/use-hydrated';
 
-const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
+const ReactPlayer = dynamic(() => import('react-player/lazy'), { ssr: false });
 
 const categories: VideoCategory[] = ["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"];
 
@@ -69,14 +69,14 @@ export default function UploadPage() {
 
   useEffect(() => {
     if (videoUrlPreview) {
-        setShowPreview(true);
+      setShowPreview(true);
     } else {
-        setShowPreview(false);
+      setShowPreview(false);
     }
   }, [videoUrlPreview]);
   
   const onSubmit = (data: UploadFormValues) => {
-    let sourceType: 'youtube' | 'instagram' | 'telegram' | 'url' = 'url';
+    let sourceType: VideoSource = 'url';
     const sourceUrl = data.videoUrl;
 
     if (sourceUrl.includes('youtube.com') || sourceUrl.includes('youtu.be')) {
@@ -85,6 +85,8 @@ export default function UploadPage() {
         sourceType = 'instagram';
     } else if (sourceUrl.includes('t.me')) {
         sourceType = 'telegram';
+    } else if (sourceUrl.includes('vimeo.com')) {
+        sourceType = 'vimeo';
     }
     
     setIsUploading(true);
