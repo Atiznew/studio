@@ -129,9 +129,6 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
                         rel: 0,
                         iv_load_policy: 3
                     }
-                },
-                facebook: {
-                    // appId is not strictly necessary for oEmbed but good practice
                 }
             }}
         />
