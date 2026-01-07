@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Video, PlusSquare, Map, User } from 'lucide-react';
+import { Home, Video, PlusSquare, Map, User, ShoppingCart } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/context/language-context';
 import React from 'react';
@@ -37,12 +37,13 @@ export function BottomNav() {
     { href: '/reels', icon: Video, label: t('nav_reels') },
     { href: '/upload', icon: PlusSquare, label: t('nav_share') },
     { href: '/destinations', icon: Map, label: t('nav_destinations') },
+    { href: '/shop', icon: ShoppingCart, label: t('nav_shop') },
     { href: '/profile', icon: User, label: t('nav_profile') },
   ];
 
   return (
     <nav className="fixed bottom-0 left-0 z-50 w-full h-16 border-t bg-background/95 backdrop-blur-sm">
-      <div className="grid h-full max-w-lg grid-cols-5 mx-auto">
+      <div className="grid h-full max-w-lg grid-cols-6 mx-auto">
         {navItems.map((item) => {
           const isActive = (
             item.href === '/home' 
