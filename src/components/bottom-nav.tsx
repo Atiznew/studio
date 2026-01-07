@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Video, PlusSquare, ShoppingCart, User } from 'lucide-react';
+import { Home, Video, PlusSquare, Map, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/context/language-context';
 import React from 'react';
@@ -36,7 +36,7 @@ export function BottomNav() {
     { href: '/home', icon: Home, label: t('nav_home') },
     { href: '/reels', icon: Video, label: t('nav_reels') },
     { href: '/upload', icon: PlusSquare, label: t('nav_share') },
-    { href: '/shop', icon: ShoppingCart, label: t('nav_shop') },
+    { href: '/destinations', icon: Map, label: t('nav_destinations') },
     { href: '/profile', icon: User, label: t('nav_profile') },
   ];
 
