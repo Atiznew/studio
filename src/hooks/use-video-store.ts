@@ -62,7 +62,14 @@ export const useVideoStore = create<VideoState>()(
       },
     
       logout: () => {
-        set({ currentUser: null, suggestions: [] }); // Clear suggestions on logout
+        set({ 
+            currentUser: null, 
+            suggestions: [],
+            likedVideos: new Set(),
+            savedVideos: new Set(),
+            repostedVideos: new Map(),
+            followedUsers: new Set(['u2']), // reset to default
+        });
       },
       
       addVideo: (videoData) => {
@@ -72,7 +79,7 @@ export const useVideoStore = create<VideoState>()(
         };
 
         const newVideo: Video = {
-          id: `v${videos.length + 1}`,
+          id: `v${Date.now()}`,
           title: videoData.title,
           videoUrl: videoData.videoUrl,
           thumbnailUrl: videoData.thumbnailUrl,
@@ -172,26 +179,26 @@ export const useVideoStore = create<VideoState>()(
           if (!user || currentUserIndex === -1) return {};
 
           const newUsers = [...state.users];
-          const currentUser = { ...newUsers[currentUserIndex] };
+          const currentUserData = { ...newUsers[currentUserIndex] };
           
           if (newFollowedUsers.has(userId)) {
             newFollowedUsers.delete(userId);
             user.followers = Math.max(0, (user.followers || 0) - 1);
-            currentUser.following = Math.max(0, (currentUser.following || 0) - 1);
+            currentUserData.following = Math.max(0, (currentUserData.following || 0) - 1);
             isNowFollowing = false;
           } else {
             newFollowedUsers.add(userId);
             user.followers = (user.followers || 0) + 1;
-            currentUser.following = (currentUser.following || 0) + 1;
+            currentUserData.following = (currentUserData.following || 0) + 1;
             isNowFollowing = true;
           }
 
           const userIndex = newUsers.findIndex(u => u.id === userId);
           if(userIndex > -1) newUsers[userIndex] = user;
           
-          newUsers[currentUserIndex] = currentUser;
+          newUsers[currentUserIndex] = currentUserData;
 
-          return { followedUsers: newFollowedUsers, users: newUsers, currentUser };
+          return { followedUsers: newFollowedUsers, users: newUsers, currentUser: currentUserData };
         });
         return isNowFollowing;
       },
@@ -238,18 +245,20 @@ export const useVideoStore = create<VideoState>()(
             if (!state.currentUser) return {};
           const newUsers = [...state.users];
           const currentUserIndex = newUsers.findIndex(u => u.id === state.currentUser!.id);
+          let updatedCurrentUser = state.currentUser;
           if (currentUserIndex !== -1) {
             newUsers[currentUserIndex] = { ...newUsers[currentUserIndex], ...data };
+            updatedCurrentUser = newUsers[currentUserIndex];
           }
           
           const updatedVideos = state.videos.map(video => {
             let newVideo = {...video};
             if (video.user.id === state.currentUser!.id) {
-              newVideo.user = newUsers[currentUserIndex];
+              newVideo.user = updatedCurrentUser;
             }
-            const updatedComments = video.comments.map(comment => {
+            const updatedComments = (video.comments || []).map(comment => {
                 if (comment.user.id === state.currentUser!.id) {
-                    return { ...comment, user: newUsers[currentUserIndex] };
+                    return { ...comment, user: updatedCurrentUser };
                 }
                 return comment;
             });
@@ -257,7 +266,7 @@ export const useVideoStore = create<VideoState>()(
             return newVideo;
           });
           
-          return { users: newUsers, videos: updatedVideos, currentUser: newUsers[currentUserIndex] };
+          return { users: newUsers, videos: updatedVideos, currentUser: updatedCurrentUser };
         });
       },
       addSuggestion: (data) => {
@@ -288,7 +297,7 @@ export const useVideoStore = create<VideoState>()(
         set((state) => {
             if (!state.currentUser) return {};
             return {
-                suggestions: state.suggestions.filter(s => s.id !== suggestionId && s.userId === state.currentUser?.id),
+                suggestions: state.suggestions.filter(s => !(s.id === suggestionId && s.userId === state.currentUser?.id)),
             }
         });
       },
@@ -309,14 +318,12 @@ export const useVideoStore = create<VideoState>()(
       merge: (persisted, current) => ({
         ...current,
         ...persisted,
-        likedVideos: new Set(persisted.likedVideos as string[]),
-        savedVideos: new Set(persisted.savedVideos as string[]),
-        repostedVideos: new Map((persisted.repostedVideos as [string, string[]][]).map(([k, v]) => [k, new Set(v)])),
-        followedUsers: new Set(persisted.followedUsers as string[]),
+        likedVideos: new Set((persisted as any).likedVideos || []),
+        savedVideos: new Set((persisted as any).savedVideos || []),
+        repostedVideos: new Map(((persisted as any).repostedVideos || []).map(([k, v]: [string, string[]]) => [k, new Set(v)])),
+        followedUsers: new Set((persisted as any).followedUsers || []),
         suggestions: (persisted as any).suggestions || [],
       }),
     }
   )
 );
-
-    

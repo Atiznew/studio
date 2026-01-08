@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState, useRef, ChangeEvent, useEffect } from 'react';
@@ -47,7 +48,7 @@ export default function UploadPage() {
   const { toast } = useToast();
   const { t } = useTranslation();
   const router = useRouter();
-  const { currentUser, addVideo, videos } = useVideoStore((state) => ({ currentUser: state.currentUser, addVideo: state.addVideo, videos: state.videos }));
+  const { currentUser, addVideo } = useVideoStore((state) => ({ currentUser: state.currentUser, addVideo: state.addVideo }));
   
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
@@ -155,6 +156,9 @@ export default function UploadPage() {
         form.reset();
         setVideoUrlPreview('');
         setShowPreview(false);
+        if (thumbnailPreview) {
+          URL.revokeObjectURL(thumbnailPreview);
+        }
         setThumbnailPreview(null);
       }, 500);
     }, 3500);

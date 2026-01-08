@@ -14,21 +14,28 @@ import { ChevronLeft, LogOut, Link as LinkIcon } from 'lucide-react';
 import { useVideoStore } from '@/hooks/use-video-store';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/context/language-context';
+import { useEffect } from 'react';
 
 export default function UserProfilePage({ params }: { params: { id: string } }) {
   const { videos, isFollowing, toggleFollow, users, repostedVideos, currentUser } = useVideoStore();
   const { t } = useTranslation();
   const router = useRouter();
+  
+  const isCurrentUser = currentUser ? params.id === currentUser.id : false;
+
+  useEffect(() => {
+    if (isCurrentUser) {
+      router.replace('/profile');
+    }
+  }, [isCurrentUser, router]);
+
   const user = users.find((u) => u.id === params.id);
 
   if (!user) {
     notFound();
   }
-  
-  const isCurrentUser = currentUser ? user.id === currentUser.id : false;
 
   if (isCurrentUser) {
-    router.replace('/profile');
     return null;
   }
 

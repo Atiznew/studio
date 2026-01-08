@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState, ChangeEvent } from 'react';
@@ -101,6 +102,15 @@ export default function SuggestPage() {
   };
 
   const onSubmit = async (data: SuggestionFormValues) => {
+    if(!currentUser) {
+        toast({
+            variant: "destructive",
+            title: "Authentication Required",
+            description: "You must be logged in to suggest a place.",
+        });
+        router.push('/login');
+        return;
+    }
     setIsSubmitting(true);
     
     try {
@@ -124,9 +134,8 @@ export default function SuggestPage() {
         
         form.reset();
         setImagePreviews([]);
-        setTimeout(() => {
-          router.push('/profile');
-        }, 500);
+        router.push('/profile');
+
     } catch (error) {
         console.error("Failed to submit suggestion:", error);
         toast({
@@ -158,7 +167,7 @@ export default function SuggestPage() {
               <AlertTriangle className="h-4 w-4" />
               <AlertTitle>Authentication Required</AlertTitle>
               <AlertDescription>
-                You must be logged in to suggest a place.
+                You must be logged in to suggest a place. Please log in to continue.
                 <div className="mt-4">
                   <Button asChild>
                     <Link href="/login">Login</Link>

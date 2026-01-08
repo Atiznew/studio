@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState, ChangeEvent, useEffect } from 'react';
@@ -70,6 +71,21 @@ export default function EditSuggestionPage() {
       images: [],
     },
   });
+
+  useEffect(() => {
+    if (isHydrated && !currentUser) {
+      router.replace('/login');
+      return;
+    }
+    if (!suggestion) {
+      // Could be that the data is not hydrated yet, or suggestion not found.
+      // If it's not found after hydration, we can redirect.
+      if(isHydrated && currentUser) {
+          notFound();
+      }
+    }
+  }, [currentUser, router, isHydrated, suggestion]);
+
 
   useEffect(() => {
     if (suggestion) {
@@ -202,7 +218,7 @@ export default function EditSuggestionPage() {
   }
 
   if (!suggestion) {
-      notFound();
+      return null;
   }
 
   return (
