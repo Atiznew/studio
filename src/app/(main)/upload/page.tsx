@@ -89,6 +89,8 @@ export default function UploadPage() {
         sourceType = 'telegram';
     } else if (sourceUrl.includes('vimeo.com')) {
         sourceType = 'vimeo';
+    } else if (sourceUrl.includes('drive.google.com')) {
+        sourceType = 'googledrive';
     }
     
     setIsUploading(true);
