@@ -104,6 +104,16 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
     if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
     return count;
   };
+
+  const getPlayableUrl = () => {
+    if (video.source === 'googledrive') {
+      const fileId = video.videoUrl.match(/file\/d\/([^/]+)/);
+      if (fileId && fileId[1]) {
+        return `https://drive.google.com/uc?export=view&id=${fileId[1]}`;
+      }
+    }
+    return video.videoUrl;
+  };
   
   const renderPlayer = () => {
     if (video.source === 'telegram') {
@@ -112,7 +122,7 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
     return (
        <ReactPlayer
             ref={playerRef}
-            url={video.videoUrl}
+            url={getPlayableUrl()}
             playing={isPlaying}
             muted={isMuted}
             loop
