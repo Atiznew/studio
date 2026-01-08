@@ -15,6 +15,7 @@ import { useTranslation } from "@/context/language-context";
 import dynamic from 'next/dynamic';
 import { TelegramEmbed } from "./telegram-embed";
 import { useRouter } from "next/navigation";
+import { Slider } from "./ui/slider";
 
 const ReactPlayer = dynamic(() => import('react-player/lazy'), { ssr: false });
 
@@ -27,6 +28,8 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
   const playerRef = useRef<any>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const [progress, setProgress] = useState({ played: 0, playedSeconds: 0, loaded: 0, loadedSeconds: 0 });
+  const [duration, setDuration] = useState(0);
   
   const { likedVideos, toggleLike, openCommentSheet, currentUser, isFollowing, toggleFollow, toggleRepost, isReposted, savedVideos, toggleSaveVideo } = useVideoStore();
   const { toast } = useToast();
@@ -98,6 +101,32 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
   
   const handleFollow = () => handleAction(() => toggleFollow(video.user.id));
   const handleComment = () => handleAction(() => openCommentSheet(video.id));
+  
+  const handleProgress = (state: { played: number; playedSeconds: number; loaded: number; loadedSeconds: number; }) => {
+    setProgress(state);
+  };
+
+  const handleDuration = (duration: number) => {
+    setDuration(duration);
+  };
+
+  const handleSeek = (value: number[]) => {
+    const newPlayed = value[0] / 100;
+    playerRef.current?.seekTo(newPlayed);
+    setProgress(prev => ({ ...prev, played: newPlayed }));
+  };
+  
+  const formatTime = (seconds: number) => {
+    if (isNaN(seconds) || seconds === Infinity) return '00:00';
+    const date = new Date(seconds * 1000);
+    const hh = date.getUTCHours();
+    const mm = date.getUTCMinutes();
+    const ss = date.getUTCSeconds().toString().padStart(2, '0');
+    if (hh) {
+      return `${hh}:${mm.toString().padStart(2, '0')}:${ss}`;
+    }
+    return `${mm}:${ss}`;
+  };
 
   const formatCount = (count: number) => {
     if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
@@ -129,6 +158,8 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
             width="100%"
             height="100%"
             playsinline
+            onProgress={handleProgress}
+            onDuration={handleDuration}
             className="react-player"
             config={{
                 youtube: {
@@ -156,6 +187,19 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
       )}
 
       <div className="absolute bottom-0 left-0 right-0 p-4 text-white bg-gradient-to-t from-black/60 to-transparent pointer-events-none">
+        {video.source !== 'telegram' && duration > 30 && (
+          <div className="absolute bottom-24 left-4 right-4 z-20 pointer-events-auto">
+            <div className="flex items-center gap-2">
+              <span className="text-xs">{formatTime(progress.playedSeconds)}</span>
+              <Slider
+                value={[progress.played * 100]}
+                onValueChange={handleSeek}
+                className="w-full"
+              />
+              <span className="text-xs">{formatTime(duration)}</span>
+            </div>
+          </div>
+        )}
         <div className="flex items-end">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2 pointer-events-auto">
