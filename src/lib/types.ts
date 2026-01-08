@@ -1,4 +1,5 @@
 
+
 export interface User {
   id: string;
   name: string;
@@ -48,7 +49,7 @@ export interface Video {
 export interface Destination {
   id: string;
   name: string;
-  imageUrl: string;
+  imageUrls: string[];
   slug: string;
   country: string;
   lat?: number;

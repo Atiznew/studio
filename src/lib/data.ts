@@ -1,4 +1,5 @@
 
+
 import type { User, Destination, Video, Story, ShopItem } from './types';
 import data from './placeholder-images.json';
 
@@ -16,32 +17,32 @@ export const initialUsers: User[] = [
 export const currentUser = initialUsers.find(u => u.id === 'u1')!;
 
 export const destinations: Destination[] = [
-  { id: 'd1', name: 'Goa', country: 'India', slug: 'goa', imageUrl: placeholderImages.find(p => p.id === 'dest-goa')?.imageUrl || '', lat: 15.2993, lng: 74.1240 },
-  { id: 'd2', name: 'Manali', country: 'India', slug: 'manali', imageUrl: placeholderImages.find(p => p.id === 'dest-manali')?.imageUrl || '', lat: 32.2432, lng: 77.1892 },
-  { id: 'd3', name: 'Paris', country: 'France', slug: 'paris', imageUrl: placeholderImages.find(p => p.id === 'dest-paris')?.imageUrl || '', lat: 48.8566, lng: 2.3522 },
-  { id: 'd4', name: 'Kyoto', country: 'Japan', slug: 'kyoto', imageUrl: placeholderImages.find(p => p.id === 'dest-kyoto')?.imageUrl || '', lat: 35.0116, lng: 135.7681 },
-  { id: 'd5', name: 'Bali', country: 'Indonesia', slug: 'bali', imageUrl: placeholderImages.find(p => p.id === 'dest-bali')?.imageUrl || '', lat: -8.3405, lng: 115.0920 },
-  { id: 'd6', name: 'Rome', country: 'Italy', slug: 'rome', imageUrl: placeholderImages.find(p => p.id === 'dest-rome')?.imageUrl || '', lat: 41.9028, lng: 12.4964 },
-  { id: 'd7', name: 'Agra', country: 'India', slug: 'agra', imageUrl: placeholderImages.find(p => p.id === 'dest-agra')?.imageUrl || '', lat: 27.1767, lng: 78.0081 },
-  { id: 'd8', name: 'New York', country: 'USA', slug: 'new-york', imageUrl: placeholderImages.find(p => p.id === 'dest-new-york')?.imageUrl || '', lat: 40.7128, lng: -74.0060 },
-  { id: 'd9', name: 'London', country: 'UK', slug: 'london', imageUrl: placeholderImages.find(p => p.id === 'dest-london')?.imageUrl || '', lat: 51.5072, lng: -0.1276 },
-  { id: 'd10', name: 'Tokyo', country: 'Japan', slug: 'tokyo', imageUrl: placeholderImages.find(p => p.id === 'dest-tokyo')?.imageUrl || '', lat: 35.6762, lng: 139.6503 },
-  { id: 'd11', name: 'Sydney', country: 'Australia', slug: 'sydney', imageUrl: placeholderImages.find(p => p.id === 'dest-sydney')?.imageUrl || '', lat: -33.8688, lng: 151.2093 },
-  { id: 'd12', name: 'Cairo', country: 'Egypt', slug: 'cairo', imageUrl: placeholderImages.find(p => p.id === 'dest-cairo')?.imageUrl || '', lat: 30.0444, lng: 31.2357 },
-  { id: 'd13', name: 'Rio de Janeiro', country: 'Brazil', slug: 'rio-de-janeiro', imageUrl: placeholderImages.find(p => p.id === 'dest-rio')?.imageUrl || '', lat: -22.9068, lng: -43.1729 },
-  { id: 'd14', name: 'Dubai', country: 'UAE', slug: 'dubai', imageUrl: placeholderImages.find(p => p.id === 'dest-dubai')?.imageUrl || '', lat: 25.276987, lng: 55.296249 },
-  { id: 'd15', name: 'Santorini', country: 'Greece', slug: 'santorini', imageUrl: placeholderImages.find(p => p.id === 'dest-santorini')?.imageUrl || '', lat: 36.3932, lng: 25.4615 },
-  { id: 'd16', name: 'Machu Picchu', country: 'Peru', slug: 'machu-picchu', imageUrl: placeholderImages.find(p => p.id === 'dest-machu-picchu')?.imageUrl || '', lat: -13.1631, lng: -72.5450 },
-  { id: 'd17', name: 'Bora Bora', country: 'French Polynesia', slug: 'bora-bora', imageUrl: placeholderImages.find(p => p.id === 'dest-bora-bora')?.imageUrl || '', lat: -16.5004, lng: -151.7415 },
-  { id: 'd18', name: 'Venice', country: 'Italy', slug: 'venice', imageUrl: placeholderImages.find(p => p.id === 'dest-venice')?.imageUrl || '', lat: 45.4408, lng: 12.3155 },
-  { id: 'd19', name: 'Serengeti', country: 'Tanzania', slug: 'serengeti', imageUrl: placeholderImages.find(p => p.id === 'dest-serengeti')?.imageUrl || '', lat: -2.3333, lng: 34.8333 },
-  { id: 'd20', name: 'Jaipur', country: 'India', slug: 'jaipur', imageUrl: placeholderImages.find(p => p.id === 'dest-jaipur')?.imageUrl || '', lat: 26.9124, lng: 75.7873 },
-  { id: 'd21', name: 'Amritsar', country: 'India', slug: 'amritsar', imageUrl: placeholderImages.find(p => p.id === 'dest-amritsar')?.imageUrl || '', lat: 31.6340, lng: 74.8723 },
-  { id: 'd22', name: 'Varanasi', country: 'India', slug: 'varanasi', imageUrl: placeholderImages.find(p => p.id === 'dest-varanasi')?.imageUrl || '', lat: 25.3176, lng: 82.9739 },
-  { id: 'd23', name: 'Seoul', country: 'South Korea', slug: 'seoul', imageUrl: placeholderImages.find(p => p.id === 'dest-seoul')?.imageUrl || '', lat: 37.5665, lng: 126.9780 },
-  { id: 'd24', name: 'Bangkok', country: 'Thailand', slug: 'bangkok', imageUrl: placeholderImages.find(p => p.id === 'dest-bangkok')?.imageUrl || '', lat: 13.7563, lng: 100.5018 },
-  { id: 'd25', name: 'Istanbul', country: 'Turkey', slug: 'istanbul', imageUrl: placeholderImages.find(p => p.id === 'dest-istanbul')?.imageUrl || '', lat: 41.0082, lng: 28.9784 },
-  { id: 'd26', name: 'Prague', country: 'Czech Republic', slug: 'prague', imageUrl: placeholderImages.find(p => p.id === 'dest-prague')?.imageUrl || '', lat: 50.0755, lng: 14.4378 },
+  { id: 'd1', name: 'Goa', country: 'India', slug: 'goa', imageUrls: [placeholderImages.find(p => p.id === 'dest-goa')?.imageUrl || '', 'https://picsum.photos/seed/101/800/600', 'https://picsum.photos/seed/102/800/600'], lat: 15.2993, lng: 74.1240 },
+  { id: 'd2', name: 'Manali', country: 'India', slug: 'manali', imageUrls: [placeholderImages.find(p => p.id === 'dest-manali')?.imageUrl || '', 'https://picsum.photos/seed/103/800/600', 'https://picsum.photos/seed/104/800/600'], lat: 32.2432, lng: 77.1892 },
+  { id: 'd3', name: 'Paris', country: 'France', slug: 'paris', imageUrls: [placeholderImages.find(p => p.id === 'dest-paris')?.imageUrl || '', 'https://picsum.photos/seed/105/800/600', 'https://picsum.photos/seed/106/800/600'], lat: 48.8566, lng: 2.3522 },
+  { id: 'd4', name: 'Kyoto', country: 'Japan', slug: 'kyoto', imageUrls: [placeholderImages.find(p => p.id === 'dest-kyoto')?.imageUrl || '', 'https://picsum.photos/seed/107/800/600', 'https://picsum.photos/seed/108/800/600'], lat: 35.0116, lng: 135.7681 },
+  { id: 'd5', name: 'Bali', country: 'Indonesia', slug: 'bali', imageUrls: [placeholderImages.find(p => p.id === 'dest-bali')?.imageUrl || '', 'https://picsum.photos/seed/109/800/600', 'https://picsum.photos/seed/110/800/600'], lat: -8.3405, lng: 115.0920 },
+  { id: 'd6', name: 'Rome', country: 'Italy', slug: 'rome', imageUrls: [placeholderImages.find(p => p.id === 'dest-rome')?.imageUrl || '', 'https://picsum.photos/seed/111/800/600', 'https://picsum.photos/seed/112/800/600'], lat: 41.9028, lng: 12.4964 },
+  { id: 'd7', name: 'Agra', country: 'India', slug: 'agra', imageUrls: [placeholderImages.find(p => p.id === 'dest-agra')?.imageUrl || '', 'https://picsum.photos/seed/113/800/600', 'https://picsum.photos/seed/114/800/600'], lat: 27.1767, lng: 78.0081 },
+  { id: 'd8', name: 'New York', country: 'USA', slug: 'new-york', imageUrls: [placeholderImages.find(p => p.id === 'dest-new-york')?.imageUrl || '', 'https://picsum.photos/seed/115/800/600', 'https://picsum.photos/seed/116/800/600'], lat: 40.7128, lng: -74.0060 },
+  { id: 'd9', name: 'London', country: 'UK', slug: 'london', imageUrls: [placeholderImages.find(p => p.id === 'dest-london')?.imageUrl || '', 'https://picsum.photos/seed/117/800/600', 'https://picsum.photos/seed/118/800/600'], lat: 51.5072, lng: -0.1276 },
+  { id: 'd10', name: 'Tokyo', country: 'Japan', slug: 'tokyo', imageUrls: [placeholderImages.find(p => p.id === 'dest-tokyo')?.imageUrl || '', 'https://picsum.photos/seed/119/800/600', 'https://picsum.photos/seed/120/800/600'], lat: 35.6762, lng: 139.6503 },
+  { id: 'd11', name: 'Sydney', country: 'Australia', slug: 'sydney', imageUrls: [placeholderImages.find(p => p.id === 'dest-sydney')?.imageUrl || '', 'https://picsum.photos/seed/121/800/600', 'https://picsum.photos/seed/122/800/600'], lat: -33.8688, lng: 151.2093 },
+  { id: 'd12', name: 'Cairo', country: 'Egypt', slug: 'cairo', imageUrls: [placeholderImages.find(p => p.id === 'dest-cairo')?.imageUrl || '', 'https://picsum.photos/seed/123/800/600', 'https://picsum.photos/seed/124/800/600'], lat: 30.0444, lng: 31.2357 },
+  { id: 'd13', name: 'Rio de Janeiro', country: 'Brazil', slug: 'rio-de-janeiro', imageUrls: [placeholderImages.find(p => p.id === 'dest-rio')?.imageUrl || '', 'https://picsum.photos/seed/125/800/600', 'https://picsum.photos/seed/126/800/600'], lat: -22.9068, lng: -43.1729 },
+  { id: 'd14', name: 'Dubai', country: 'UAE', slug: 'dubai', imageUrls: [placeholderImages.find(p => p.id === 'dest-dubai')?.imageUrl || '', 'https://picsum.photos/seed/127/800/600', 'https://picsum.photos/seed/128/800/600'], lat: 25.276987, lng: 55.296249 },
+  { id: 'd15', name: 'Santorini', country: 'Greece', slug: 'santorini', imageUrls: [placeholderImages.find(p => p.id === 'dest-santorini')?.imageUrl || '', 'https://picsum.photos/seed/129/800/600', 'https://picsum.photos/seed/130/800/600'], lat: 36.3932, lng: 25.4615 },
+  { id: 'd16', name: 'Machu Picchu', country: 'Peru', slug: 'machu-picchu', imageUrls: [placeholderImages.find(p => p.id === 'dest-machu-picchu')?.imageUrl || '', 'https://picsum.photos/seed/131/800/600', 'https://picsum.photos/seed/132/800/600'], lat: -13.1631, lng: -72.5450 },
+  { id: 'd17', name: 'Bora Bora', country: 'French Polynesia', slug: 'bora-bora', imageUrls: [placeholderImages.find(p => p.id === 'dest-bora-bora')?.imageUrl || '', 'https://picsum.photos/seed/133/800/600', 'https://picsum.photos/seed/134/800/600'], lat: -16.5004, lng: -151.7415 },
+  { id: 'd18', name: 'Venice', country: 'Italy', slug: 'venice', imageUrls: [placeholderImages.find(p => p.id === 'dest-venice')?.imageUrl || '', 'https://picsum.photos/seed/135/800/600', 'https://picsum.photos/seed/136/800/600'], lat: 45.4408, lng: 12.3155 },
+  { id: 'd19', name: 'Serengeti', country: 'Tanzania', slug: 'serengeti', imageUrls: [placeholderImages.find(p => p.id === 'dest-serengeti')?.imageUrl || '', 'https://picsum.photos/seed/137/800/600', 'https://picsum.photos/seed/138/800/600'], lat: -2.3333, lng: 34.8333 },
+  { id: 'd20', name: 'Jaipur', country: 'India', slug: 'jaipur', imageUrls: [placeholderImages.find(p => p.id === 'dest-jaipur')?.imageUrl || '', 'https://picsum.photos/seed/139/800/600', 'https://picsum.photos/seed/140/800/600'], lat: 26.9124, lng: 75.7873 },
+  { id: 'd21', name: 'Amritsar', country: 'India', slug: 'amritsar', imageUrls: [placeholderImages.find(p => p.id === 'dest-amritsar')?.imageUrl || '', 'https://picsum.photos/seed/141/800/600', 'https://picsum.photos/seed/142/800/600'], lat: 31.6340, lng: 74.8723 },
+  { id: 'd22', name: 'Varanasi', country: 'India', slug: 'varanasi', imageUrls: [placeholderImages.find(p => p.id === 'dest-varanasi')?.imageUrl || '', 'https://picsum.photos/seed/143/800/600', 'https://picsum.photos/seed/144/800/600'], lat: 25.3176, lng: 82.9739 },
+  { id: 'd23', name: 'Seoul', country: 'South Korea', slug: 'seoul', imageUrls: [placeholderImages.find(p => p.id === 'dest-seoul')?.imageUrl || '', 'https://picsum.photos/seed/145/800/600', 'https://picsum.photos/seed/146/800/600'], lat: 37.5665, lng: 126.9780 },
+  { id: 'd24', name: 'Bangkok', country: 'Thailand', slug: 'bangkok', imageUrls: [placeholderImages.find(p => p.id === 'dest-bangkok')?.imageUrl || '', 'https://picsum.photos/seed/147/800/600', 'https://picsum.photos/seed/148/800/600'], lat: 13.7563, lng: 100.5018 },
+  { id: 'd25', name: 'Istanbul', country: 'Turkey', slug: 'istanbul', imageUrls: [placeholderImages.find(p => p.id === 'dest-istanbul')?.imageUrl || '', 'https://picsum.photos/seed/149/800/600', 'https://picsum.photos/seed/150/800/600'], lat: 41.0082, lng: 28.9784 },
+  { id: 'd26', name: 'Prague', country: 'Czech Republic', slug: 'prague', imageUrls: [placeholderImages.find(p => p.id === 'dest-prague')?.imageUrl || '', 'https://picsum.photos/seed/151/800/600', 'https://picsum.photos/seed/152/800/600'], lat: 50.0755, lng: 14.4378 },
 ];
 
 export const initialVideos: Video[] = [

@@ -76,7 +76,7 @@ export default function HomePage() {
                                 <Card>
                                     <CardContent className="relative aspect-video flex items-center justify-center p-0 overflow-hidden rounded-lg">
                                          <Image
-                                            src={destination.imageUrl}
+                                            src={destination.imageUrls[0]}
                                             alt={destination.name}
                                             fill
                                             className="object-cover transition-transform duration-300 group-hover:scale-105"

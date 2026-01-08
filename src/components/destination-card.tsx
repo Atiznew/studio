@@ -15,7 +15,7 @@ export function DestinationCard({ destination, className }: DestinationCardProps
     <Link href={`/destinations/${destination.slug}`}>
       <Card className={cn("relative aspect-[4/5] w-full overflow-hidden group", className)}>
         <Image
-          src={destination.imageUrl}
+          src={destination.imageUrls[0]}
           alt={destination.name}
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-105"
