@@ -107,12 +107,14 @@ export default function SuggestPage() {
         const imageUrls = data.imageFiles ? await Promise.all(data.imageFiles.map(fileToDataUrl)) : [];
 
         const suggestionData = {
-            ...data,
-            imageUrls,
-        }
+            place: data.place,
+            state: data.state,
+            country: data.country,
+            reason: data.reason,
+            mapLink: data.mapLink,
+            imageUrls: imageUrls,
+        };
         
-        delete (suggestionData as any).imageFiles;
-
         addSuggestion(suggestionData);
 
         toast({
@@ -303,3 +305,5 @@ export default function SuggestPage() {
     </>
   );
 }
+
+    
