@@ -22,6 +22,7 @@ const formSchema = z.object({
   state: z.string().min(2, "State is required."),
   country: z.string().min(2, "Country is required."),
   reason: z.string().min(10, "Please provide a reason (at least 10 characters).").max(500),
+  mapLink: z.string().url("Please enter a valid map URL.").optional().or(z.literal('')),
   imageFiles: z.array(z.instanceof(File)).optional(),
 });
 
@@ -41,6 +42,7 @@ export default function SuggestPage() {
       state: "",
       country: "",
       reason: "",
+      mapLink: "",
       imageFiles: [],
     },
   });
@@ -185,6 +187,20 @@ export default function SuggestPage() {
                 )}
               />
             </div>
+            
+            <FormField
+              control={form.control}
+              name="mapLink"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('map_link_label')}</FormLabel>
+                  <FormControl>
+                    <Input placeholder={isHydrated ? t('map_link_placeholder') : ''} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <FormField
               control={form.control}

@@ -211,5 +211,7 @@
   "login_link": "Login",
   "upi_donate_title": "Donate via UPI (For Indian Users)",
   "login_to_see_following_title": "Login to see videos",
-  "login_to_see_following_description": "Login to see videos from creators you follow."
+  "login_to_see_following_description": "Login to see videos from creators you follow.",
+  "map_link_label": "Map Link (Optional)",
+  "map_link_placeholder": "e.g. Google Maps or MapmyIndia URL"
 }
