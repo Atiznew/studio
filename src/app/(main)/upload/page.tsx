@@ -36,6 +36,7 @@ const formSchema = z.object({
   category: z.enum(["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"]),
   description: z.string().min(10, "Description must be at least 10 characters.").max(500),
   videoUrl: z.string().url("Please enter a valid URL.").min(1, 'Please paste a video URL.'),
+  mapLink: z.string().url("Please enter a valid map URL.").optional().or(z.literal('')),
 });
 
 type UploadFormValues = z.infer<typeof formSchema>;
@@ -64,6 +65,7 @@ export default function UploadPage() {
       category: "Other",
       description: "",
       videoUrl: "",
+      mapLink: "",
     },
   });
 
@@ -266,6 +268,20 @@ export default function UploadPage() {
                 />
               </div>
 
+               <FormField
+                control={form.control}
+                name="mapLink"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t('map_link_label')}</FormLabel>
+                    <FormControl>
+                      <Input placeholder={isHydrated ? t('map_link_placeholder') : ''} {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <FormField
                 control={form.control}
                 name="category"
@@ -335,3 +351,5 @@ export default function UploadPage() {
     </>
   );
 }
+
+    

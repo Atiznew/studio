@@ -56,7 +56,7 @@
   "suggest_page_description": "Know a great travel spot that's not in our app? Let us know! Your suggestions help us add new and exciting destinations for everyone to explore.",
   "image_label": "Image",
   "upload_click_drag_drop": "Click to upload or drag and drop",
-  "upload_image_formats": "PNG, JPG, GIF up to 10MB",
+  "upload_image_formats": "PNG, JPG up to 5MB",
   "place_city_label": "Place / City",
   "place_city_placeholder": "e.g., Manali",
   "state_province_label": "State / Province",
@@ -219,3 +219,5 @@
   "suggested_on": "Suggested",
   "delete_suggestion_confirmation": "Are you sure you want to delete this suggestion?"
 }
+
+    

@@ -65,11 +65,11 @@ export const VideoCard = React.memo(({ video, className }: VideoCardProps) => {
                 <h3 className="font-bold leading-tight truncate font-headline">{video.title}</h3>
              </Link>
              <div className="flex items-center">
-                {video.destination.lat && video.destination.lng && (
+                {video.destination.mapLink && (
                     <Button variant="ghost" size="icon" className="h-8 w-8 flex-shrink-0" asChild>
-                        <Link href={`/map?slug=${video.destination.slug}`}>
+                        <a href={video.destination.mapLink} target="_blank" rel="noopener noreferrer">
                             <MapPin className="w-4 h-4 text-muted-foreground" />
-                        </Link>
+                        </a>
                     </Button>
                 )}
                 {isCurrentUserVideo && (
@@ -115,3 +115,5 @@ export const VideoCard = React.memo(({ video, className }: VideoCardProps) => {
 });
 
 VideoCard.displayName = 'VideoCard';
+
+    

@@ -56,7 +56,7 @@
   "suggest_page_description": "क्या आप किसी ऐसी शानदार यात्रा जगह के बारे में जानते हैं जो हमारे ऐप में नहीं है? हमें बताएं! आपके सुझाव हमें सभी के लिए नए और रोमांचक गंतव्य जोड़ने में मदद करते हैं।",
   "image_label": "छवि",
   "upload_click_drag_drop": "अपलोड करने के लिए क्लिक करें या खींचें और छोड़ें",
-  "upload_image_formats": "पीएनजी, जेपीजी, जीआईएफ 10एमबी तक",
+  "upload_image_formats": "पीएनजी, जेपीजी 5एमबी तक",
   "place_city_label": "जगह / शहर",
   "place_city_placeholder": "उदा., मनाली",
   "state_province_label": "राज्य / प्रांत",
@@ -219,3 +219,5 @@
   "suggested_on": "सुझाया गया",
   "delete_suggestion_confirmation": "क्या आप वाकई इस सुझाव को हटाना चाहते हैं?"
 }
+
+    

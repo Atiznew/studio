@@ -54,6 +54,7 @@ export interface Destination {
   country: string;
   lat?: number;
   lng?: number;
+  mapLink?: string;
 }
 
 export type ShopItemCategory = "All" | "Digital" | "Physical";
@@ -78,3 +79,5 @@ export interface Suggestion {
     imageUrls: string[];
     createdAt: string;
 }
+
+    
