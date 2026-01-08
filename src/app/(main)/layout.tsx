@@ -1,9 +1,6 @@
 
-'use client';
-
-import { BottomNav } from '@/components/bottom-nav';
-import { CommentSheet } from '@/components/comment-sheet';
 import type { Metadata } from 'next';
+import MainLayoutClient from './main-layout-client';
 
 export const metadata: Metadata = {
   title: 'Bharatyatra - Discover Real Travel Stories from India',
@@ -18,10 +15,6 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   return (
-      <div className="flex flex-col min-h-screen">
-        <main className="flex-1 pb-16">{children}</main>
-        <BottomNav />
-        <CommentSheet />
-      </div>
+      <MainLayoutClient>{children}</MainLayoutClient>
   );
 }
