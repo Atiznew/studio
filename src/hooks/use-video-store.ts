@@ -295,10 +295,9 @@ export const useVideoStore = create<VideoState>()(
       },
       deleteSuggestion: (suggestionId: string) => {
         set((state) => {
-            if (!state.currentUser) return {};
-            return {
-                suggestions: state.suggestions.filter(s => !(s.id === suggestionId && s.userId === state.currentUser?.id)),
-            }
+          if (!state.currentUser) return {};
+          const updatedSuggestions = state.suggestions.filter(s => !(s.id === suggestionId && s.userId === state.currentUser?.id));
+          return { suggestions: updatedSuggestions };
         });
       },
     }),
