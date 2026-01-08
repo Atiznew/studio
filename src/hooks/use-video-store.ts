@@ -34,6 +34,7 @@ interface VideoState {
   isReposted: (videoId: string) => boolean;
   toggleSaveVideo: (videoId: string) => void;
   addSuggestion: (data: Omit<Suggestion, 'id' | 'userId' | 'createdAt'>) => void;
+  updateSuggestion: (suggestionId: string, data: Partial<Omit<Suggestion, 'id' | 'userId' | 'createdAt'>>) => void;
   deleteSuggestion: (suggestionId: string) => void;
 }
 
@@ -271,10 +272,25 @@ export const useVideoStore = create<VideoState>()(
             return { suggestions: [newSuggestion, ...state.suggestions] };
         });
       },
+      updateSuggestion: (suggestionId, data) => {
+        set(state => {
+            if (!state.currentUser) return state;
+            const suggestionIndex = state.suggestions.findIndex(s => s.id === suggestionId && s.userId === state.currentUser?.id);
+            if (suggestionIndex === -1) return state;
+
+            const newSuggestions = [...state.suggestions];
+            newSuggestions[suggestionIndex] = { ...newSuggestions[suggestionIndex], ...data };
+
+            return { suggestions: newSuggestions };
+        });
+      },
       deleteSuggestion: (suggestionId: string) => {
-        set((state) => ({
-            suggestions: state.suggestions.filter(s => s.id !== suggestionId && s.userId === state.currentUser?.id),
-        }));
+        set((state) => {
+            if (!state.currentUser) return {};
+            return {
+                suggestions: state.suggestions.filter(s => s.id !== suggestionId && s.userId === state.currentUser?.id),
+            }
+        });
       },
     }),
     {

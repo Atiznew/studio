@@ -5,7 +5,7 @@
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Settings, LogOut, Link as LinkIcon, Users, Bookmark, Trash2 } from 'lucide-react';
+import { Settings, LogOut, Link as LinkIcon, Users, Bookmark, Trash2, Pencil } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
 import { VideoCard } from '@/components/video-card';
@@ -46,9 +46,16 @@ function SuggestionCard({ suggestion, onDelete }: { suggestion: any, onDelete: (
                  <p className="text-xs text-muted-foreground">
                     {t('suggested_on')} {formatDistanceToNow(new Date(suggestion.createdAt), { addSuffix: true })}
                 </p>
-                <Button variant="destructive" size="icon" onClick={() => onDelete(suggestion.id)}>
-                    <Trash2 className="h-4 w-4" />
-                </Button>
+                <div className="flex items-center gap-2">
+                    <Button variant="outline" size="icon" asChild>
+                        <Link href={`/profile/edit-suggestion/${suggestion.id}`}>
+                            <Pencil className="h-4 w-4" />
+                        </Link>
+                    </Button>
+                    <Button variant="destructive" size="icon" onClick={() => onDelete(suggestion.id)}>
+                        <Trash2 className="h-4 w-4" />
+                    </Button>
+                </div>
             </CardFooter>
         </Card>
     )
