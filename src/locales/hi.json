@@ -213,5 +213,9 @@
   "login_to_see_following_title": "वीडियो देखने के लिए लॉग इन करें",
   "login_to_see_following_description": "जिन क्रिएटर्स को आप फ़ॉलो करते हैं, उनके वीडियो देखने के लिए लॉग इन करें।",
   "map_link_label": "मैप लिंक (वैकल्पिक)",
-  "map_link_placeholder": "उदा. गूगल मैप्स या मैपमायइंडिया यूआरएल"
+  "map_link_placeholder": "उदा. गूगल मैप्स या मैपमायइंडिया यूआरएल",
+  "my_suggestions": "मेरे सुझाव",
+  "no_suggestions_yet": "आपने अभी तक कोई सुझाव नहीं दिया है।",
+  "suggested_on": "सुझाया गया",
+  "delete_suggestion_confirmation": "क्या आप वाकई इस सुझाव को हटाना चाहते हैं?"
 }

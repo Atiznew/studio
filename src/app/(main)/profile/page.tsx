@@ -5,7 +5,7 @@
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Settings, LogOut, Link as LinkIcon, Users, Bookmark } from 'lucide-react';
+import { Settings, LogOut, Link as LinkIcon, Users, Bookmark, Trash2 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
 import { VideoCard } from '@/components/video-card';
@@ -13,9 +13,50 @@ import { useVideoStore } from '@/hooks/use-video-store';
 import { useTranslation } from '@/context/language-context';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { formatDistanceToNow } from 'date-fns';
+
+function SuggestionCard({ suggestion, onDelete }: { suggestion: any, onDelete: (id: string) => void }) {
+    const { t } = useTranslation();
+    return (
+        <Card>
+            <CardHeader>
+                <CardTitle>{suggestion.place}</CardTitle>
+                <CardDescription>{suggestion.state}, {suggestion.country}</CardDescription>
+            </CardHeader>
+            <CardContent>
+                {suggestion.imageUrls && suggestion.imageUrls.length > 0 && (
+                    <div className="grid grid-cols-3 gap-2 mb-4">
+                        {suggestion.imageUrls.slice(0, 3).map((url: string, index: number) => (
+                            <div key={index} className="relative aspect-square">
+                                <Image src={url} alt={`Suggestion image ${index + 1}`} fill className="rounded-md object-cover" />
+                            </div>
+                        ))}
+                    </div>
+                )}
+                <p className="text-sm text-muted-foreground mb-2"><strong>{t('reason_label')}:</strong> {suggestion.reason}</p>
+                {suggestion.mapLink && (
+                    <a href={suggestion.mapLink} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline flex items-center gap-1">
+                        <LinkIcon className="h-4 w-4" />
+                        <span>View Map Link</span>
+                    </a>
+                )}
+            </CardContent>
+            <CardFooter className="flex justify-between items-center">
+                 <p className="text-xs text-muted-foreground">
+                    {t('suggested_on')} {formatDistanceToNow(new Date(suggestion.createdAt), { addSuffix: true })}
+                </p>
+                <Button variant="destructive" size="icon" onClick={() => onDelete(suggestion.id)}>
+                    <Trash2 className="h-4 w-4" />
+                </Button>
+            </CardFooter>
+        </Card>
+    )
+}
+
 
 export default function ProfilePage() {
-  const { videos, likedVideos, currentUser, repostedVideos, savedVideos, logout } = useVideoStore();
+  const { videos, likedVideos, currentUser, repostedVideos, savedVideos, logout, suggestions, deleteSuggestion } = useVideoStore();
   const { t } = useTranslation();
   const router = useRouter();
   
@@ -37,6 +78,7 @@ export default function ProfilePage() {
   const userVideos = videos.filter((v) => v.user.id === currentUser.id);
   const userLikedVideos = videos.filter(v => likedVideos.has(v.id));
   const userSavedVideos = videos.filter(v => savedVideos.has(v.id));
+  const userSuggestions = suggestions.filter(s => s.userId === currentUser.id);
 
   const userRepostIds = repostedVideos.get(currentUser.id) || new Set();
   const userRepostedVideos = videos
@@ -51,6 +93,12 @@ export default function ProfilePage() {
     if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
     return count;
   };
+  
+  const handleDeleteSuggestion = (id: string) => {
+      if(window.confirm(t('delete_suggestion_confirmation'))){
+          deleteSuggestion(id);
+      }
+  }
 
   return (
     <div className="container max-w-4xl mx-auto">
@@ -109,11 +157,12 @@ export default function ProfilePage() {
       </header>
 
       <Tabs defaultValue="videos" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="videos">{t('my_videos')}</TabsTrigger>
           <TabsTrigger value="reposts">{t('reposts')}</TabsTrigger>
           <TabsTrigger value="liked">{t('liked')}</TabsTrigger>
           <TabsTrigger value="saved">{t('saved_tab')}</TabsTrigger>
+          <TabsTrigger value="suggestions">{t('my_suggestions')}</TabsTrigger>
         </TabsList>
         <TabsContent value="videos">
            {userVideos.length > 0 ? (
@@ -167,9 +216,23 @@ export default function ProfilePage() {
                 </div>
             )}
         </TabsContent>
+        <TabsContent value="suggestions">
+            {userSuggestions.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+                    {userSuggestions.map((suggestion) => (
+                        <SuggestionCard key={suggestion.id} suggestion={suggestion} onDelete={handleDeleteSuggestion} />
+                    ))}
+                </div>
+            ) : (
+                <div className="text-center py-16">
+                    <p className="text-muted-foreground">{t('no_suggestions_yet')}</p>
+                     <Button asChild className="mt-4">
+                        <Link href="/suggest">{t('suggest_a_place')}</Link>
+                    </Button>
+                </div>
+            )}
+        </TabsContent>
       </Tabs>
     </div>
   );
 }
-
-    

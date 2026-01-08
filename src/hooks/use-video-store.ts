@@ -4,14 +4,15 @@
 
 import create from 'zustand';
 import { initialVideos, initialUsers as allUsers, shopItems as initialShopItems } from '@/lib/data';
-import type { Video, Comment, User, ShopItem } from '@/lib/types';
+import type { Video, Comment, User, ShopItem, Suggestion } from '@/lib/types';
 import { persist, createJSONStorage } from 'zustand/middleware'
 
 interface VideoState {
   videos: Video[];
   users: User[];
   shopItems: ShopItem[];
-  currentUser: User | null; // Can be null now
+  suggestions: Suggestion[];
+  currentUser: User | null;
   likedVideos: Set<string>;
   savedVideos: Set<string>;
   repostedVideos: Map<string, Set<string>>; // Map<userId, Set<videoId>>
@@ -32,10 +33,11 @@ interface VideoState {
   toggleRepost: (videoId: string) => void;
   isReposted: (videoId: string) => boolean;
   toggleSaveVideo: (videoId: string) => void;
+  addSuggestion: (data: Omit<Suggestion, 'id' | 'userId' | 'createdAt'>) => void;
+  deleteSuggestion: (suggestionId: string) => void;
 }
 
 const getInitialUser = (): User | null => {
-    // In a real app, this would be null until login
     return null;
 };
 
@@ -45,11 +47,12 @@ export const useVideoStore = create<VideoState>()(
       videos: initialVideos,
       users: allUsers,
       shopItems: initialShopItems,
+      suggestions: [],
       currentUser: getInitialUser(),
       likedVideos: new Set(),
       savedVideos: new Set(),
       repostedVideos: new Map(),
-      followedUsers: new Set(['u2']), // Initially follow Jane Smith for demo
+      followedUsers: new Set(['u2']),
       isCommentSheetOpen: false,
       activeVideoId: null,
 
@@ -58,7 +61,7 @@ export const useVideoStore = create<VideoState>()(
       },
     
       logout: () => {
-        set({ currentUser: null });
+        set({ currentUser: null, suggestions: [] }); // Clear suggestions on logout
       },
       
       addVideo: (videoData) => {
@@ -71,13 +74,13 @@ export const useVideoStore = create<VideoState>()(
           id: `v${videos.length + 1}`,
           title: videoData.title,
           videoUrl: videoData.videoUrl,
-          thumbnailUrl: 'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxhbmltYWwlMjB0cmF2ZWx8ZW58MHx8fHwxNzY2Nzk3NDU3fDA&ixlib=rb-4.1.0&q=80&w=1080', // Replace with a real thumbnail
+          thumbnailUrl: 'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxhbmltYWwlMjB0cmF2ZWx8ZW58MHx8fHwxNzY2Nzk3NDU3fDA&ixlib=rb-4.1.0&q=80&w=1080',
           source: videoData.source,
           user: currentUser,
           views: 0,
           likes: 0,
           comments: [],
-          destination: { // This part needs real logic to find or create destination
+          destination: {
             id: `d${Math.random()}`,
             name: videoData.place,
             country: videoData.country,
@@ -255,12 +258,28 @@ export const useVideoStore = create<VideoState>()(
           return { users: newUsers, videos: updatedVideos, currentUser: newUsers[currentUserIndex] };
         });
       },
+      addSuggestion: (data) => {
+        set((state) => {
+            if (!state.currentUser) return state;
+            const newSuggestion: Suggestion = {
+                ...data,
+                id: `sug-${Date.now()}`,
+                userId: state.currentUser.id,
+                createdAt: new Date().toISOString(),
+            };
+            return { suggestions: [newSuggestion, ...state.suggestions] };
+        });
+      },
+      deleteSuggestion: (suggestionId: string) => {
+        set((state) => ({
+            suggestions: state.suggestions.filter(s => s.id !== suggestionId && s.userId === state.currentUser?.id),
+        }));
+      },
     }),
     {
-      name: 'bharatyatra-storage', // name of the item in the storage (must be unique)
-      storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
+      name: 'bharatyatra-storage',
+      storage: createJSONStorage(() => sessionStorage),
        partialize: (state) => ({
-        // Persist only specific parts of the state
         videos: state.videos,
         users: state.users,
         currentUser: state.currentUser,
@@ -268,8 +287,8 @@ export const useVideoStore = create<VideoState>()(
         savedVideos: Array.from(state.savedVideos),
         repostedVideos: Array.from(state.repostedVideos.entries()).map(([k, v]) => [k, Array.from(v)]),
         followedUsers: Array.from(state.followedUsers),
+        suggestions: state.suggestions,
       }),
-      // Rehydrate the state
       merge: (persisted, current) => ({
         ...current,
         ...persisted,
@@ -277,6 +296,7 @@ export const useVideoStore = create<VideoState>()(
         savedVideos: new Set(persisted.savedVideos as string[]),
         repostedVideos: new Map((persisted.repostedVideos as [string, string[]][]).map(([k, v]) => [k, new Set(v)])),
         followedUsers: new Set(persisted.followedUsers as string[]),
+        suggestions: (persisted as any).suggestions || [],
       }),
     }
   )

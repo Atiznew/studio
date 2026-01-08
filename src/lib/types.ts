@@ -66,3 +66,15 @@ export interface ShopItem {
   price: string;
   category: "Digital" | "Physical";
 }
+
+export interface Suggestion {
+    id: string;
+    userId: string;
+    place: string;
+    state: string;
+    country: string;
+    reason: string;
+    mapLink?: string;
+    imageUrls: string[];
+    createdAt: string;
+}

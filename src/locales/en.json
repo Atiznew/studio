@@ -213,5 +213,9 @@
   "login_to_see_following_title": "Login to see videos",
   "login_to_see_following_description": "Login to see videos from creators you follow.",
   "map_link_label": "Map Link (Optional)",
-  "map_link_placeholder": "e.g. Google Maps or MapmyIndia URL"
+  "map_link_placeholder": "e.g. Google Maps or MapmyIndia URL",
+  "my_suggestions": "My Suggestions",
+  "no_suggestions_yet": "You haven't made any suggestions yet.",
+  "suggested_on": "Suggested",
+  "delete_suggestion_confirmation": "Are you sure you want to delete this suggestion?"
 }

@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, ChangeEvent, useCallback } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -16,6 +16,13 @@ import Link from 'next/link';
 import { useTranslation } from '@/context/language-context';
 import { useHydrated } from '@/hooks/use-hydrated';
 import Image from 'next/image';
+import { useVideoStore } from '@/hooks/use-video-store';
+import { useRouter } from 'next/navigation';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { AlertTriangle } from 'lucide-react';
+
+const MAX_FILES = 5;
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
 const formSchema = z.object({
   place: z.string().min(2, "Place name is required."),
@@ -23,14 +30,19 @@ const formSchema = z.object({
   country: z.string().min(2, "Country is required."),
   reason: z.string().min(10, "Please provide a reason (at least 10 characters).").max(500),
   mapLink: z.string().url("Please enter a valid map URL.").optional().or(z.literal('')),
-  imageFiles: z.array(z.instanceof(File)).optional(),
+  imageFiles: z.array(z.instanceof(File))
+    .max(MAX_FILES, `You can upload a maximum of ${MAX_FILES} images.`)
+    .refine(files => files.every(file => file.size <= MAX_FILE_SIZE), `Each file size should be less than 5MB.`)
+    .optional(),
 });
 
 type SuggestionFormValues = z.infer<typeof formSchema>;
 
 export default function SuggestPage() {
   const { toast } = useToast();
+  const router = useRouter();
   const { t } = useTranslation();
+  const { addSuggestion, currentUser } = useVideoStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const isHydrated = useHydrated();
@@ -47,13 +59,30 @@ export default function SuggestPage() {
     },
   });
 
+  const fileToDataUrl = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files) {
       const currentFiles = form.getValues('imageFiles') || [];
       const newFiles = Array.from(files);
+      if (currentFiles.length + newFiles.length > MAX_FILES) {
+          toast({
+              variant: 'destructive',
+              title: `You can only upload up to ${MAX_FILES} images.`,
+          });
+          return;
+      }
+
       const allFiles = [...currentFiles, ...newFiles];
-      form.setValue('imageFiles', allFiles);
+      form.setValue('imageFiles', allFiles, { shouldValidate: true });
 
       const newPreviews = newFiles.map(file => URL.createObjectURL(file));
       setImagePreviews(prev => [...prev, ...newPreviews]);
@@ -63,15 +92,27 @@ export default function SuggestPage() {
   const removeImage = (index: number) => {
     const currentFiles = form.getValues('imageFiles') || [];
     const updatedFiles = currentFiles.filter((_, i) => i !== index);
-    form.setValue('imageFiles', updatedFiles);
+    form.setValue('imageFiles', updatedFiles, { shouldValidate: true });
 
     const updatedPreviews = imagePreviews.filter((_, i) => i !== index);
     setImagePreviews(updatedPreviews);
+    // Revoke object URL to free memory
+    URL.revokeObjectURL(imagePreviews[index]);
   };
 
-  const onSubmit = (data: SuggestionFormValues) => {
+  const onSubmit = async (data: SuggestionFormValues) => {
     setIsSubmitting(true);
-    console.log("Suggestion submitted:", { ...data, files: data.imageFiles?.map(f => f.name) });
+    
+    const imageUrls = data.imageFiles ? await Promise.all(data.imageFiles.map(fileToDataUrl)) : [];
+
+    const suggestionData = {
+        ...data,
+        imageUrls,
+    }
+    
+    delete (suggestionData as any).imageFiles;
+
+    addSuggestion(suggestionData);
 
     // Simulate an API call
     setTimeout(() => {
@@ -82,11 +123,40 @@ export default function SuggestPage() {
       });
       form.reset();
       setImagePreviews([]);
-    }, 1500);
+      router.push('/profile');
+    }, 500);
   };
   
   if (!isHydrated) {
-    return null;
+    return null; // Or a loading spinner
+  }
+
+  if (!currentUser) {
+    return (
+      <>
+        <PageHeader title={t('suggest_page_title')}>
+            <Button variant="ghost" size="icon" asChild>
+                <Link href="/destinations">
+                    <ChevronLeft className="h-5 w-5" />
+                </Link>
+            </Button>
+        </PageHeader>
+        <div className="container max-w-2xl py-8">
+            <Alert variant="destructive">
+              <AlertTriangle className="h-4 w-4" />
+              <AlertTitle>Authentication Required</AlertTitle>
+              <AlertDescription>
+                You must be logged in to suggest a place.
+                <div className="mt-4">
+                  <Button asChild>
+                    <Link href="/login">Login</Link>
+                  </Button>
+                </div>
+              </AlertDescription>
+            </Alert>
+        </div>
+      </>
+    )
   }
 
   return (
