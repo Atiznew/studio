@@ -43,7 +43,7 @@ export default function EditProfilePage() {
 
   useEffect(() => {
     if (isHydrated && !currentUser) {
-      router.push('/login');
+      router.replace('/login');
     }
     if (currentUser) {
       setAvatarPreview(currentUser.avatarUrl);
