@@ -401,23 +401,20 @@ export default function UploadPage() {
                 </div>
               )}
 
-              {uploadComplete && (
-                <div className="flex items-center p-4 text-sm text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400" role="alert">
-                    <CheckCircle className="flex-shrink-0 inline w-4 h-4 mr-3"/>
-                    <span className="font-medium">{t('upload_complete_message')}</span>
+              {uploadComplete && recentVideo && (
+                 <div className="space-y-4">
+                    <div className="flex items-center p-4 text-sm text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400" role="alert">
+                        <CheckCircle className="flex-shrink-0 inline w-4 h-4 mr-3"/>
+                        <span className="font-medium">{t('upload_complete_message')}</span>
+                    </div>
+                    <h3 className="text-lg font-bold">Recently Uploaded</h3>
+                    <VideoCard video={recentVideo} />
                 </div>
               )}
 
               <Button type="submit" className="w-full" disabled={isUploading}>
                 {isUploading ? t('uploading_progress') : t('share_experience_button')}
               </Button>
-
-              {uploadComplete && recentVideo && (
-                <div className="mt-8">
-                    <h2 className="text-lg font-bold mb-4">Recently Uploaded</h2>
-                    <VideoCard video={recentVideo} />
-                </div>
-              )}
             </form>
           </Form>
       </div>
