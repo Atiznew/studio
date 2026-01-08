@@ -124,7 +124,9 @@ export default function SuggestPage() {
         
         form.reset();
         setImagePreviews([]);
-        router.push('/profile');
+        setTimeout(() => {
+          router.push('/profile');
+        }, 500);
     } catch (error) {
         console.error("Failed to submit suggestion:", error);
         toast({
@@ -305,5 +307,7 @@ export default function SuggestPage() {
     </>
   );
 }
+
+    
 
     
