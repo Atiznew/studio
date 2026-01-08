@@ -15,7 +15,7 @@
   "views": "Views",
   "followers": "Followers",
   "following_count": "Following",
-  "edit_profile": "Edit Profile",
+  "edit_profile": "Edit",
   "my_videos": "My Videos",
   "liked": "Liked",
   "reposts": "Reposts",
@@ -219,5 +219,3 @@
   "suggested_on": "Suggested",
   "delete_suggestion_confirmation": "Are you sure you want to delete this suggestion?"
 }
-
-    

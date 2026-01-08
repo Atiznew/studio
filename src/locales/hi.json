@@ -15,7 +15,7 @@
   "views": "व्यूज",
   "followers": "फ़ॉलोअर्स",
   "following_count": "फ़ॉलो कर रहे हैं",
-  "edit_profile": "प्रोफ़ाइल एडिट करें",
+  "edit_profile": "एडिट",
   "my_videos": "मेरे वीडियो",
   "liked": "लाइक किए हुए",
   "reposts": "रीपोस्ट",
@@ -219,5 +219,3 @@
   "suggested_on": "सुझाया गया",
   "delete_suggestion_confirmation": "क्या आप वाकई इस सुझाव को हटाना चाहते हैं?"
 }
-
-    
