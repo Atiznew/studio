@@ -103,28 +103,36 @@ export default function SuggestPage() {
   const onSubmit = async (data: SuggestionFormValues) => {
     setIsSubmitting(true);
     
-    const imageUrls = data.imageFiles ? await Promise.all(data.imageFiles.map(fileToDataUrl)) : [];
+    try {
+        const imageUrls = data.imageFiles ? await Promise.all(data.imageFiles.map(fileToDataUrl)) : [];
 
-    const suggestionData = {
-        ...data,
-        imageUrls,
-    }
-    
-    delete (suggestionData as any).imageFiles;
+        const suggestionData = {
+            ...data,
+            imageUrls,
+        }
+        
+        delete (suggestionData as any).imageFiles;
 
-    addSuggestion(suggestionData);
+        addSuggestion(suggestionData);
 
-    // Simulate an API call
-    setTimeout(() => {
+        toast({
+            title: t('suggestion_success_title'),
+            description: t('suggestion_success_description'),
+        });
+        
+        form.reset();
+        setImagePreviews([]);
+        router.push('/profile');
+    } catch (error) {
+        console.error("Failed to submit suggestion:", error);
+        toast({
+            variant: 'destructive',
+            title: "Error",
+            description: "Failed to submit suggestion. Please try again.",
+        });
+    } finally {
       setIsSubmitting(false);
-      toast({
-        title: t('suggestion_success_title'),
-        description: t('suggestion_success_description'),
-      });
-      form.reset();
-      setImagePreviews([]);
-      router.push('/profile');
-    }, 500);
+    }
   };
   
   if (!isHydrated) {
