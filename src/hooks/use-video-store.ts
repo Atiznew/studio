@@ -74,7 +74,7 @@ export const useVideoStore = create<VideoState>()(
           id: `v${videos.length + 1}`,
           title: videoData.title,
           videoUrl: videoData.videoUrl,
-          thumbnailUrl: 'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxhbmltYWwlMjB0cmF2ZWx8ZW58MHx8fHwxNzY2Nzk3NDU3fDA&ixlib=rb-4.1.0&q=80&w=1080',
+          thumbnailUrl: videoData.thumbnailUrl,
           source: videoData.source,
           user: currentUser,
           views: 0,
@@ -302,5 +302,3 @@ export const useVideoStore = create<VideoState>()(
     }
   )
 );
-
-    

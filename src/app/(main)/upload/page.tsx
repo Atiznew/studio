@@ -13,7 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
-import { CheckCircle, Link2, Youtube, Instagram, AlertTriangle, ChevronRight, Heart } from 'lucide-react';
+import { CheckCircle, Link2, Youtube, Instagram, AlertTriangle, ChevronRight, Heart, UploadCloud, X } from 'lucide-react';
 import { VideoCategory, Video, VideoSource } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { useVideoStore } from '@/hooks/use-video-store';
@@ -23,6 +23,7 @@ import Link from 'next/link';
 import { VideoCard } from '@/components/video-card';
 import dynamic from 'next/dynamic';
 import { useHydrated } from '@/hooks/use-hydrated';
+import Image from 'next/image';
 
 const ReactPlayer = dynamic(() => import('react-player/lazy'), { ssr: false });
 
@@ -37,6 +38,7 @@ const formSchema = z.object({
   description: z.string().min(10, "Description must be at least 10 characters.").max(500),
   videoUrl: z.string().url("Please enter a valid URL.").min(1, 'Please paste a video URL.'),
   mapLink: z.string().url("Please enter a valid map URL.").optional().or(z.literal('')),
+  thumbnail: z.custom<File>().refine(file => file instanceof File, "Thumbnail is required."),
 });
 
 type UploadFormValues = z.infer<typeof formSchema>;
@@ -53,6 +55,7 @@ export default function UploadPage() {
   const [recentVideo, setRecentVideo] = useState<Video | null>(null);
   const [videoUrlPreview, setVideoUrlPreview] = useState('');
   const [showPreview, setShowPreview] = useState(false);
+  const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
   const isHydrated = useHydrated();
 
   const form = useForm<UploadFormValues>({
@@ -76,8 +79,34 @@ export default function UploadPage() {
       setShowPreview(false);
     }
   }, [videoUrlPreview]);
+
+  const fileToDataUrl = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+
+   const handleThumbnailChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      form.setValue('thumbnail', file, { shouldValidate: true });
+      const previewUrl = URL.createObjectURL(file);
+      setThumbnailPreview(previewUrl);
+    }
+  };
+
+  const removeThumbnail = () => {
+    form.setValue('thumbnail', undefined as any, { shouldValidate: true });
+    if (thumbnailPreview) {
+      URL.revokeObjectURL(thumbnailPreview);
+    }
+    setThumbnailPreview(null);
+  };
   
-  const onSubmit = (data: UploadFormValues) => {
+  const onSubmit = async (data: UploadFormValues) => {
     let sourceType: VideoSource = 'url';
     const sourceUrl = data.videoUrl;
 
@@ -98,6 +127,8 @@ export default function UploadPage() {
     setRecentVideo(null);
     setUploadProgress(0);
 
+    const thumbnailUrl = await fileToDataUrl(data.thumbnail);
+
     const interval = setInterval(() => {
       setUploadProgress((prev) => (prev >= 95 ? prev : prev + 10));
     }, 300);
@@ -109,7 +140,8 @@ export default function UploadPage() {
         const newVideo = addVideo({
             ...data,
             source: sourceType,
-            videoUrl: sourceUrl
+            videoUrl: sourceUrl,
+            thumbnailUrl: thumbnailUrl
         });
 
         setIsUploading(false);
@@ -123,6 +155,7 @@ export default function UploadPage() {
         form.reset();
         setVideoUrlPreview('');
         setShowPreview(false);
+        setThumbnailPreview(null);
       }, 500);
     }, 3500);
   };
@@ -197,6 +230,46 @@ export default function UploadPage() {
                      />
                   </div>
                 )}
+
+                <FormField
+                control={form.control}
+                name="thumbnail"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>Thumbnail</FormLabel>
+                    <FormControl>
+                        <div>
+                            <label htmlFor="thumbnail-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-card hover:bg-accent/50">
+                                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                <UploadCloud className="w-8 h-8 mb-2 text-muted-foreground" />
+                                <p className="mb-1 text-sm text-muted-foreground"><span className="font-semibold">{t('upload_click_drag_drop')}</span></p>
+                                <p className="text-xs text-muted-foreground">PNG, JPG, WEBP</p>
+                                </div>
+                                <Input id="thumbnail-file" type="file" className="hidden" accept="image/png, image/jpeg, image/webp" onChange={handleThumbnailChange} />
+                            </label>
+                            {thumbnailPreview && (
+                                <div className="mt-4 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
+                                <div className="relative aspect-video">
+                                    <Image src={thumbnailPreview} alt="Thumbnail Preview" fill className="object-cover rounded-md" />
+                                    <Button
+                                        type="button"
+                                        variant="destructive"
+                                        size="icon"
+                                        className="absolute -top-2 -right-2 h-6 w-6 rounded-full"
+                                        onClick={removeThumbnail}
+                                    >
+                                    <X className="h-4 w-4" />
+                                    </Button>
+                                </div>
+                                </div>
+                            )}
+                        </div>
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+
 
                 <div className="border-t border-b border-border/50 divide-y divide-border/50">
                     <Button variant="ghost" asChild className="w-full justify-between">
@@ -353,5 +426,3 @@ export default function UploadPage() {
     </>
   );
 }
-
-    
