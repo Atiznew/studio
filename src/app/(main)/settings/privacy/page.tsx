@@ -19,7 +19,7 @@ export default function PrivacyPolicyPage() {
           </Link>
         </Button>
       </PageHeader>
-      <div className="container max-w-4xl py-8">
+      <main className="container max-w-4xl py-8">
         <div className="prose dark:prose-invert max-w-none">
           <p><strong>{t('last_updated_label')}:</strong> August 1, 2024</p>
           <p>{t('privacy_p1')}</p>
@@ -44,7 +44,7 @@ export default function PrivacyPolicyPage() {
           <h3>{t('contact_us_title')}</h3>
           <p>{t('privacy_p6')}</p>
         </div>
-      </div>
+      </main>
     </>
   );
 }

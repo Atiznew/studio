@@ -120,10 +120,10 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="container max-w-4xl mx-auto">
+    <main className="container max-w-4xl mx-auto">
       <header className="py-8">
         <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold">{currentUser.username}</h2>
+            <h1 className="text-xl font-bold">{currentUser.username}</h1>
             <div className="flex items-center gap-2">
                 <Button variant="ghost" size="icon" asChild>
                     <Link href="/discover"><Users className="h-5 w-5" /></Link>
@@ -157,7 +157,7 @@ export default function ProfilePage() {
               </div>
             </div>
             <div className="mt-4">
-                <h1 className="text-lg font-bold font-headline">{currentUser.name}</h1>
+                <h2 className="text-lg font-bold font-headline">{currentUser.name}</h2>
                 {currentUser.bio && <p className="mt-1 text-muted-foreground whitespace-pre-line">{currentUser.bio}</p>}
                 {currentUser.website && (
                     <a href={currentUser.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 mt-1 text-sm text-primary hover:underline">
@@ -252,7 +252,7 @@ export default function ProfilePage() {
             )}
         </TabsContent>
       </Tabs>
-    </div>
+    </main>
   );
 }
 

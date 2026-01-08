@@ -19,7 +19,7 @@ export default function ContactUsPage() {
           </Link>
         </Button>
       </PageHeader>
-      <div className="container max-w-4xl py-8">
+      <main className="container max-w-4xl py-8">
         <div className="prose dark:prose-invert max-w-none">
           <p>{t('contact_us_p1')}</p>
           
@@ -33,7 +33,7 @@ export default function ContactUsPage() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </>
   );
 }

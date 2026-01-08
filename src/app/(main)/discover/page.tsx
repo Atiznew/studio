@@ -1,3 +1,4 @@
+
 "use client";
 
 import { PageHeader } from '@/components/page-header';
@@ -13,7 +14,7 @@ export default function DiscoverPeoplePage() {
   const { users, currentUser } = useVideoStore();
 
   // Exclude current user and users already being followed
-  const suggestedUsers = users.filter(user => user.id !== currentUser.id);
+  const suggestedUsers = users.filter(user => user.id !== currentUser?.id);
 
   return (
     <>
@@ -24,7 +25,7 @@ export default function DiscoverPeoplePage() {
           </Link>
         </Button>
       </PageHeader>
-      <div className="container max-w-4xl mx-auto py-8">
+      <main className="container max-w-4xl mx-auto py-8">
         {suggestedUsers.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {suggestedUsers.map((user) => (
@@ -38,7 +39,7 @@ export default function DiscoverPeoplePage() {
             <p className="mt-1 text-sm text-muted-foreground">{t('no_suggestions_description')}</p>
           </div>
         )}
-      </div>
+      </main>
     </>
   );
 }

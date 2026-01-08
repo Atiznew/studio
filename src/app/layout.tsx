@@ -6,8 +6,37 @@ import './globals.css';
 import Script from 'next/script';
 
 export const metadata: Metadata = {
-  title: 'Bharatyatra',
-  description: 'Discover Real Travel Stories',
+  title: 'Bharatyatra - Discover Real Travel Stories from India',
+  description: 'Explore incredible travel videos from across India. Share your journey, discover new destinations, and connect with fellow travelers. Your adventure starts here.',
+  keywords: ['India travel', 'Bharat yatra', 'travel videos', 'Incredible India', 'tourism', 'destinations in India'],
+  authors: [{ name: 'Bharatyatra Team' }],
+  creator: 'Bharatyatra',
+  publisher: 'Bharatyatra',
+  robots: 'index, follow',
+  openGraph: {
+    title: 'Bharatyatra - Discover Real Travel Stories from India',
+    description: 'Explore incredible travel videos from across India. Share your journey, discover new destinations, and connect with fellow travelers.',
+    url: 'https://bharatyatra.example.com', // Replace with your actual domain
+    siteName: 'Bharatyatra',
+    images: [
+      {
+        url: 'https://bharatyatra.example.com/og-image.jpg', // Replace with your actual OG image URL
+        width: 1200,
+        height: 630,
+        alt: 'A collage of beautiful travel destinations in India.',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Bharatyatra - Discover Real Travel Stories from India',
+    description: 'Explore incredible travel videos from across India. Share your journey, discover new destinations, and connect with fellow travelers.',
+    // siteId: '@yourtwitterhandle', // Replace with your Twitter handle
+    // creatorId: '@yourtwitterhandle',
+    images: ['https://bharatyatra.example.com/twitter-image.jpg'], // Replace with your actual Twitter image URL
+  },
 };
 
 export default function RootLayout({

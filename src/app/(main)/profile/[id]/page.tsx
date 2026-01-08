@@ -72,7 +72,7 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
             </Button>
         </div>
     </PageHeader>
-    <div className="container max-w-4xl mx-auto">
+    <main className="container max-w-4xl mx-auto">
       <header className="py-8">
         <div className="flex items-start gap-4 md:gap-8">
           <Avatar className="w-20 h-20 md:w-24 md:h-24 border-4 border-card">
@@ -95,7 +95,7 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
               </div>
             </div>
              <div className="mt-4">
-                <h1 className="text-lg font-bold font-headline">{user.name}</h1>
+                <h2 className="text-lg font-bold font-headline">{user.name}</h2>
                 {user.bio && <p className="mt-1 text-muted-foreground whitespace-pre-line">{user.bio}</p>}
                 {user.website && (
                     <a href={user.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 mt-1 text-sm text-primary hover:underline">
@@ -151,7 +151,7 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
             )}
         </TabsContent>
       </Tabs>
-    </div>
+    </main>
     </>
   );
 }

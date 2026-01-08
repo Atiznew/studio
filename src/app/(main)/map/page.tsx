@@ -53,11 +53,11 @@ export default function MapPage() {
             </Link>
             </Button>
       </PageHeader>
-      <div className="flex-1">
+      <main className="flex-1">
         <Suspense fallback={<div className="flex items-center justify-center h-full">{t('loading')}</div>}>
             <MapPageContent />
         </Suspense>
-      </div>
+      </main>
     </div>
   );
 }

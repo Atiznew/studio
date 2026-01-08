@@ -19,7 +19,7 @@ export default function DisclaimerPage() {
           </Link>
         </Button>
       </PageHeader>
-      <div className="container max-w-4xl py-8">
+      <main className="container max-w-4xl py-8">
         <div className="prose dark:prose-invert max-w-none">
           <p><strong>{t('last_updated_label')}:</strong> August 1, 2024</p>
 
@@ -35,7 +35,7 @@ export default function DisclaimerPage() {
           <h3>{t('no_responsibility_disclaimer_title')}</h3>
           <p>{t('disclaimer_p4')}</p>
         </div>
-      </div>
+      </main>
     </>
   );
 }

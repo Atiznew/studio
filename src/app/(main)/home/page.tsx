@@ -273,7 +273,7 @@ export default function HomePage() {
   );
 
   return (
-    <div className="container max-w-5xl mx-auto">
+    <main className="container max-w-5xl mx-auto">
       <Tabs defaultValue="forYou">
         <header className="sticky top-0 z-40 w-full bg-background/95 backdrop-blur-sm">
             <div className="flex h-16 items-center justify-between">
@@ -297,7 +297,7 @@ export default function HomePage() {
             <FollowingFeed />
         </TabsContent>
        </Tabs>
-    </div>
+    </main>
   );
 }
 

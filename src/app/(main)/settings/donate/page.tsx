@@ -46,7 +46,7 @@ export default function DonatePage() {
           </Link>
         </Button>
       </PageHeader>
-      <div className="container max-w-2xl py-8">
+      <main className="container max-w-2xl py-8">
         <div className="flex flex-col items-center text-center gap-8">
             <p className="text-muted-foreground">{t('donate_description')}</p>
 
@@ -94,7 +94,7 @@ export default function DonatePage() {
             </div>
 
         </div>
-      </div>
+      </main>
     </>
   );
 }

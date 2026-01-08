@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Button } from './ui/button';
 import { useVideoStore } from '@/hooks/use-video-store';
 import { useTranslation } from '@/context/language-context';
+import { useRouter } from 'next/navigation';
 
 interface UserCardProps {
   user: User;
@@ -17,9 +18,18 @@ interface UserCardProps {
 }
 
 export function UserCard({ user, className }: UserCardProps) {
-  const { isFollowing, toggleFollow } = useVideoStore();
+  const { isFollowing, toggleFollow, currentUser } = useVideoStore();
   const { t } = useTranslation();
+  const router = useRouter();
   const following = isFollowing(user.id);
+
+  const handleFollowClick = () => {
+    if (!currentUser) {
+      router.push('/login');
+      return;
+    }
+    toggleFollow(user.id);
+  };
 
   return (
     <Card className={cn("text-center p-4 flex flex-col items-center", className)}>
@@ -33,7 +43,7 @@ export function UserCard({ user, className }: UserCardProps) {
         </Link>
          <Button 
             className={cn("w-full mt-4", following ? "bg-secondary text-secondary-foreground hover:bg-secondary/80" : "bg-primary text-primary-foreground hover:bg-primary/90")}
-            onClick={() => toggleFollow(user.id)}
+            onClick={handleFollowClick}
         >
             {following ? t('following') : t('follow')}
         </Button>

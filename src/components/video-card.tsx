@@ -68,7 +68,7 @@ export const VideoCard = React.memo(({ video, className }: VideoCardProps) => {
              <div className="flex items-center">
                 {video.destination.mapLink && (
                     <Button variant="ghost" size="icon" className="h-8 w-8 flex-shrink-0" asChild>
-                        <a href={video.destination.mapLink} target="_blank" rel="noopener noreferrer">
+                        <a href={video.destination.mapLink} target="_blank" rel="noopener noreferrer" aria-label={`Map link for ${video.destination.name}`}>
                             <MapPin className="w-4 h-4 text-muted-foreground" />
                         </a>
                     </Button>
@@ -78,6 +78,7 @@ export const VideoCard = React.memo(({ video, className }: VideoCardProps) => {
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon" className="h-8 w-8 flex-shrink-0">
                             <MoreVertical className="w-4 h-4"/>
+                            <span className="sr-only">Video options</span>
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
@@ -116,5 +117,3 @@ export const VideoCard = React.memo(({ video, className }: VideoCardProps) => {
 });
 
 VideoCard.displayName = 'VideoCard';
-
-    

@@ -46,7 +46,7 @@ export default function ShopPage() {
   return (
     <>
       <PageHeader title={t('shop_page_title')} />
-      <div className="container max-w-4xl mx-auto py-8">
+      <main className="container max-w-4xl mx-auto py-8">
         <p className="text-center text-muted-foreground mb-8">{t('shop_page_description')}</p>
         
         <div className="flex w-full items-center space-x-2 mb-4">
@@ -92,7 +92,7 @@ export default function ShopPage() {
             </div>
           )}
         </div>
-      </div>
+      </main>
     </>
   );
 }

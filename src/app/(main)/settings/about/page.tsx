@@ -19,7 +19,7 @@ export default function AboutUsPage() {
           </Link>
         </Button>
       </PageHeader>
-      <div className="container max-w-4xl py-8">
+      <main className="container max-w-4xl py-8">
         <div className="prose dark:prose-invert max-w-none">
           <h2>{t('about_us_subtitle')}</h2>
           <p>{t('about_us_p1')}</p>
@@ -31,7 +31,7 @@ export default function AboutUsPage() {
           <h3>{t('our_vision_title')}</h3>
           <p>{t('our_vision_p1')}</p>
         </div>
-      </div>
+      </main>
     </>
   );
 }

@@ -27,8 +27,9 @@ export default function DestinationsPage() {
             </Button>
         </div>
       </PageHeader>
-      <div className="container py-8">
+      <main className="container py-8">
         <section className="mb-8">
+          <h2 className="text-2xl font-bold mb-4 font-headline">Featured Destinations</h2>
             <ScrollArea className="w-full whitespace-nowrap">
                 <div className="flex w-max space-x-4 pb-4">
                 {featuredDestinations.map((dest) => (
@@ -42,14 +43,14 @@ export default function DestinationsPage() {
         </section>
 
         <section>
-             <h2 className="text-2xl font-bold mb-4 font-headline">{t('explore_videos')}</h2>
+             <h2 className="text-2xl font-bold mb-4 font-headline">All Destinations</h2>
             <div className="grid grid-cols-2 gap-4">
                 {destinations.map((dest) => (
                     <DestinationCard key={dest.id} destination={dest} />
                 ))}
             </div>
         </section>
-      </div>
+      </main>
     </>
   );
 }

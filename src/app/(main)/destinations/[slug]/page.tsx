@@ -38,7 +38,7 @@ export default function DestinationDetailPage({ params }: { params: { slug: stri
           </Link>
         </Button>
       </PageHeader>
-      <div className="container max-w-4xl mx-auto py-8">
+      <main className="container max-w-4xl mx-auto py-8">
         <section className="mb-8">
           <Carousel 
             plugins={[plugin.current]}
@@ -77,7 +77,7 @@ export default function DestinationDetailPage({ params }: { params: { slug: stri
             <p className="text-muted-foreground md:col-span-2 text-center">{t('no_videos_at_destination')}</p>
           )}
         </div>
-      </div>
+      </main>
     </>
   );
 }

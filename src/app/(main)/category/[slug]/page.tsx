@@ -34,7 +34,7 @@ export default function CategoryDetailPage({ params }: { params: { slug: string 
           </Link>
         </Button>
       </PageHeader>
-      <div className="container max-w-4xl mx-auto py-8">
+      <main className="container max-w-4xl mx-auto py-8">
         <div className="grid gap-6 md:grid-cols-2">
           {categoryVideos.length > 0 ? (
             categoryVideos.map((video) => (
@@ -44,7 +44,7 @@ export default function CategoryDetailPage({ params }: { params: { slug: string 
             <p className="text-muted-foreground md:col-span-2 text-center">{t('no_videos_in_category')}</p>
           )}
         </div>
-      </div>
+      </main>
     </>
   );
 }

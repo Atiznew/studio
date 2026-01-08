@@ -24,10 +24,10 @@ export default function SettingsPage() {
           </Link>
         </Button>
       </PageHeader>
-      <div className="container max-w-2xl py-8">
+      <main className="container max-w-2xl py-8">
         <div className="space-y-8">
           <div className="space-y-2">
-            <h3 className="text-lg font-medium">{t('language')}</h3>
+            <h2 className="text-lg font-medium">{t('language')}</h2>
             <p className="text-sm text-muted-foreground">
               {t('language_description')}
             </p>
@@ -50,7 +50,7 @@ export default function SettingsPage() {
           <Separator />
 
           <div className="space-y-2">
-            <h3 className="text-lg font-medium">{t('theme')}</h3>
+            <h2 className="text-lg font-medium">{t('theme')}</h2>
             <p className="text-sm text-muted-foreground">
               {t('theme_description')}
             </p>
@@ -75,7 +75,7 @@ export default function SettingsPage() {
           </div>
            <Separator />
             <div>
-                <h3 className="text-lg font-medium mb-2">{t('support_us')}</h3>
+                <h2 className="text-lg font-medium mb-2">{t('support_us')}</h2>
                  <div className="rounded-md border bg-card">
                     <Button variant="ghost" asChild className="w-full justify-between">
                         <Link href="/settings/donate">
@@ -87,7 +87,7 @@ export default function SettingsPage() {
             </div>
            <Separator />
             <div>
-                <h3 className="text-lg font-medium mb-2">{t('more_information_title')}</h3>
+                <h2 className="text-lg font-medium mb-2">{t('more_information_title')}</h2>
                 <div className="rounded-md border bg-card">
                     <Button variant="ghost" asChild className="w-full justify-between">
                         <Link href="/settings/about">
@@ -119,7 +119,7 @@ export default function SettingsPage() {
                 </div>
             </div>
         </div>
-      </div>
+      </main>
     </>
   );
 }
