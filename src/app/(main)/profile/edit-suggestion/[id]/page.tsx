@@ -15,7 +15,6 @@ import { useToast } from '@/hooks/use-toast';
 import { ChevronLeft, UploadCloud, X } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslation } from '@/context/language-context';
-import { useHydrated } from '@/hooks/use-hydrated';
 import Image from 'next/image';
 import { useVideoStore } from '@/hooks/use-video-store';
 import { useRouter, useParams, notFound } from 'next/navigation';
@@ -56,8 +55,7 @@ export default function EditSuggestionPage() {
   const { suggestions, currentUser, updateSuggestion } = useVideoStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-  const isHydrated = useHydrated();
-
+  
   const suggestion = suggestions.find(s => s.id === id && s.userId === currentUser?.id);
 
   const form = useForm<SuggestionFormValues>({
@@ -73,18 +71,17 @@ export default function EditSuggestionPage() {
   });
 
   useEffect(() => {
-    if (isHydrated && !currentUser) {
+    if (!currentUser) {
       router.replace('/login');
       return;
     }
     if (!suggestion) {
-      // Could be that the data is not hydrated yet, or suggestion not found.
-      // If it's not found after hydration, we can redirect.
-      if(isHydrated && currentUser) {
-          notFound();
-      }
+        // If it's not found after hydration, we can redirect.
+        if(currentUser) {
+            notFound();
+        }
     }
-  }, [currentUser, router, isHydrated, suggestion]);
+  }, [currentUser, router, suggestion]);
 
 
   useEffect(() => {
@@ -185,10 +182,6 @@ export default function EditSuggestionPage() {
     }
   };
   
-  if (!isHydrated) {
-    return null; // Or a loading spinner
-  }
-
   if (!currentUser) {
     return (
       <>
@@ -284,7 +277,7 @@ export default function EditSuggestionPage() {
                 <FormItem>
                   <FormLabel>{t('place_city_label')}</FormLabel>
                   <FormControl>
-                    <Input placeholder={isHydrated ? t('place_city_placeholder') : ''} {...field} />
+                    <Input placeholder={t('place_city_placeholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -299,7 +292,7 @@ export default function EditSuggestionPage() {
                   <FormItem>
                     <FormLabel>{t('state_province_label')}</FormLabel>
                     <FormControl>
-                      <Input placeholder={isHydrated ? t('state_province_placeholder') : ''} {...field} />
+                      <Input placeholder={t('state_province_placeholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -312,7 +305,7 @@ export default function EditSuggestionPage() {
                   <FormItem>
                     <FormLabel>{t('country_label')}</FormLabel>
                     <FormControl>
-                      <Input placeholder={isHydrated ? t('country_placeholder') : ''} {...field} />
+                      <Input placeholder={t('country_placeholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -327,7 +320,7 @@ export default function EditSuggestionPage() {
                 <FormItem>
                   <FormLabel>{t('map_link_label')}</FormLabel>
                   <FormControl>
-                    <Input placeholder={isHydrated ? t('map_link_placeholder') : ''} {...field} />
+                    <Input placeholder={t('map_link_placeholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -341,7 +334,7 @@ export default function EditSuggestionPage() {
                 <FormItem>
                   <FormLabel>{t('reason_label')}</FormLabel>
                   <FormControl>
-                    <Textarea placeholder={isHydrated ? t('reason_placeholder') : ''} className="resize-none" {...field} />
+                    <Textarea placeholder={t('reason_placeholder')} className="resize-none" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -357,3 +350,5 @@ export default function EditSuggestionPage() {
     </>
   );
 }
+
+    

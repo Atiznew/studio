@@ -74,7 +74,7 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
     </PageHeader>
     <div className="container max-w-4xl mx-auto">
       <header className="py-8">
-        <div className="flex items-center gap-4 md:gap-8">
+        <div className="flex items-start gap-4 md:gap-8">
           <Avatar className="w-20 h-20 md:w-24 md:h-24 border-4 border-card">
             <AvatarImage src={user.avatarUrl} alt={user.name} />
             <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
@@ -94,18 +94,19 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
                 <p className="text-sm text-muted-foreground">{t('following_count')}</p>
               </div>
             </div>
+             <div className="mt-4">
+                <h1 className="text-lg font-bold font-headline">{user.name}</h1>
+                {user.bio && <p className="mt-1 text-muted-foreground whitespace-pre-line">{user.bio}</p>}
+                {user.website && (
+                    <a href={user.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 mt-1 text-sm text-primary hover:underline">
+                        <LinkIcon className="h-4 w-4" />
+                        <span>{user.website.replace(/^(https?:\/\/)?(www\.)?/, '')}</span>
+                    </a>
+                )}
+            </div>
           </div>
         </div>
-         <div className="mt-4">
-            <h1 className="text-lg font-bold font-headline">{user.name}</h1>
-            {user.bio && <p className="mt-1 text-muted-foreground whitespace-pre-line">{user.bio}</p>}
-            {user.website && (
-                <a href={user.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 mt-1 text-sm text-primary hover:underline">
-                    <LinkIcon className="h-4 w-4" />
-                    <span>{user.website.replace(/^(https?:\/\/)?(www\.)?/, '')}</span>
-                </a>
-            )}
-        </div>
+        
         <div className="mt-4">
            {currentUser && (
             <Button 
@@ -154,5 +155,7 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
     </>
   );
 }
+
+    
 
     

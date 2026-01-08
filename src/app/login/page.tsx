@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import Link from 'next/link';
@@ -10,7 +11,6 @@ import { Logo } from '@/components/logo';
 import { useVideoStore } from '@/hooks/use-video-store';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from '@/context/language-context';
-import { useHydrated } from '@/hooks/use-hydrated';
 
 const GoogleIcon = () => (
     <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
@@ -26,7 +26,6 @@ export default function LoginPage() {
     const { setCurrentUser, users } = useVideoStore();
     const router = useRouter();
     const { t } = useTranslation();
-    const isHydrated = useHydrated();
 
     const handleLogin = () => {
         // In a real app, you'd validate credentials. Here, we'll just log in the first user.
@@ -39,10 +38,6 @@ export default function LoginPage() {
     
     const handleGoogleLogin = () => {
         handleLogin(); // Simulate Google login
-    }
-    
-    if (!isHydrated) {
-        return null;
     }
 
     return (
@@ -102,3 +97,5 @@ export default function LoginPage() {
         </div>
     )
 }
+
+    

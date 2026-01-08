@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState } from 'react';
@@ -11,14 +12,12 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Send } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { useTranslation } from '@/context/language-context';
-import { useHydrated } from '@/hooks/use-hydrated';
 import Link from 'next/link';
 
 export function CommentSheet() {
   const { isCommentSheetOpen, closeCommentSheet, activeVideoId, videos, addComment, currentUser } = useVideoStore();
   const { t } = useTranslation();
   const [newComment, setNewComment] = useState('');
-  const isHydrated = useHydrated();
 
   const activeVideo = videos.find(v => v.id === activeVideoId);
 
@@ -74,7 +73,7 @@ export function CommentSheet() {
                 <AvatarFallback>{currentUser.name.charAt(0)}</AvatarFallback>
               </Avatar>
               <Input
-                placeholder={isHydrated ? t('add_a_comment') : ''}
+                placeholder={t('add_a_comment')}
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleAddComment()}
@@ -94,3 +93,5 @@ export function CommentSheet() {
     </Sheet>
   );
 }
+
+    

@@ -136,13 +136,13 @@ export default function ProfilePage() {
                 </Button>
             </div>
         </div>
-        <div className="flex items-center gap-4 md:gap-8 mt-4">
+        <div className="flex items-start gap-4 md:gap-8 mt-4">
           <Avatar className="w-20 h-20 md:w-24 md:h-24 border-4 border-card">
             <AvatarImage src={currentUser.avatarUrl} alt={currentUser.name} />
             <AvatarFallback>{currentUser.name.charAt(0)}</AvatarFallback>
           </Avatar>
           <div className="flex-1">
-             <div className="flex items-center gap-6 mt-4 text-center">
+             <div className="flex items-center gap-6 text-center">
               <div>
                 <p className="font-bold text-lg">{userVideos.length}</p>
                 <p className="text-sm text-muted-foreground">{t('videos')}</p>
@@ -156,20 +156,20 @@ export default function ProfilePage() {
                 <p className="text-sm text-muted-foreground">{t('following_count')}</p>
               </div>
             </div>
+            <div className="mt-4">
+                <h1 className="text-lg font-bold font-headline">{currentUser.name}</h1>
+                {currentUser.bio && <p className="mt-1 text-muted-foreground whitespace-pre-line">{currentUser.bio}</p>}
+                {currentUser.website && (
+                    <a href={currentUser.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 mt-1 text-sm text-primary hover:underline">
+                        <LinkIcon className="h-4 w-4" />
+                        <span>{currentUser.website.replace(/^(https?:\/\/)?(www\.)?/, '')}</span>
+                    </a>
+                )}
+            </div>
           </div>
         </div>
         <div className="mt-4">
-            <h1 className="text-lg font-bold font-headline">{currentUser.name}</h1>
-            {currentUser.bio && <p className="mt-1 text-muted-foreground whitespace-pre-line">{currentUser.bio}</p>}
-            {currentUser.website && (
-                <a href={currentUser.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 mt-1 text-sm text-primary hover:underline">
-                    <LinkIcon className="h-4 w-4" />
-                    <span>{currentUser.website.replace(/^(https?:\/\/)?(www\.)?/, '')}</span>
-                </a>
-            )}
-        </div>
-        <div className="mt-4">
-            <Button className="w-full bg-yellow-400 text-black hover:bg-yellow-500" asChild>
+            <Button className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/80" asChild>
                 <Link href="/profile/edit">{t('edit_profile')}</Link>
             </Button>
         </div>
@@ -255,3 +255,5 @@ export default function ProfilePage() {
     </div>
   );
 }
+
+    

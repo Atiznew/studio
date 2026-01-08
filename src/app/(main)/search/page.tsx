@@ -11,14 +11,12 @@ import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 import { useVideoStore } from '@/hooks/use-video-store';
 import { useTranslation } from '@/context/language-context';
-import { useHydrated } from '@/hooks/use-hydrated';
 
 export default function SearchPage() {
   const { videos } = useVideoStore();
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState(videos);
-  const isHydrated = useHydrated();
 
   const handleSearch = () => {
     if (searchTerm.trim() === '') {
@@ -38,10 +36,6 @@ export default function SearchPage() {
     setSearchTerm('');
     setSearchResults(videos);
   };
-  
-  if (!isHydrated) {
-    return null;
-  }
 
   return (
     <>
@@ -58,7 +52,7 @@ export default function SearchPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <Input
               type="text"
-              placeholder={isHydrated ? t('search_placeholder') : ''}
+              placeholder={t('search_placeholder')}
               className="pl-10"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -89,3 +83,5 @@ export default function SearchPage() {
     </>
   );
 }
+
+    

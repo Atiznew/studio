@@ -15,7 +15,6 @@ import { useToast } from '@/hooks/use-toast';
 import { ChevronLeft, UploadCloud, X } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslation } from '@/context/language-context';
-import { useHydrated } from '@/hooks/use-hydrated';
 import Image from 'next/image';
 import { useVideoStore } from '@/hooks/use-video-store';
 import { useRouter } from 'next/navigation';
@@ -46,7 +45,6 @@ export default function SuggestPage() {
   const { addSuggestion, currentUser } = useVideoStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-  const isHydrated = useHydrated();
 
   const form = useForm<SuggestionFormValues>({
     resolver: zodResolver(formSchema),
@@ -134,7 +132,9 @@ export default function SuggestPage() {
         
         form.reset();
         setImagePreviews([]);
-        router.push('/profile');
+        setTimeout(() => {
+          router.push('/profile');
+        }, 500);
 
     } catch (error) {
         console.error("Failed to submit suggestion:", error);
@@ -148,10 +148,6 @@ export default function SuggestPage() {
     }
   };
   
-  if (!isHydrated) {
-    return null; // Or a loading spinner
-  }
-
   if (!currentUser) {
     return (
       <>
@@ -243,7 +239,7 @@ export default function SuggestPage() {
                 <FormItem>
                   <FormLabel>{t('place_city_label')}</FormLabel>
                   <FormControl>
-                    <Input placeholder={isHydrated ? t('place_city_placeholder') : ''} {...field} />
+                    <Input placeholder={t('place_city_placeholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -258,7 +254,7 @@ export default function SuggestPage() {
                   <FormItem>
                     <FormLabel>{t('state_province_label')}</FormLabel>
                     <FormControl>
-                      <Input placeholder={isHydrated ? t('state_province_placeholder') : ''} {...field} />
+                      <Input placeholder={t('state_province_placeholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -271,7 +267,7 @@ export default function SuggestPage() {
                   <FormItem>
                     <FormLabel>{t('country_label')}</FormLabel>
                     <FormControl>
-                      <Input placeholder={isHydrated ? t('country_placeholder') : ''} {...field} />
+                      <Input placeholder={t('country_placeholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -286,7 +282,7 @@ export default function SuggestPage() {
                 <FormItem>
                   <FormLabel>{t('map_link_label')}</FormLabel>
                   <FormControl>
-                    <Input placeholder={isHydrated ? t('map_link_placeholder') : ''} {...field} />
+                    <Input placeholder={t('map_link_placeholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -300,7 +296,7 @@ export default function SuggestPage() {
                 <FormItem>
                   <FormLabel>{t('reason_label')}</FormLabel>
                   <FormControl>
-                    <Textarea placeholder={isHydrated ? t('reason_placeholder') : ''} className="resize-none" {...field} />
+                    <Textarea placeholder={t('reason_placeholder')} className="resize-none" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -316,6 +312,8 @@ export default function SuggestPage() {
     </>
   );
 }
+
+    
 
     
 

@@ -23,7 +23,6 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { VideoCard } from '@/components/video-card';
 import dynamic from 'next/dynamic';
-import { useHydrated } from '@/hooks/use-hydrated';
 import Image from 'next/image';
 
 const ReactPlayer = dynamic(() => import('react-player/lazy'), { ssr: false });
@@ -57,7 +56,6 @@ export default function UploadPage() {
   const [videoUrlPreview, setVideoUrlPreview] = useState('');
   const [showPreview, setShowPreview] = useState(false);
   const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
-  const isHydrated = useHydrated();
 
   const form = useForm<UploadFormValues>({
     resolver: zodResolver(formSchema),
@@ -164,10 +162,6 @@ export default function UploadPage() {
     }, 3500);
   };
   
-   if (!isHydrated) {
-    return null;
-  }
-  
    if (!currentUser) {
     return (
       <>
@@ -206,7 +200,7 @@ export default function UploadPage() {
                         <div className="relative">
                             <FormControl>
                                 <Input 
-                                    placeholder={isHydrated ? t('video_url_placeholder') : ''}
+                                    placeholder={t('video_url_placeholder')}
                                     {...field}
                                     onChange={(e) => {
                                         field.onChange(e);
@@ -299,7 +293,7 @@ export default function UploadPage() {
                         <FormLabel>{t('video_title_label')}</FormLabel>
                     </div>
                     <FormControl>
-                      <Input placeholder={isHydrated ? t('video_title_placeholder') : ''} {...field} />
+                      <Input placeholder={t('video_title_placeholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -313,7 +307,7 @@ export default function UploadPage() {
                     <FormItem>
                       <FormLabel>{t('country_label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder={isHydrated ? t('country_placeholder') : ''} {...field} />
+                        <Input placeholder={t('country_placeholder')} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -326,7 +320,7 @@ export default function UploadPage() {
                     <FormItem>
                       <FormLabel>{t('state_province_label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder={isHydrated ? t('state_province_placeholder') : ''} {...field} />
+                        <Input placeholder={t('state_province_placeholder')} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -339,7 +333,7 @@ export default function UploadPage() {
                     <FormItem>
                       <FormLabel>{t('place_city_label')}</FormLabel>
                       <FormControl>
-                        <Input placeholder={isHydrated ? t('place_city_placeholder') : ''} {...field} />
+                        <Input placeholder={t('place_city_placeholder')} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -354,7 +348,7 @@ export default function UploadPage() {
                   <FormItem>
                     <FormLabel>{t('map_link_label')}</FormLabel>
                     <FormControl>
-                      <Input placeholder={isHydrated ? t('map_link_placeholder') : ''} {...field} />
+                      <Input placeholder={t('map_link_placeholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -370,7 +364,7 @@ export default function UploadPage() {
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder={isHydrated ? t('select_category_placeholder') : ''} />
+                          <SelectValue placeholder={t('select_category_placeholder')} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -393,7 +387,7 @@ export default function UploadPage() {
                         <FormLabel>{t('description_label')}</FormLabel>
                     </div>
                     <FormControl>
-                      <Textarea placeholder={isHydrated ? t('description_placeholder') : ''} className="resize-none" {...field} />
+                      <Textarea placeholder={t('description_placeholder')} className="resize-none" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -430,3 +424,5 @@ export default function UploadPage() {
     </>
   );
 }
+
+    

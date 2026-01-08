@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState, useRef, ChangeEvent, useEffect } from 'react';
@@ -39,16 +40,15 @@ export default function EditProfilePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const isHydrated = useHydrated();
 
   useEffect(() => {
-    if (isHydrated && !currentUser) {
+    if (!currentUser) {
       router.replace('/login');
     }
     if (currentUser) {
       setAvatarPreview(currentUser.avatarUrl);
     }
-  }, [currentUser, router, isHydrated]);
+  }, [currentUser, router]);
 
   const form = useForm<EditProfileFormValues>({
     resolver: zodResolver(formSchema),
@@ -105,7 +105,7 @@ export default function EditProfilePage() {
     }
   };
   
-  if (!isHydrated || !currentUser) {
+  if (!currentUser) {
     return null; // Or a loading spinner
   }
 
@@ -145,7 +145,7 @@ export default function EditProfilePage() {
                 <FormItem>
                   <FormLabel>{t('name_label')}</FormLabel>
                   <FormControl>
-                    <Input placeholder={isHydrated ? t('name_placeholder') : ''} {...field} />
+                    <Input placeholder={t('name_placeholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -159,7 +159,7 @@ export default function EditProfilePage() {
                 <FormItem>
                   <FormLabel>{t('username_label')}</FormLabel>
                   <FormControl>
-                    <Input placeholder={isHydrated ? t('username_placeholder') : ''} {...field} />
+                    <Input placeholder={t('username_placeholder')} {...field} />
                   </FormControl>
                   <FormDescription>
                     {t('username_description')}
@@ -176,7 +176,7 @@ export default function EditProfilePage() {
                 <FormItem>
                   <FormLabel>{t('website_label')}</FormLabel>
                   <FormControl>
-                    <Input placeholder={isHydrated ? t('website_placeholder') : ''} {...field} />
+                    <Input placeholder={t('website_placeholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -190,7 +190,7 @@ export default function EditProfilePage() {
                 <FormItem>
                   <FormLabel>{t('bio_label')}</FormLabel>
                   <FormControl>
-                    <Textarea placeholder={isHydrated ? t('bio_placeholder') : ''} className="resize-none" rows={4} {...field} />
+                    <Textarea placeholder={t('bio_placeholder')} className="resize-none" rows={4} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -206,3 +206,5 @@ export default function EditProfilePage() {
     </>
   );
 }
+
+    

@@ -73,7 +73,7 @@ export const useVideoStore = create<VideoState>()(
       },
       
       addVideo: (videoData) => {
-        const { videos, currentUser } = get();
+        const { currentUser } = get();
         if (!currentUser) {
             throw new Error("User not logged in");
         };
@@ -303,7 +303,7 @@ export const useVideoStore = create<VideoState>()(
     }),
     {
       name: 'bharatyatra-storage',
-      storage: createJSONStorage(() => sessionStorage),
+      storage: createJSONStorage(() => localStorage),
        partialize: (state) => ({
         videos: state.videos,
         users: state.users,
@@ -326,3 +326,5 @@ export const useVideoStore = create<VideoState>()(
     }
   )
 );
+
+    
