@@ -110,6 +110,15 @@ export default function UploadPage() {
   
   const onSubmit = async (data: UploadFormValues) => {
     
+    if (!ReactPlayer.canPlay(data.videoUrl)) {
+      toast({
+        variant: "destructive",
+        title: "Invalid Video URL",
+        description: "Please enter a valid and playable video URL.",
+      });
+      return;
+    }
+    
     setIsUploading(true);
     setUploadComplete(false);
     setRecentVideo(null);
@@ -118,6 +127,8 @@ export default function UploadPage() {
     let thumbnailUrl = '';
     if (data.thumbnail) {
         thumbnailUrl = await fileToDataUrl(data.thumbnail);
+    } else {
+        thumbnailUrl = 'https://images.unsplash.com/photo-1597043811659-d2b64fb9eb7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxiZWFjaCUyMHN1cmZpbmd8ZW58MHx8fHwxNzY2NTk4MDc2fDA&ixlib=rb-4.1.0&q=80&w=1080';
     }
 
     const interval = setInterval(() => {
@@ -410,3 +421,4 @@ export default function UploadPage() {
     </>
   );
 }
+
