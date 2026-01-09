@@ -104,9 +104,18 @@ export const useVideoStore = create<VideoState>()(
       },
       
       deleteVideo: (videoId: string) => {
-        set((state) => ({
-            videos: state.videos.filter(v => v.id !== videoId)
-        }));
+        set((state) => {
+          const newLikedVideos = new Set(state.likedVideos);
+          newLikedVideos.delete(videoId);
+          const newSavedVideos = new Set(state.savedVideos);
+          newSavedVideos.delete(videoId);
+
+          return {
+            videos: state.videos.filter(v => v.id !== videoId),
+            likedVideos: newLikedVideos,
+            savedVideos: newSavedVideos,
+          };
+        });
       },
 
       toggleLike: (videoId: string) => {
