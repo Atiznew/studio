@@ -111,9 +111,11 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
   };
 
   const handleSeek = (value: number[]) => {
-    const newPlayed = value[0] / 100;
-    playerRef.current?.seekTo(newPlayed);
-    setProgress(prev => ({ ...prev, played: newPlayed }));
+    if (video.source !== 'telegram') {
+        const newPlayed = value[0] / 100;
+        playerRef.current?.seekTo(newPlayed);
+        setProgress(prev => ({ ...prev, played: newPlayed }));
+    }
   };
   
   const formatTime = (seconds: number) => {
@@ -134,14 +136,14 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
     return count;
   };
 
-  const getPlayableUrl = () => {
-    if (video.source === 'googledrive') {
-      const fileId = video.videoUrl.match(/file\/d\/([^/]+)/);
-      if (fileId && fileId[1]) {
-        return `https://drive.google.com/uc?export=view&id=${fileId[1]}`;
+  const getPlayableUrl = (url: string, source: VideoSource) => {
+    if (source === 'googledrive') {
+      const fileIdMatch = url.match(/file\/d\/([^/]+)/);
+      if (fileIdMatch && fileIdMatch[1]) {
+        return `https://drive.google.com/uc?export=view&id=${fileIdMatch[1]}`;
       }
     }
-    return video.videoUrl;
+    return url;
   };
   
   const renderPlayer = () => {
@@ -151,7 +153,7 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
     return (
        <ReactPlayer
             ref={playerRef}
-            url={getPlayableUrl()}
+            url={getPlayableUrl(video.videoUrl, video.source)}
             playing={isPlaying}
             muted={isMuted}
             loop
@@ -170,6 +172,13 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
                         rel: 0,
                         iv_load_policy: 3
                     }
+                },
+                vimeo: {
+                    playerOptions: {
+                        byline: false,
+                        title: false,
+                        portrait: false
+                    }
                 }
             }}
         />
@@ -187,7 +196,7 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
       )}
 
       <div className="absolute bottom-0 left-0 right-0 p-4 text-white bg-gradient-to-t from-black/60 to-transparent pointer-events-none">
-        {video.source !== 'telegram' && duration > 30 && (
+        {video.source !== 'telegram' && duration > 0 && (
           <div className="absolute bottom-24 left-4 right-4 z-20 pointer-events-auto">
             <div className="flex items-center gap-2">
               <span className="text-xs">{formatTime(progress.playedSeconds)}</span>

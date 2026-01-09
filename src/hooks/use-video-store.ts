@@ -42,6 +42,21 @@ const getInitialUser = (): User | null => {
     return null;
 };
 
+const getVideoSourceFromUrl = (url: string): VideoSource => {
+    if (url.includes('youtube.com') || url.includes('youtu.be')) {
+        return 'youtube';
+    } else if (url.includes('instagram.com')) {
+        return 'instagram';
+    } else if (url.includes('t.me')) {
+        return 'telegram';
+    } else if (url.includes('vimeo.com')) {
+        return 'vimeo';
+    } else if (url.includes('drive.google.com')) {
+        return 'googledrive';
+    }
+    return 'url';
+}
+
 export const useVideoStore = create<VideoState>()(
   persist(
     (set, get) => ({
@@ -83,7 +98,7 @@ export const useVideoStore = create<VideoState>()(
           title: videoData.title,
           videoUrl: videoData.videoUrl,
           thumbnailUrl: videoData.thumbnailUrl || placeholderImages.find(p => p.id === 'video-thumb-1')?.imageUrl || '',
-          source: videoData.source,
+          source: getVideoSourceFromUrl(videoData.videoUrl),
           user: currentUser,
           views: 0,
           likes: 0,
@@ -110,10 +125,21 @@ export const useVideoStore = create<VideoState>()(
           const newSavedVideos = new Set(state.savedVideos);
           newSavedVideos.delete(videoId);
 
+          // Also remove reposts of this video
+          const newRepostedVideos = new Map(state.repostedVideos);
+          newRepostedVideos.forEach((repostedSet, userId) => {
+            if (repostedSet.has(videoId)) {
+              const newUserReposts = new Set(repostedSet);
+              newUserReposts.delete(videoId);
+              newRepostedVideos.set(userId, newUserReposts);
+            }
+          });
+
           return {
             videos: state.videos.filter(v => v.id !== videoId),
             likedVideos: newLikedVideos,
             savedVideos: newSavedVideos,
+            repostedVideos: newRepostedVideos
           };
         });
       },

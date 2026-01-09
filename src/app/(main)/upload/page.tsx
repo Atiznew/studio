@@ -72,12 +72,14 @@ export default function UploadPage() {
   });
 
   useEffect(() => {
-    if (videoUrlPreview) {
+    const videoUrl = form.watch('videoUrl');
+    if (ReactPlayer.canPlay(videoUrl)) {
+      setVideoUrlPreview(videoUrl);
       setShowPreview(true);
     } else {
       setShowPreview(false);
     }
-  }, [videoUrlPreview]);
+  }, [form.watch('videoUrl')]);
 
   const fileToDataUrl = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -98,7 +100,7 @@ export default function UploadPage() {
   };
 
   const removeThumbnail = () => {
-    form.setValue('thumbnail', undefined as any, { shouldValidate: true });
+    form.setValue('thumbnail', undefined, { shouldValidate: true });
     if (thumbnailPreview) {
       URL.revokeObjectURL(thumbnailPreview);
     }
@@ -106,20 +108,6 @@ export default function UploadPage() {
   };
   
   const onSubmit = async (data: UploadFormValues) => {
-    let sourceType: VideoSource = 'url';
-    const sourceUrl = data.videoUrl;
-
-    if (sourceUrl.includes('youtube.com') || sourceUrl.includes('youtu.be')) {
-        sourceType = 'youtube';
-    } else if (sourceUrl.includes('instagram.com')) {
-        sourceType = 'instagram';
-    } else if (sourceUrl.includes('t.me')) {
-        sourceType = 'telegram';
-    } else if (sourceUrl.includes('vimeo.com')) {
-        sourceType = 'vimeo';
-    } else if (sourceUrl.includes('drive.google.com')) {
-        sourceType = 'googledrive';
-    }
     
     setIsUploading(true);
     setUploadComplete(false);
@@ -131,7 +119,6 @@ export default function UploadPage() {
         thumbnailUrl = await fileToDataUrl(data.thumbnail);
     }
 
-
     const interval = setInterval(() => {
       setUploadProgress((prev) => (prev >= 95 ? prev : prev + 10));
     }, 300);
@@ -142,8 +129,6 @@ export default function UploadPage() {
       setTimeout(() => {
         const newVideo = addVideo({
             ...data,
-            source: sourceType,
-            videoUrl: sourceUrl,
             thumbnailUrl: thumbnailUrl
         });
 
@@ -210,7 +195,6 @@ export default function UploadPage() {
                                         field.onChange(e);
                                         setUploadComplete(false);
                                         setRecentVideo(null);
-                                        setVideoUrlPreview(e.target.value);
                                     }}
                                 />
                             </FormControl>
