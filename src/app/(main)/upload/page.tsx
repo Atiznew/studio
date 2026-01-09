@@ -24,8 +24,9 @@ import Link from 'next/link';
 import { VideoCard } from '@/components/video-card';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import ReactPlayer from 'react-player/lazy';
 
-const ReactPlayer = dynamic(() => import('react-player/lazy'), { ssr: false });
+const Player = dynamic(() => import('react-player/lazy'), { ssr: false });
 
 const categories: VideoCategory[] = ["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"];
 
@@ -79,7 +80,7 @@ export default function UploadPage() {
     } else {
       setShowPreview(false);
     }
-  }, [form.watch('videoUrl')]);
+  }, [form, form.watch('videoUrl')]);
 
   const fileToDataUrl = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -206,7 +207,7 @@ export default function UploadPage() {
 
                 {showPreview && videoUrlPreview && (
                   <div className="aspect-video w-full rounded-lg overflow-hidden border bg-black">
-                     <ReactPlayer
+                     <Player
                         url={videoUrlPreview}
                         width="100%"
                         height="100%"
