@@ -61,14 +61,13 @@ export default function LoginPage() {
                         type="email"
                         placeholder="m@example.com"
                         required
-                        defaultValue="alexdoe@test.com"
                     />
                     </div>
                     <div className="grid gap-2">
                     <div className="flex items-center">
                         <Label htmlFor="password">{t('password_label')}</Label>
                     </div>
-                    <Input id="password" type="password" required defaultValue="password"/>
+                    <Input id="password" type="password" required />
                     </div>
                     <Button type="button" onClick={handleLogin} className="w-full">
                         {t('login_title')}

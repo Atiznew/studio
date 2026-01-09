@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { PageHeader } from '@/components/page-header';
@@ -7,13 +8,22 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { useTranslation } from '@/context/language-context';
 import Link from 'next/link';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Users, LogOut } from 'lucide-react';
 import { useTheme } from '@/context/theme-context';
 import { Separator } from '@/components/ui/separator';
+import { useVideoStore } from '@/hooks/use-video-store';
+import { useRouter } from 'next/navigation';
 
 export default function SettingsPage() {
   const { language, setLanguage, t } = useTranslation();
   const { theme, setTheme } = useTheme();
+  const { logout } = useVideoStore();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout();
+    router.push('/login');
+  };
 
   return (
     <>
@@ -73,6 +83,23 @@ export default function SettingsPage() {
               </div>
             </RadioGroup>
           </div>
+           <Separator />
+           <div>
+                <h2 className="text-lg font-medium mb-2">Account</h2>
+                <div className="rounded-md border bg-card">
+                    <Button variant="ghost" asChild className="w-full justify-between">
+                        <Link href="/discover">
+                            <span>{t('discover_people_title')}</span>
+                            <Users className="h-4 w-4" />
+                        </Link>
+                    </Button>
+                    <Separator />
+                    <Button variant="ghost" onClick={handleLogout} className="w-full justify-between text-destructive hover:text-destructive">
+                       <span>Log Out</span>
+                       <LogOut className="h-4 w-4" />
+                    </Button>
+                </div>
+           </div>
            <Separator />
             <div>
                 <h2 className="text-lg font-medium mb-2">{t('support_us')}</h2>

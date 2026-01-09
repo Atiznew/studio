@@ -5,7 +5,7 @@
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Settings, LogOut, Link as LinkIcon, Users, Bookmark, Trash2, Pencil, MoreVertical } from 'lucide-react';
+import { Settings, Link as LinkIcon, Trash2, Pencil, MoreVertical } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
 import { VideoCard } from '@/components/video-card';
@@ -85,11 +85,6 @@ export default function ProfilePage() {
     }
   }, [currentUser, router]);
 
-  const handleLogout = () => {
-    logout();
-    router.push('/login');
-  };
-
   if (!currentUser) {
     return null; // Or a loading spinner
   }
@@ -126,13 +121,7 @@ export default function ProfilePage() {
             <h1 className="text-xl font-bold">{currentUser.username}</h1>
             <div className="flex items-center gap-2">
                 <Button variant="ghost" size="icon" asChild>
-                    <Link href="/discover"><Users className="h-5 w-5" /></Link>
-                </Button>
-                <Button variant="ghost" size="icon" asChild>
                     <Link href="/settings"><Settings className="h-5 w-5" /></Link>
-                </Button>
-                 <Button variant="ghost" size="icon" onClick={handleLogout}>
-                    <LogOut className="h-5 w-5" />
                 </Button>
             </div>
         </div>

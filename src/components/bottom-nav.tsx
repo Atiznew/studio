@@ -48,7 +48,7 @@ export function BottomNav() {
           const isActive = (
             item.href === '/home' 
               ? pathname === item.href 
-              : (item.href === '/profile' ? (pathname.startsWith('/profile') || pathname.startsWith('/login')) : pathname.startsWith(item.href))
+              : (item.href === '/profile' ? pathname.startsWith('/profile') : pathname.startsWith(item.href))
           );
 
           return (
