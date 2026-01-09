@@ -3,7 +3,7 @@
 "use client";
 
 import create from 'zustand';
-import { initialVideos, initialUsers as allUsers, shopItems as initialShopItems } from '@/lib/data';
+import { initialVideos, initialUsers as allUsers, shopItems as initialShopItems, placeholderImages } from '@/lib/data';
 import type { Video, Comment, User, ShopItem, Suggestion } from '@/lib/types';
 import { persist, createJSONStorage } from 'zustand/middleware'
 
@@ -82,7 +82,7 @@ export const useVideoStore = create<VideoState>()(
           id: `v${Date.now()}`,
           title: videoData.title,
           videoUrl: videoData.videoUrl,
-          thumbnailUrl: videoData.thumbnailUrl,
+          thumbnailUrl: videoData.thumbnailUrl || placeholderImages.find(p => p.id === 'video-thumb-1')?.imageUrl || '',
           source: videoData.source,
           user: currentUser,
           views: 0,
@@ -335,5 +335,3 @@ export const useVideoStore = create<VideoState>()(
     }
   )
 );
-
-    

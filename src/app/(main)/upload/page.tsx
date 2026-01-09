@@ -38,7 +38,7 @@ const formSchema = z.object({
   description: z.string().min(10, "Description must be at least 10 characters.").max(500),
   videoUrl: z.string().url("Please enter a valid URL.").min(1, 'Please paste a video URL.'),
   mapLink: z.string().url("Please enter a valid map URL.").optional().or(z.literal('')),
-  thumbnail: z.custom<File>().refine(file => file instanceof File, "Thumbnail is required."),
+  thumbnail: z.custom<File>().optional(),
 });
 
 type UploadFormValues = z.infer<typeof formSchema>;
@@ -126,7 +126,11 @@ export default function UploadPage() {
     setRecentVideo(null);
     setUploadProgress(0);
 
-    const thumbnailUrl = await fileToDataUrl(data.thumbnail);
+    let thumbnailUrl = '';
+    if (data.thumbnail) {
+        thumbnailUrl = await fileToDataUrl(data.thumbnail);
+    }
+
 
     const interval = setInterval(() => {
       setUploadProgress((prev) => (prev >= 95 ? prev : prev + 10));
@@ -234,7 +238,7 @@ export default function UploadPage() {
                 name="thumbnail"
                 render={({ field }) => (
                     <FormItem>
-                    <FormLabel>Thumbnail</FormLabel>
+                    <FormLabel>Thumbnail (Optional)</FormLabel>
                     <FormControl>
                         <div>
                             <label htmlFor="thumbnail-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-card hover:bg-accent/50">
@@ -421,5 +425,3 @@ export default function UploadPage() {
     </>
   );
 }
-
-    
