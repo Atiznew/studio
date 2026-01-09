@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { notFound, useRouter } from 'next/navigation';
+import { notFound, useRouter, useParams } from 'next/navigation';
 import { VideoCard } from '@/components/video-card';
 import { PageHeader } from '@/components/page-header';
 import Link from 'next/link';
@@ -16,12 +16,14 @@ import { cn } from '@/lib/utils';
 import { useTranslation } from '@/context/language-context';
 import { useEffect } from 'react';
 
-export default function UserProfilePage({ params }: { params: { id: string } }) {
+export default function UserProfilePage() {
   const { videos, isFollowing, toggleFollow, users, repostedVideos, currentUser } = useVideoStore();
   const { t } = useTranslation();
   const router = useRouter();
+  const params = useParams();
+  const id = params.id as string;
   
-  const isCurrentUser = currentUser ? params.id === currentUser.id : false;
+  const isCurrentUser = currentUser ? id === currentUser.id : false;
 
   useEffect(() => {
     if (isCurrentUser) {
@@ -29,7 +31,7 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
     }
   }, [isCurrentUser, router]);
 
-  const user = users.find((u) => u.id === params.id);
+  const user = users.find((u) => u.id === id);
 
   if (!user) {
     notFound();
