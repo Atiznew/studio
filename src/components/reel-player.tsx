@@ -138,9 +138,10 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
 
   const getPlayableUrl = (url: string, source: VideoSource) => {
     if (source === 'googledrive') {
-      const fileIdMatch = url.match(/file\/d\/([^/]+)/);
-      if (fileIdMatch && fileIdMatch[1]) {
-        return `https://drive.google.com/uc?export=view&id=${fileIdMatch[1]}`;
+      // General regex to capture the file ID from various Google Drive URL formats
+      const fileIdMatch = url.match(/[-\w]{25,}/);
+      if (fileIdMatch && fileIdMatch[0]) {
+        return `https://drive.google.com/uc?export=view&id=${fileIdMatch[0]}`;
       }
     }
     return url;
