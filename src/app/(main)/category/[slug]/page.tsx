@@ -1,7 +1,7 @@
 
 "use client";
 
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import { PageHeader } from '@/components/page-header';
 import { VideoCard } from '@/components/video-card';
 import { ChevronLeft } from 'lucide-react';
@@ -13,8 +13,9 @@ import { useTranslation } from '@/context/language-context';
 
 const categories: VideoCategory[] = ["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"];
 
-export default function CategoryDetailPage({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+export default function CategoryDetailPage() {
+  const params = useParams();
+  const slug = params.slug as string;
   const { videos } = useVideoStore();
   const { t } = useTranslation();
   const category = categories.find((c) => c.toLowerCase().replace(' ', '-') === slug);
