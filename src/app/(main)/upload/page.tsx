@@ -201,7 +201,7 @@ export default function UploadPage() {
                         <div className="relative">
                             <FormControl>
                                 <Input 
-                                    placeholder={t('video_url_placeholder')}
+                                    placeholder="YouTube or Telegram URL"
                                     {...field}
                                     onChange={(e) => {
                                         field.onChange(e);
@@ -421,4 +421,3 @@ export default function UploadPage() {
     </>
   );
 }
-

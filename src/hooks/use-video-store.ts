@@ -45,16 +45,8 @@ const getInitialUser = (): User | null => {
 const getVideoSourceFromUrl = (url: string): VideoSource => {
     if (url.includes('youtube.com') || url.includes('youtu.be')) {
         return 'youtube';
-    } else if (url.includes('instagram.com')) {
-        return 'instagram';
     } else if (url.includes('t.me')) {
         return 'telegram';
-    } else if (url.includes('vimeo.com')) {
-        return 'vimeo';
-    } else if (url.includes('drive.google.com')) {
-        return 'googledrive';
-    } else if (url.includes('peertube')) {
-        return 'peertube';
     }
     return 'url';
 }
