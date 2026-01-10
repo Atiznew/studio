@@ -4,7 +4,7 @@
 
 import create from 'zustand';
 import { initialVideos, initialUsers as allUsers, shopItems as initialShopItems, placeholderImages } from '@/lib/data';
-import type { Video, Comment, User, ShopItem, Suggestion } from '@/lib/types';
+import type { Video, Comment, User, ShopItem, Suggestion, VideoSource } from '@/lib/types';
 import { persist, createJSONStorage } from 'zustand/middleware'
 
 interface VideoState {
@@ -53,6 +53,8 @@ const getVideoSourceFromUrl = (url: string): VideoSource => {
         return 'vimeo';
     } else if (url.includes('drive.google.com')) {
         return 'googledrive';
+    } else if (url.includes('peertube')) {
+        return 'peertube';
     }
     return 'url';
 }
