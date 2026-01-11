@@ -47,6 +47,8 @@ const getVideoSourceFromUrl = (url: string): VideoSource => {
         return 'youtube';
     } else if (url.includes('t.me')) {
         return 'telegram';
+    } else if (url.includes('vimeo.com')) {
+        return 'vimeo';
     }
     return 'url';
 }
