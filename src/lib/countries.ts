@@ -30,7 +30,6 @@ export const countries = [
   { label: "Botswana", value: "Botswana" },
   { label: "Bouvet Island", value: "Bouvet Island" },
   { label: "Brazil", value: "Brazil" },
-  { label: "British Indian Ocean Territory", value: "British Indian Ocean Territory" },
   { label: "Brunei Darussalam", value: "Brunei Darussalam" },
   { label: "Bulgaria", value: "Bulgaria" },
   { label: "Burkina Faso", value: "Burkina Faso" },
