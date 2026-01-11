@@ -12,7 +12,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
-import { CheckCircle, Link2, Youtube, Instagram, AlertTriangle, ChevronRight, Heart, UploadCloud, X } from 'lucide-react';
+import { CheckCircle, Link2, Youtube, AlertTriangle, ChevronRight, Heart, UploadCloud, X } from 'lucide-react';
 import { VideoCategory, Video, VideoSource } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { useVideoStore } from '@/hooks/use-video-store';
@@ -24,6 +24,7 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import ReactPlayer from 'react-player/lazy';
 import { CountryCombobox } from '@/components/country-combobox';
+import { indianStates } from '@/lib/indian-states';
 
 const Player = dynamic(() => import('react-player/lazy'), { ssr: false });
 
@@ -70,6 +71,14 @@ export default function UploadPage() {
       mapLink: "",
     },
   });
+
+  const selectedCountry = form.watch('country');
+
+  useEffect(() => {
+    if (selectedCountry?.toLowerCase() !== 'india') {
+      form.resetField('state');
+    }
+  }, [selectedCountry, form]);
 
   useEffect(() => {
     const videoUrl = form.watch('videoUrl');
@@ -313,19 +322,44 @@ export default function UploadPage() {
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="state"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t('state_province_label')}</FormLabel>
-                      <FormControl>
-                        <Input placeholder={t('state_province_placeholder')} {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                {selectedCountry?.toLowerCase() === 'india' ? (
+                   <FormField
+                      control={form.control}
+                      name="state"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t('state_province_label')}</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder={t('state_province_placeholder')} />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {indianStates.map(state => (
+                                <SelectItem key={state.value} value={state.value}>{state.label}</SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                ) : (
+                  <FormField
+                    control={form.control}
+                    name="state"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t('state_province_label')}</FormLabel>
+                        <FormControl>
+                          <Input placeholder={t('state_province_placeholder')} {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
                 <FormField
                   control={form.control}
                   name="place"

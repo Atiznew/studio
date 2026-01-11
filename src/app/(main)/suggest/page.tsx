@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -19,6 +19,8 @@ import { useRouter } from 'next/navigation';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertTriangle } from 'lucide-react';
 import { CountryCombobox } from '@/components/country-combobox';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { indianStates } from '@/lib/indian-states';
 
 const MAX_FILES = 5;
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -56,6 +58,14 @@ export default function SuggestPage() {
       imageFiles: [],
     },
   });
+
+  const selectedCountry = form.watch('country');
+
+  useEffect(() => {
+    if (selectedCountry?.toLowerCase() !== 'india') {
+      form.resetField('state');
+    }
+  }, [selectedCountry, form]);
 
   const fileToDataUrl = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -246,19 +256,6 @@ export default function SuggestPage() {
             />
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-               <FormField
-                control={form.control}
-                name="state"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t('state_province_label')}</FormLabel>
-                    <FormControl>
-                      <Input placeholder={t('state_province_placeholder')} {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <FormField
                 control={form.control}
                 name="country"
@@ -273,6 +270,44 @@ export default function SuggestPage() {
                   </FormItem>
                 )}
               />
+               {selectedCountry?.toLowerCase() === 'india' ? (
+                 <FormField
+                  control={form.control}
+                  name="state"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('state_province_label')}</FormLabel>
+                       <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder={t('state_province_placeholder')} />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {indianStates.map(state => (
+                                <SelectItem key={state.value} value={state.value}>{state.label}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+               ) : (
+                <FormField
+                  control={form.control}
+                  name="state"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('state_province_label')}</FormLabel>
+                      <FormControl>
+                        <Input placeholder={t('state_province_placeholder')} {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+               )}
             </div>
             
             <FormField

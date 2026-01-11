@@ -11,10 +11,19 @@ import { useTranslation } from '@/context/language-context';
 import { CountryCombobox } from '@/components/country-combobox';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
+import { indianStates } from '@/lib/indian-states';
+import { useEffect } from 'react';
 
 export default function SignupPage() {
     const { t } = useTranslation();
-     const form = useForm();
+    const form = useForm();
+    const selectedCountry = form.watch('country');
+
+    useEffect(() => {
+        if (selectedCountry?.toLowerCase() !== 'india') {
+            form.resetField('state');
+        }
+    }, [selectedCountry, form]);
 
     return (
         <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2 xl:min-h-screen">
@@ -57,6 +66,37 @@ export default function SignupPage() {
                                 </FormItem>
                             )}
                             />
+
+                        {selectedCountry?.toLowerCase() === 'india' ? (
+                            <FormField
+                                control={form.control}
+                                name="state"
+                                render={({ field }) => (
+                                    <FormItem>
+                                    <FormLabel>{t('state_province_label')}</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder={t('state_province_placeholder')} />
+                                        </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                        {indianStates.map(state => (
+                                            <SelectItem key={state.value} value={state.value}>{state.label}</SelectItem>
+                                        ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        ) : (
+                             <div className="grid gap-2">
+                                <Label htmlFor="state">{t('state_province_label')}</Label>
+                                <Input id="state" placeholder={t('state_province_placeholder')} />
+                            </div>
+                        )}
+
                         <div className="grid gap-2">
                             <Label htmlFor="source">{t('how_heard_label')}</Label>
                             <Select>
