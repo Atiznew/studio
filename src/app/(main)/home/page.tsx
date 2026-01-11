@@ -41,7 +41,7 @@ export default function HomePage() {
   const { videos, isFollowing, currentUser } = useVideoStore();
   const { t } = useTranslation();
   const trendingDestinations = destinations.slice(0, 5);
-  const featuredDestinations = destinations.slice(0, 4);
+  const featuredDestinations = destinations.slice(0, 5);
   
   // Website owner is user 'u1'
   const ownerVideos = videos.filter(v => v.user.id === 'u1');
@@ -49,10 +49,10 @@ export default function HomePage() {
   const trendingShorts = videos.slice(0,5);
   const followingVideos = videos.filter(video => isFollowing(video.user.id));
 
-  const goaVideos = videos.filter(v => v.destination.slug === 'goa');
-  const mountainVideos = videos.filter(v => v.category === 'Mountain');
-  const cityVideos = videos.filter(v => v.category === 'City');
-  const foodVideos = videos.filter(v => v.category === 'Food');
+  const goaVideos = videos.filter(v => v.destination.slug === 'goa').slice(0, 5);
+  const mountainVideos = videos.filter(v => v.category === 'Mountain').slice(0, 5);
+  const cityVideos = videos.filter(v => v.category === 'City').slice(0, 5);
+  const foodVideos = videos.filter(v => v.category === 'Food').slice(0, 5);
   const plugin = useRef(
     Autoplay({ delay: 3000, stopOnInteraction: true })
   );
@@ -302,3 +302,5 @@ export default function HomePage() {
     </main>
   );
 }
+
+    
