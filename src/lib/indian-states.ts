@@ -8,6 +8,7 @@ export const indianStates = [
     { label: "Gujarat", value: "Gujarat" },
     { label: "Haryana", value: "Haryana" },
     { label: "Himachal Pradesh", value: "Himachal Pradesh" },
+    { label: "Jammu and Kashmir", value: "Jammu and Kashmir" },
     { label: "Jharkhand", value: "Jharkhand" },
     { label: "Karnataka", value: "Karnataka" },
     { label: "Kerala", value: "Kerala" },
