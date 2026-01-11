@@ -43,7 +43,10 @@ export default function HomePage() {
   const { t } = useTranslation();
   const trendingDestinations = destinations.slice(0, 5);
   const featuredDestinations = destinations.slice(0, 4);
-  const exploreVideos = videos.slice(0, 6);
+  
+  // Website owner is user 'u1'
+  const ownerVideos = videos.filter(v => v.user.id === 'u1');
+  
   const trendingShorts = videos.slice(0,5);
   const followingVideos = videos.filter(video => isFollowing(video.user.id));
 
@@ -236,7 +239,7 @@ export default function HomePage() {
         <section className="py-4">
             <h2 className="text-2xl font-bold mb-4 font-headline">{t('explore_videos')}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {exploreVideos.map((video) => (
+                {ownerVideos.map((video) => (
                     <VideoCard key={video.id} video={video} />
                 ))}
             </div>
@@ -300,5 +303,7 @@ export default function HomePage() {
     </main>
   );
 }
+
+    
 
     
