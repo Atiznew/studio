@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import { useState, useRef, ChangeEvent, useEffect } from 'react';
@@ -25,6 +23,7 @@ import { VideoCard } from '@/components/video-card';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import ReactPlayer from 'react-player/lazy';
+import { CountryCombobox } from '@/components/country-combobox';
 
 const Player = dynamic(() => import('react-player/lazy'), { ssr: false });
 
@@ -201,7 +200,7 @@ export default function UploadPage() {
                         <div className="relative">
                             <FormControl>
                                 <Input 
-                                    placeholder="YouTube, Telegram, or Vimeo URL"
+                                    placeholder={t('video_url_placeholder')}
                                     {...field}
                                     onChange={(e) => {
                                         field.onChange(e);
@@ -300,15 +299,16 @@ export default function UploadPage() {
                 )}
               />
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <FormField
+                 <FormField
                   control={form.control}
                   name="country"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="flex flex-col">
                       <FormLabel>{t('country_label')}</FormLabel>
-                      <FormControl>
-                        <Input placeholder={t('country_placeholder')} {...field} />
-                      </FormControl>
+                       <CountryCombobox 
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
                       <FormMessage />
                     </FormItem>
                   )}

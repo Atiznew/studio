@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import Link from 'next/link';
@@ -10,9 +8,13 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Logo } from '@/components/logo';
 import { useTranslation } from '@/context/language-context';
+import { CountryCombobox } from '@/components/country-combobox';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { useForm } from 'react-hook-form';
 
 export default function SignupPage() {
     const { t } = useTranslation();
+     const form = useForm();
 
     return (
         <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2 xl:min-h-screen">
@@ -27,7 +29,8 @@ export default function SignupPage() {
                             {t('signup_subtitle')}
                         </p>
                     </div>
-                    <div className="grid gap-4">
+                    <Form {...form}>
+                    <form className="grid gap-4">
                         <div className="grid gap-2">
                             <Label htmlFor="fullname">{t('fullname_label')}</Label>
                             <Input id="fullname" placeholder={t('fullname_placeholder')} required />
@@ -40,10 +43,20 @@ export default function SignupPage() {
                             <Label htmlFor="password">{t('password_label')}</Label>
                             <Input id="password" type="password" required />
                         </div>
-                         <div className="grid gap-2">
-                            <Label htmlFor="country">{t('country_label')}</Label>
-                            <Input id="country" placeholder={t('country_placeholder')} required />
-                        </div>
+                         <FormField
+                            control={form.control}
+                            name="country"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-col">
+                                <FormLabel>{t('country_label')}</FormLabel>
+                                <CountryCombobox 
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                />
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                            />
                         <div className="grid gap-2">
                             <Label htmlFor="source">{t('how_heard_label')}</Label>
                             <Select>
@@ -61,7 +74,8 @@ export default function SignupPage() {
                         <Button type="submit" className="w-full" asChild>
                             <Link href="/home">{t('create_account_button')}</Link>
                         </Button>
-                    </div>
+                    </form>
+                    </Form>
                     <div className="mt-4 text-center text-sm">
                         {t('login_prompt')}{" "}
                         <Link href="/login" className="underline">
@@ -82,5 +96,3 @@ export default function SignupPage() {
         </div>
     )
 }
-
-    

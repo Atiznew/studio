@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import { useState, ChangeEvent } from 'react';
@@ -20,6 +18,7 @@ import { useVideoStore } from '@/hooks/use-video-store';
 import { useRouter } from 'next/navigation';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertTriangle } from 'lucide-react';
+import { CountryCombobox } from '@/components/country-combobox';
 
 const MAX_FILES = 5;
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -264,11 +263,12 @@ export default function SuggestPage() {
                 control={form.control}
                 name="country"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="flex flex-col">
                     <FormLabel>{t('country_label')}</FormLabel>
-                    <FormControl>
-                      <Input placeholder={t('country_placeholder')} {...field} />
-                    </FormControl>
+                    <CountryCombobox 
+                        value={field.value}
+                        onChange={field.onChange}
+                    />
                     <FormMessage />
                   </FormItem>
                 )}
@@ -312,9 +312,3 @@ export default function SuggestPage() {
     </>
   );
 }
-
-    
-
-    
-
-    
