@@ -62,7 +62,7 @@ export default function UploadPage() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
-      country: "",
+      country: "india",
       state: "",
       place: "",
       category: "Other",

@@ -52,7 +52,7 @@ export default function SuggestPage() {
     defaultValues: {
       place: "",
       state: "",
-      country: "",
+      country: "india",
       reason: "",
       mapLink: "",
       imageFiles: [],

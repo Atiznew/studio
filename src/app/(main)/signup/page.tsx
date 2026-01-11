@@ -16,7 +16,11 @@ import { useEffect } from 'react';
 
 export default function SignupPage() {
     const { t } = useTranslation();
-    const form = useForm();
+    const form = useForm({
+        defaultValues: {
+            country: 'india',
+        }
+    });
     const selectedCountry = form.watch('country');
 
     useEffect(() => {
