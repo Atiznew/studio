@@ -74,4 +74,6 @@ export function CountryCombobox({ value, onChange }: CountryComboboxProps) {
           </CommandList>
         </Command>
       </PopoverContent>
-    
+    </Popover>
+  );
+}
