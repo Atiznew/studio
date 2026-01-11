@@ -149,4 +149,8 @@ export {
   CommandInput,
   CommandList,
   CommandEmpty,
-  CommandGroup
+  CommandGroup,
+  CommandItem,
+  CommandSeparator,
+  CommandShortcut,
+}
