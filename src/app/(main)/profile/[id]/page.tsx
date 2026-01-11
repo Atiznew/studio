@@ -15,6 +15,21 @@ import { useVideoStore } from '@/hooks/use-video-store';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/context/language-context';
 import { useEffect } from 'react';
+import { initialUsers } from '@/lib/data';
+import type { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const user = initialUsers.find((u) => u.id === params.id);
+  if (!user) {
+    return {
+      title: 'User Not Found | Bharatyatra',
+    }
+  }
+  return {
+    title: `${user.name}'s Profile | Bharatyatra`,
+    description: user.bio || `Explore the profile and videos of ${user.name} on Bharatyatra.`,
+  }
+}
 
 export default function UserProfilePage() {
   const { videos, isFollowing, toggleFollow, users, repostedVideos, currentUser } = useVideoStore();
@@ -157,7 +172,3 @@ export default function UserProfilePage() {
     </>
   );
 }
-
-    
-
-    

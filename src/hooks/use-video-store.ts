@@ -64,12 +64,12 @@ export const useVideoStore = create<VideoState>()(
       likedVideos: new Set(),
       savedVideos: new Set(),
       repostedVideos: new Map(),
-      followedUsers: new Set(['u2']),
+      followedUsers: new Set(['u1']),
       isCommentSheetOpen: false,
       activeVideoId: null,
 
       setCurrentUser: (user) => {
-        set({ currentUser: user });
+        set({ currentUser: user, followedUsers: new Set(['u1']) });
       },
     
       logout: () => {
@@ -79,7 +79,7 @@ export const useVideoStore = create<VideoState>()(
             likedVideos: new Set(),
             savedVideos: new Set(),
             repostedVideos: new Map(),
-            followedUsers: new Set(['u2']), // reset to default
+            followedUsers: new Set(['u1']), // reset to default
         });
       },
       
@@ -351,7 +351,7 @@ export const useVideoStore = create<VideoState>()(
         likedVideos: new Set((persisted as any).likedVideos || []),
         savedVideos: new Set((persisted as any).savedVideos || []),
         repostedVideos: new Map(((persisted as any).repostedVideos || []).map(([k, v]: [string, string[]]) => [k, new Set(v)])),
-        followedUsers: new Set((persisted as any).followedUsers || []),
+        followedUsers: new Set((persisted as any).followedUsers || ['u1']),
         suggestions: (persisted as any).suggestions || [],
       }),
     }

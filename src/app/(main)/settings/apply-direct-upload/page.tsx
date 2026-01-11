@@ -54,8 +54,7 @@ export default function ApplyDirectUploadPage() {
 
   const onSubmit = (data: ApplicationFormValues) => {
     setIsSubmitting(true);
-    console.log("Application Submitted:", data);
-
+    
     // Simulate API call
     setTimeout(() => {
       setIsSubmitting(false);
