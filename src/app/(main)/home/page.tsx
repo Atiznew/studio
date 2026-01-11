@@ -22,6 +22,8 @@ import { Mountain, Palmtree, Utensils, Tent, Building, FerrisWheel, Trees, Leaf 
 import { ReactNode, useRef } from 'react';
 import { useTranslation } from '@/context/language-context';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useHydrated } from '@/hooks/use-hydrated';
+import { Skeleton } from '@/components/ui/skeleton';
 
 
 const categories: { name: VideoCategory, icon: ReactNode, slug: string }[] = [
@@ -40,6 +42,7 @@ const categories: { name: VideoCategory, icon: ReactNode, slug: string }[] = [
 export default function HomePage() {
   const { videos, isFollowing, currentUser } = useVideoStore();
   const { t } = useTranslation();
+  const isHydrated = useHydrated();
   const trendingDestinations = destinations.slice(0, 5);
   const featuredDestinations = destinations.slice(0, 5);
   
@@ -276,29 +279,39 @@ export default function HomePage() {
 
   return (
     <main className="container max-w-5xl mx-auto">
-      <Tabs defaultValue="forYou">
+      {!isHydrated ? (
         <header className="sticky top-0 z-40 w-full bg-background/95 backdrop-blur-sm">
-            <div className="flex h-16 items-center justify-between">
-                <Logo />
-                 <TabsList className="grid w-full grid-cols-2 max-w-[200px]">
-                    <TabsTrigger value="forYou">{t('for_you_tab')}</TabsTrigger>
-                    <TabsTrigger value="following">{t('following_tab')}</TabsTrigger>
-                </TabsList>
-                <Button variant="ghost" size="icon" asChild>
-                    <Link href="/search">
-                        <Search className="h-5 w-5" />
-                    </Link>
-                </Button>
-            </div>
+          <div className="flex h-16 items-center justify-between">
+              <Logo />
+              <Skeleton className="h-10 w-[200px] rounded-md" />
+              <Skeleton className="h-10 w-10 rounded-md" />
+          </div>
         </header>
+      ) : (
+        <Tabs defaultValue="forYou">
+          <header className="sticky top-0 z-40 w-full bg-background/95 backdrop-blur-sm">
+              <div className="flex h-16 items-center justify-between">
+                  <Logo />
+                  <TabsList className="grid w-full grid-cols-2 max-w-[200px]">
+                      <TabsTrigger value="forYou">{t('for_you_tab')}</TabsTrigger>
+                      <TabsTrigger value="following">{t('following_tab')}</TabsTrigger>
+                  </TabsList>
+                  <Button variant="ghost" size="icon" asChild>
+                      <Link href="/search">
+                          <Search className="h-5 w-5" />
+                      </Link>
+                  </Button>
+              </div>
+          </header>
 
-        <TabsContent value="forYou">
-            <ForYouFeed />
-        </TabsContent>
-        <TabsContent value="following">
-            <FollowingFeed />
-        </TabsContent>
-       </Tabs>
+          <TabsContent value="forYou">
+              <ForYouFeed />
+          </TabsContent>
+          <TabsContent value="following">
+              <FollowingFeed />
+          </TabsContent>
+        </Tabs>
+      )}
     </main>
   );
 }
