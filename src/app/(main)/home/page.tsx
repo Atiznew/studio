@@ -190,7 +190,7 @@ export default function HomePage() {
         {mountainVideos.length > 0 && (
           <section className="py-8">
             <h2 className="text-2xl font-bold mb-4 font-headline">{t('mountain_escapes')}</h2>
-            <ScrollArea className="w-full whitespace-nowrap">
+            <ScrollArea className="w-full whitespace-nowrap" dir="rtl">
               <div className="flex w-max space-x-4 pb-4">
                 {mountainVideos.map((video) => (
                   <div key={video.id} className="w-80">
