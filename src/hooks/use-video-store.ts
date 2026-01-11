@@ -48,8 +48,6 @@ const getVideoSourceFromUrl = (url: string): VideoSource => {
         return 'telegram';
     } else if (url.includes('vimeo.com')) {
         return 'vimeo';
-    } else if (url.includes('peertube')) {
-        return 'peertube';
     }
     return 'url';
 }
@@ -346,15 +344,30 @@ export const useVideoStore = create<VideoState>()(
         followedUsers: Array.from(state.followedUsers),
         suggestions: state.suggestions,
       }),
-      merge: (persisted, current) => ({
-        ...current,
-        ...persisted,
-        likedVideos: new Set((persisted as any).likedVideos || []),
-        savedVideos: new Set((persisted as any).savedVideos || []),
-        repostedVideos: new Map(((persisted as any).repostedVideos || []).map(([k, v]: [string, string[]]) => [k, new Set(v)])),
-        followedUsers: new Set((persisted as any).followedUsers || ['u1']),
-        suggestions: (persisted as any).suggestions || [],
-      }),
+      merge: (persisted, current) => {
+        const persistedState = persisted as any;
+        
+        // Create a Set from the persisted array for followedUsers, defaulting to ['u1'] if not present
+        const followedUsers = new Set<string>(persistedState?.followedUsers || ['u1']);
+
+        // When a user logs in for the first time or after clearing storage,
+        // ensure they follow the default user 'u1'.
+        if (persistedState?.currentUser && !followedUsers.has('u1')) {
+            followedUsers.add('u1');
+        }
+
+        return {
+          ...current,
+          ...persistedState,
+          likedVideos: new Set(persistedState?.likedVideos || []),
+          savedVideos: new Set(persistedState?.savedVideos || []),
+          repostedVideos: new Map(
+            (persistedState?.repostedVideos || []).map(([k, v]: [string, string[]]) => [k, new Set(v)])
+          ),
+          followedUsers,
+          suggestions: persistedState?.suggestions || [],
+        };
+      },
     }
   )
 );

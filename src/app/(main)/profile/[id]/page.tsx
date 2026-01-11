@@ -14,7 +14,7 @@ import { ChevronLeft, LogOut, Link as LinkIcon } from 'lucide-react';
 import { useVideoStore } from '@/hooks/use-video-store';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/context/language-context';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { initialUsers } from '@/lib/data';
 import type { Metadata } from 'next';
 
@@ -38,22 +38,22 @@ export default function UserProfilePage() {
   const params = useParams();
   const id = params.id as string;
   
-  const isCurrentUser = currentUser ? id === currentUser.id : false;
+  const user = useMemo(() => users.find((u) => u.id === id), [users, id]);
 
-  useEffect(() => {
-    if (isCurrentUser) {
-      router.replace('/profile');
-    }
-  }, [isCurrentUser, router]);
-
-  const user = users.find((u) => u.id === id);
-
+  // This check MUST happen before any hooks that depend on `currentUser`
+  // to avoid rendering a page that will just be redirected.
+  if (currentUser && id === currentUser.id) {
+    // This is a client component, so we can't use `redirect`.
+    // We can either use `router.replace` in an effect or simply return null
+    // to let the main `/profile` page handle rendering. Returning null is cleaner.
+    useEffect(() => {
+        router.replace('/profile');
+    }, [router]);
+    return null;
+  }
+  
   if (!user) {
     notFound();
-  }
-
-  if (isCurrentUser) {
-    return null;
   }
 
   const userVideos = videos.filter((v) => v.user.id === user.id);
