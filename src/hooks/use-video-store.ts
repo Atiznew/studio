@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import create from 'zustand';
@@ -49,6 +48,8 @@ const getVideoSourceFromUrl = (url: string): VideoSource => {
         return 'telegram';
     } else if (url.includes('vimeo.com')) {
         return 'vimeo';
+    } else if (url.includes('peertube')) {
+        return 'peertube';
     }
     return 'url';
 }

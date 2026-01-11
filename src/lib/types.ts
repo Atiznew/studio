@@ -1,5 +1,4 @@
 
-
 export interface User {
   id: string;
   name: string;
@@ -28,7 +27,7 @@ export interface Comment {
   createdAt: string;
 }
 
-export type VideoSource = 'youtube' | 'telegram' | 'vimeo' | 'url' | 'direct';
+export type VideoSource = 'youtube' | 'telegram' | 'vimeo' | 'peertube' | 'url' | 'direct';
 
 export interface Video {
   id: string;
@@ -79,5 +78,3 @@ export interface Suggestion {
     imageUrls: string[];
     createdAt: string;
 }
-
-    
