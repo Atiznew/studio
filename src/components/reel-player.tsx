@@ -12,7 +12,6 @@ import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "@/context/language-context";
 import dynamic from 'next/dynamic';
-import { TelegramEmbed } from "./telegram-embed";
 import { useRouter } from "next/navigation";
 import { Slider } from "./ui/slider";
 
@@ -43,10 +42,10 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
 
   useEffect(() => {
     setIsPlaying(isIntersecting);
-    if (!isIntersecting && playerRef.current && video.source !== 'telegram') {
+    if (!isIntersecting && playerRef.current) {
         playerRef.current.seekTo(0);
     }
-  }, [isIntersecting, video.source]);
+  }, [isIntersecting]);
 
   const handleAction = (action: () => void) => {
     if (!currentUser) {
@@ -57,7 +56,6 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
   };
 
   const togglePlay = () => {
-    if(video.source === 'telegram') return;
     setIsPlaying(prev => !prev);
   };
 
@@ -110,11 +108,9 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
   };
 
   const handleSeek = (value: number[]) => {
-    if (video.source !== 'telegram') {
-        const newPlayed = value[0] / 100;
-        playerRef.current?.seekTo(newPlayed);
-        setProgress(prev => ({ ...prev, played: newPlayed }));
-    }
+    const newPlayed = value[0] / 100;
+    playerRef.current?.seekTo(newPlayed);
+    setProgress(prev => ({ ...prev, played: newPlayed }));
   };
   
   const formatTime = (seconds: number) => {
@@ -134,26 +130,12 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
     if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
     return count;
   };
-
-  const getPlayableUrl = (url: string, source: VideoSource) => {
-    if (source === 'googledrive') {
-      // General regex to capture the file ID from various Google Drive URL formats
-      const fileIdMatch = url.match(/[-\w]{25,}/);
-      if (fileIdMatch && fileIdMatch[0]) {
-        return `https://drive.google.com/uc?export=view&id=${fileIdMatch[0]}`;
-      }
-    }
-    return url;
-  };
   
   const renderPlayer = () => {
-    if (video.source === 'telegram') {
-      return <TelegramEmbed url={video.videoUrl} />;
-    }
     return (
        <ReactPlayer
             ref={playerRef}
-            url={getPlayableUrl(video.videoUrl, video.source)}
+            url={video.videoUrl}
             playing={isPlaying}
             muted={isMuted}
             loop
@@ -189,14 +171,14 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
     <div className="relative h-full w-full bg-black" onClick={togglePlay}>
       {renderPlayer()}
       
-      {!isPlaying && video.source !== 'telegram' && (
+      {!isPlaying && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
           <Play className="h-20 w-20 text-white/50" />
         </div>
       )}
 
       <div className="absolute bottom-0 left-0 right-0 p-4 text-white bg-gradient-to-t from-black/60 to-transparent pointer-events-none">
-        {video.source !== 'telegram' && duration > 0 && (
+        {duration > 0 && (
           <div className="absolute bottom-24 left-4 right-4 z-20 pointer-events-auto">
             <div className="flex items-center gap-2">
               <span className="text-xs">{formatTime(progress.playedSeconds)}</span>

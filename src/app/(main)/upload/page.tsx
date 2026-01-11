@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, ChangeEvent, useEffect } from 'react';
@@ -37,7 +38,10 @@ const formSchema = z.object({
   place: z.string().min(2, "Place is required."),
   category: z.enum(["Beach", "Mountain", "City", "Religious", "Food", "Amusement Park", "Forest", "Tropical", "Camping", "Other"]),
   description: z.string().min(10, "Description must be at least 10 characters.").max(500),
-  videoUrl: z.string().url("Please enter a valid URL.").min(1, 'Please paste a video URL.'),
+  videoUrl: z.string().url("Please enter a valid URL.").refine(
+    (url) => url.includes('youtube.com') || url.includes('youtu.be') || url.includes('vimeo.com'),
+    "Only YouTube and Vimeo URLs are allowed."
+  ),
   mapLink: z.string().url("Please enter a valid map URL.").optional().or(z.literal('')),
   thumbnail: z.custom<File>().optional(),
 });
@@ -117,15 +121,6 @@ export default function UploadPage() {
   };
   
   const onSubmit = async (data: UploadFormValues) => {
-    
-    if (!ReactPlayer.canPlay(data.videoUrl)) {
-      toast({
-        variant: "destructive",
-        title: "Invalid Video URL",
-        description: "Please enter a valid and playable video URL.",
-      });
-      return;
-    }
     
     setIsUploading(true);
     setUploadComplete(false);
@@ -209,7 +204,7 @@ export default function UploadPage() {
                         <div className="relative">
                             <FormControl>
                                 <Input 
-                                    placeholder={t('video_url_placeholder')}
+                                    placeholder="Video URL (YouTube/Vimeo Recommended)"
                                     {...field}
                                     onChange={(e) => {
                                         field.onChange(e);

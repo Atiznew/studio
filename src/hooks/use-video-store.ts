@@ -44,12 +44,11 @@ const getInitialUser = (): User | null => {
 const getVideoSourceFromUrl = (url: string): VideoSource => {
     if (url.includes('youtube.com') || url.includes('youtu.be')) {
         return 'youtube';
-    } else if (url.includes('t.me')) {
-        return 'telegram';
     } else if (url.includes('vimeo.com')) {
         return 'vimeo';
     }
-    return 'url';
+    // Fallback for direct links or other sources if any are still in the initial data
+    return 'direct';
 }
 
 export const useVideoStore = create<VideoState>()(
@@ -68,7 +67,13 @@ export const useVideoStore = create<VideoState>()(
       activeVideoId: null,
 
       setCurrentUser: (user) => {
-        set({ currentUser: user, followedUsers: new Set(['u1']) });
+        set((state) => {
+            const newFollowedUsers = new Set(state.followedUsers);
+            if (user && !newFollowedUsers.has('u1')) {
+                newFollowedUsers.add('u1');
+            }
+            return { currentUser: user, followedUsers: newFollowedUsers };
+        });
       },
     
       logout: () => {
@@ -347,11 +352,8 @@ export const useVideoStore = create<VideoState>()(
       merge: (persisted, current) => {
         const persistedState = persisted as any;
         
-        // Create a Set from the persisted array for followedUsers, defaulting to ['u1'] if not present
         const followedUsers = new Set<string>(persistedState?.followedUsers || ['u1']);
 
-        // When a user logs in for the first time or after clearing storage,
-        // ensure they follow the default user 'u1'.
         if (persistedState?.currentUser && !followedUsers.has('u1')) {
             followedUsers.add('u1');
         }

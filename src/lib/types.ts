@@ -27,7 +27,7 @@ export interface Comment {
   createdAt: string;
 }
 
-export type VideoSource = 'youtube' | 'telegram' | 'vimeo' | 'peertube' | 'url' | 'direct';
+export type VideoSource = 'youtube' | 'vimeo' | 'direct';
 
 export interface Video {
   id: string;
