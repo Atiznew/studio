@@ -34,6 +34,12 @@ export async function generateMetadata({ params }: {
   };
 }
 
+export async function generateStaticParams() {
+  return initialUsers.map((user) => ({
+    id: user.id,
+  }));
+}
+
 export default function UserProfilePage() {
   const { videos, isFollowing, toggleFollow, users, repostedVideos, currentUser } = useVideoStore();
   const { t } = useTranslation();
