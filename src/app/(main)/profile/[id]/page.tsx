@@ -18,17 +18,20 @@ import { useEffect, useMemo } from 'react';
 import { initialUsers } from '@/lib/data';
 import type { Metadata } from 'next';
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: {
+  params: { id: string }
+}): Promise<Metadata> {
   const user = initialUsers.find((u) => u.id === params.id);
+
   if (!user) {
     return {
-      title: 'User Not Found | Bharatyatra',
-    }
+      title: "Profile",
+    };
   }
+
   return {
-    title: `${user.name}'s Profile | Bharatyatra`,
-    description: user.bio || `Explore the profile and videos of ${user.name} on Bharatyatra.`,
-  }
+    title: user.name,
+  };
 }
 
 export default function UserProfilePage() {
