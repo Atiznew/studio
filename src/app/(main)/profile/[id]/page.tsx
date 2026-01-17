@@ -10,35 +10,11 @@ import { notFound, useRouter, useParams } from 'next/navigation';
 import { VideoCard } from '@/components/video-card';
 import { PageHeader } from '@/components/page-header';
 import Link from 'next/link';
-import { ChevronLeft, LogOut, Link as LinkIcon } from 'lucide-react';
+import { ChevronLeft, Link as LinkIcon } from 'lucide-react';
 import { useVideoStore } from '@/hooks/use-video-store';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/context/language-context';
 import { useEffect, useMemo } from 'react';
-import { initialUsers } from '@/lib/data';
-import type { Metadata } from 'next';
-
-export async function generateMetadata({ params }: {
-  params: { id: string }
-}): Promise<Metadata> {
-  const user = initialUsers.find((u) => u.id === params.id);
-
-  if (!user) {
-    return {
-      title: "Profile",
-    };
-  }
-
-  return {
-    title: user.name,
-  };
-}
-
-export async function generateStaticParams() {
-  return initialUsers.map((user) => ({
-    id: user.id,
-  }));
-}
 
 export default function UserProfilePage() {
   const { videos, isFollowing, toggleFollow, users, repostedVideos, currentUser } = useVideoStore();
