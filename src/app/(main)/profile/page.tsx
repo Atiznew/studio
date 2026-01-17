@@ -4,13 +4,12 @@
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Settings, Link as LinkIcon, Trash2, Pencil, MoreVertical } from 'lucide-react';
+import { Settings, Link as LinkIcon, Trash2, Pencil, MoreVertical, User } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
 import { VideoCard } from '@/components/video-card';
 import { useVideoStore } from '@/hooks/use-video-store';
 import { useTranslation } from '@/context/language-context';
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { formatDistanceToNow } from 'date-fns';
@@ -78,14 +77,17 @@ export default function ProfilePage() {
   const { t } = useTranslation();
   const router = useRouter();
   
-  useEffect(() => {
-    if (!currentUser) {
-      router.replace('/login');
-    }
-  }, [currentUser, router]);
-
   if (!currentUser) {
-    return null; // Or a loading spinner
+    return (
+        <main className="container max-w-4xl mx-auto py-16 text-center">
+            <User className="mx-auto h-12 w-12 text-muted-foreground" />
+            <h2 className="mt-4 text-2xl font-bold">{t('login_to_see_profile_title')}</h2>
+            <p className="mt-2 text-muted-foreground">{t('login_to_see_profile_description')}</p>
+            <Button asChild className="mt-6">
+                <Link href="/login">{t('login_title')}</Link>
+            </Button>
+        </main>
+    );
   }
 
   const userVideos = videos.filter((v) => v.user.id === currentUser.id);

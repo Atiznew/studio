@@ -17,10 +17,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { useVideoStore } from '@/hooks/use-video-store';
 import { useTranslation } from '@/context/language-context';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useHydrated } from '@/hooks/use-hydrated';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -42,13 +43,10 @@ export default function EditProfilePage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (!currentUser) {
-      router.replace('/login');
-    }
     if (currentUser) {
       setAvatarPreview(currentUser.avatarUrl);
     }
-  }, [currentUser, router]);
+  }, [currentUser]);
 
   const form = useForm<EditProfileFormValues>({
     resolver: zodResolver(formSchema),
@@ -106,7 +104,31 @@ export default function EditProfilePage() {
   };
   
   if (!currentUser) {
-    return null; // Or a loading spinner
+    return (
+      <>
+        <PageHeader title={t('edit_profile_title')}>
+          <Button variant="ghost" size="icon" asChild>
+            <Link href="/profile">
+              <ChevronLeft className="h-5 w-5" />
+            </Link>
+          </Button>
+        </PageHeader>
+        <div className="container max-w-2xl py-8">
+            <Alert variant="destructive">
+              <AlertTriangle className="h-4 w-4" />
+              <AlertTitle>{t('auth_required_title')}</AlertTitle>
+              <AlertDescription>
+                {t('auth_required_edit_profile')}
+                <div className="mt-4">
+                  <Button asChild>
+                    <Link href="/login">{t('login_title')}</Link>
+                  </Button>
+                </div>
+              </AlertDescription>
+            </Alert>
+        </div>
+      </>
+    )
   }
 
   return (
@@ -206,5 +228,3 @@ export default function EditProfilePage() {
     </>
   );
 }
-
-    

@@ -205,6 +205,10 @@
   "no_suggestions_yet": "You haven't made any suggestions yet.",
   "suggested_on": "Suggested",
   "delete_suggestion_confirmation": "Are you sure you want to delete this suggestion?",
+  "login_to_see_profile_title": "Login to View Your Profile",
+  "login_to_see_profile_description": "Your personal space, videos, and settings are waiting for you.",
+  "auth_required_title": "Authentication Required",
+  "auth_required_edit_profile": "You must be logged in to edit your profile.",
   "privacy": {
     "p1": "Your privacy is important to us. This Privacy Policy explains how Bharatyatra ('we,' 'us,' or 'our') collects, uses, discloses, and safeguards your information when you use our application (the 'App'). Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the application.",
     "information_we_collect_title": "Information We Collect",
