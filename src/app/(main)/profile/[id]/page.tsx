@@ -25,16 +25,19 @@ export default function UserProfilePage() {
   
   const user = useMemo(() => users.find((u) => u.id === id), [users, id]);
 
-  // This check MUST happen before any hooks that depend on `currentUser`
-  // to avoid rendering a page that will just be redirected.
+  useEffect(() => {
+    // This check MUST happen before any hooks that depend on `currentUser`
+    // to avoid rendering a page that will just be redirected.
+    if (currentUser && id === currentUser.id) {
+      // This is a client component, so we can't use `redirect`.
+      // We can either use `router.replace` in an effect or simply return null
+      // to let the main `/profile` page handle rendering. Returning null is cleaner.
+      router.replace('/profile');
+    }
+  }, [currentUser, id, router]);
+  
   if (currentUser && id === currentUser.id) {
-    // This is a client component, so we can't use `redirect`.
-    // We can either use `router.replace` in an effect or simply return null
-    // to let the main `/profile` page handle rendering. Returning null is cleaner.
-    useEffect(() => {
-        router.replace('/profile');
-    }, [router]);
-    return null;
+    return null; // Return null to prevent rendering during redirect
   }
   
   if (!user) {
