@@ -22,27 +22,56 @@ export default function PrivacyPolicyPage() {
       <main className="container max-w-4xl py-8">
         <div className="prose dark:prose-invert max-w-none">
           <p><strong>{t('last_updated_label')}:</strong> August 1, 2024</p>
-          <p>{t('privacy_p1')}</p>
+          <p>{t('privacy.p1')}</p>
 
-          <h3>{t('information_we_collect_title')}</h3>
-          <p>{t('privacy_p2')}</p>
+          <h3>{t('privacy.information_we_collect_title')}</h3>
+          <p>{t('privacy.p2')}</p>
+          <h4>{t('privacy.info_you_provide_title')}</h4>
           <ul>
-            <li>{t('privacy_l1')}</li>
-            <li>{t('privacy_l2')}</li>
-            <li>{t('privacy_l3')}</li>
+            <li>{t('privacy.info_you_provide_l1')}</li>
+            <li>{t('privacy.info_you_provide_l2')}</li>
+            <li>{t('privacy.info_you_provide_l3')}</li>
+          </ul>
+          <h4>{t('privacy.info_we_collect_auto_title')}</h4>
+           <ul>
+            <li>{t('privacy.info_we_collect_auto_l1')}</li>
+            <li>{t('privacy.info_we_collect_auto_l2')}</li>
           </ul>
 
-          <h3>{t('how_we_use_information_title')}</h3>
-          <p>{t('privacy_p3')}</p>
+          <h3>{t('privacy.how_we_use_information_title')}</h3>
+          <p>{t('privacy.p3')}</p>
+          <ul>
+            <li>{t('privacy.how_we_use_information_l1')}</li>
+            <li>{t('privacy.how_we_use_information_l2')}</li>
+            <li>{t('privacy.how_we_use_information_l3')}</li>
+          </ul>
 
-          <h3>{t('data_sharing_title')}</h3>
-          <p>{t('privacy_p4')}</p>
+          <h3>{t('privacy.data_sharing_title')}</h3>
+          <p>{t('privacy.p4')}</p>
+           <ul>
+            <li>{t('privacy.data_sharing_l1')}</li>
+            <li>{t('privacy.data_sharing_l2')}</li>
+            <li>{t('privacy.data_sharing_l3')}</li>
+          </ul>
           
-          <h3>{t('your_choices_title')}</h3>
-          <p>{t('privacy_p5')}</p>
+          <h3>{t('privacy.your_choices_title')}</h3>
+          <p>{t('privacy.p5')}</p>
+          <ul>
+              <li>{t('privacy.your_choices_l1')}</li>
+              <li>{t('privacy.your_choices_l2')}</li>
+          </ul>
+
+          <h3>{t('privacy.data_security_title')}</h3>
+          <p>{t('privacy.p6')}</p>
+
+          <h3>{t('privacy.childrens_privacy_title')}</h3>
+          <p>{t('privacy.p7')}</p>
+
+          <h3>{t('privacy.changes_title')}</h3>
+          <p>{t('privacy.p8')}</p>
 
           <h3>{t('contact_us_title')}</h3>
-          <p>{t('privacy_p6')}</p>
+          <p>{t('privacy.p9')}</p>
         </div>
       </main>
     </>
