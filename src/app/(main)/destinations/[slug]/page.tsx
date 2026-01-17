@@ -1,7 +1,7 @@
 
 "use client";
 
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import { PageHeader } from '@/components/page-header';
 import { destinations } from '@/lib/data';
 import { VideoCard } from '@/components/video-card';
@@ -16,8 +16,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import Autoplay from "embla-carousel-autoplay";
 import { useRef } from 'react';
 
-export default function DestinationDetailPage({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+export default function DestinationDetailPage() {
+  const params = useParams();
+  const slug = params.slug as string;
   const { videos } = useVideoStore();
   const { t } = useTranslation();
   const destination = destinations.find((d) => d.slug === slug);
