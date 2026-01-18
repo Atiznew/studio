@@ -178,7 +178,7 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
       )}
 
       {/* Overlay for controls and info */}
-      <div className="absolute inset-0 p-4 flex items-end text-white bg-gradient-to-t from-black/60 via-black/20 to-transparent">
+      <div className="absolute inset-0 p-4 pb-24 flex items-end text-white bg-gradient-to-t from-black/60 via-black/20 to-transparent">
         <div className="flex-1 flex flex-col gap-4">
            {/* Video Info */}
            <div>
