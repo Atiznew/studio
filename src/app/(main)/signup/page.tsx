@@ -12,15 +12,44 @@ import { CountryCombobox } from '@/components/country-combobox';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import { indianStates } from '@/lib/indian-states';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { useVideoStore } from '@/hooks/use-video-store';
+import { useRouter } from 'next/navigation';
+import { useToast } from '@/hooks/use-toast';
+
+const signupSchema = z.object({
+  fullname: z.string().min(2, "Full name must be at least 2 characters."),
+  username: z.string().min(3, "Username must be at least 3 characters.").regex(/^[a-z0-9_.]+$/, "Username can only contain lowercase letters, numbers, underscores, and periods."),
+  email: z.string().email("Please enter a valid email address."),
+  password: z.string().min(6, "Password must be at least 6 characters."),
+  country: z.string().min(1, "Please select a country."),
+  state: z.string().optional(),
+  source: z.string().optional(),
+});
+
+type SignupFormValues = z.infer<typeof signupSchema>;
+
 
 export default function SignupPage() {
     const { t } = useTranslation();
-    const form = useForm({
+    const { signup } = useVideoStore();
+    const router = useRouter();
+    const { toast } = useToast();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const form = useForm<SignupFormValues>({
+        resolver: zodResolver(signupSchema),
         defaultValues: {
             country: 'india',
+            fullname: '',
+            username: '',
+            email: '',
+            password: '',
         }
     });
+
     const selectedCountry = form.watch('country');
 
     useEffect(() => {
@@ -28,6 +57,26 @@ export default function SignupPage() {
             form.resetField('state');
         }
     }, [selectedCountry, form]);
+    
+    const onSubmit = (data: SignupFormValues) => {
+        setIsSubmitting(true);
+        try {
+            const newUser = signup({ name: data.fullname, username: data.username });
+            toast({
+                title: "Account Created!",
+                description: "Welcome to Bharatyatra!",
+            });
+            router.push('/home');
+        } catch(error: any) {
+            toast({
+                variant: 'destructive',
+                title: "Signup Failed",
+                description: error.message || "Could not create your account.",
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
+    }
 
     return (
         <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2 xl:min-h-screen">
@@ -43,19 +92,59 @@ export default function SignupPage() {
                         </p>
                     </div>
                     <Form {...form}>
-                    <form className="grid gap-4">
-                        <div className="grid gap-2">
-                            <Label htmlFor="fullname">{t('fullname_label')}</Label>
-                            <Input id="fullname" placeholder={t('fullname_placeholder')} required />
-                        </div>
-                        <div className="grid gap-2">
-                            <Label htmlFor="email">{t('email_label')}</Label>
-                            <Input id="email" type="email" placeholder="m@example.com" required />
-                        </div>
-                        <div className="grid gap-2">
-                            <Label htmlFor="password">{t('password_label')}</Label>
-                            <Input id="password" type="password" required />
-                        </div>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+                        <FormField
+                            control={form.control}
+                            name="fullname"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>{t('fullname_label')}</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder={t('fullname_placeholder')} {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                         <FormField
+                            control={form.control}
+                            name="username"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>{t('username_label')}</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder={t('username_placeholder')} {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>{t('email_label')}</FormLabel>
+                                    <FormControl>
+                                        <Input type="email" placeholder="m@example.com" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="password"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>{t('password_label')}</FormLabel>
+                                    <FormControl>
+                                        <Input type="password" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                          <FormField
                             control={form.control}
                             name="country"
@@ -95,28 +184,46 @@ export default function SignupPage() {
                                 )}
                             />
                         ) : (
-                             <div className="grid gap-2">
-                                <Label htmlFor="state">{t('state_province_label')}</Label>
-                                <Input id="state" placeholder={t('state_province_placeholder')} />
-                            </div>
+                             <FormField
+                                control={form.control}
+                                name="state"
+                                render={({ field }) => (
+                                    <FormItem>
+                                    <FormLabel>{t('state_province_label')}</FormLabel>
+                                        <FormControl>
+                                            <Input id="state" placeholder={t('state_province_placeholder')} {...field} />
+                                        </FormControl>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                         )}
 
-                        <div className="grid gap-2">
-                            <Label htmlFor="source">{t('how_heard_label')}</Label>
-                            <Select>
-                                <SelectTrigger id="source">
-                                    <SelectValue placeholder={t('how_heard_placeholder')} />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="google">Google</SelectItem>
-                                    <SelectItem value="social_media">Social Media</SelectItem>
-                                    <SelectItem value="friend">From a Friend</SelectItem>
-                                    <SelectItem value="other">Other</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <Button type="submit" className="w-full" asChild>
-                            <Link href="/home">{t('create_account_button')}</Link>
+                        <FormField
+                            control={form.control}
+                            name="source"
+                             render={({ field }) => (
+                                    <FormItem>
+                                    <FormLabel>{t('how_heard_label')}</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder={t('how_heard_placeholder')} />
+                                        </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="google">Google</SelectItem>
+                                            <SelectItem value="social_media">Social Media</SelectItem>
+                                            <SelectItem value="friend">From a Friend</SelectItem>
+                                            <SelectItem value="other">Other</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
+                        />
+                        <Button type="submit" className="w-full" disabled={isSubmitting}>
+                            {isSubmitting ? 'Creating Account...' : t('create_account_button')}
                         </Button>
                     </form>
                     </Form>

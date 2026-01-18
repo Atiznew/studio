@@ -20,6 +20,7 @@ interface VideoState {
   activeVideoId: string | null;
   setCurrentUser: (user: User | null) => void;
   logout: () => void;
+  signup: (data: { name: string; username: string; }) => User;
   addVideo: (videoData: any) => Video;
   deleteVideo: (videoId: string) => void;
   toggleLike: (videoId: string) => void;
@@ -85,6 +86,34 @@ export const useVideoStore = create<VideoState>()(
             repostedVideos: new Map(),
             followedUsers: new Set(['u1']), // reset to default
         });
+      },
+
+      signup: (data) => {
+        const { users } = get();
+        
+        const usernameExists = users.some(u => u.username.toLowerCase() === data.username.toLowerCase());
+        if (usernameExists) {
+            throw new Error("Username already taken");
+        }
+
+        const newUser: User = {
+            id: `u${Date.now()}`,
+            name: data.name,
+            username: data.username,
+            avatarUrl: `https://i.pravatar.cc/150?u=${Date.now()}`,
+            bio: '',
+            website: '',
+            followers: 0,
+            following: 0,
+        };
+        
+        set((state) => ({
+            users: [...state.users, newUser],
+            currentUser: newUser,
+            followedUsers: new Set(), 
+        }));
+        
+        return newUser;
       },
       
       addVideo: (videoData) => {
