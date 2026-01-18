@@ -11,6 +11,12 @@ import { Logo } from '@/components/logo';
 import { useVideoStore } from '@/hooks/use-video-store';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from '@/context/language-context';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { useToast } from '@/hooks/use-toast';
+import { useState } from 'react';
 
 const GoogleIcon = () => (
     <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
@@ -21,23 +27,61 @@ const GoogleIcon = () => (
     </svg>
 );
 
+const loginSchema = z.object({
+    email: z.string().email("Please enter a valid email address."),
+    password: z.string().min(1, "Password is required."),
+});
+
+type LoginFormValues = z.infer<typeof loginSchema>;
+
 
 export default function LoginPage() {
-    const { setCurrentUser, users } = useVideoStore();
+    const { login, users } = useVideoStore();
     const router = useRouter();
     const { t } = useTranslation();
+    const { toast } = useToast();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleLogin = () => {
-        // In a real app, you'd validate credentials. Here, we'll just log in the first user.
-        const userToLogin = users[0];
-        if (userToLogin) {
-            setCurrentUser(userToLogin);
+    const form = useForm<LoginFormValues>({
+        resolver: zodResolver(loginSchema),
+        defaultValues: {
+            email: '',
+            password: '',
+        }
+    });
+
+    const onSubmit = (data: LoginFormValues) => {
+        setIsSubmitting(true);
+        try {
+            login(data);
             router.push('/home');
+        } catch (error: any) {
+            toast({
+                variant: 'destructive',
+                title: 'Login Failed',
+                description: error.message || "An unexpected error occurred.",
+            });
+        } finally {
+            setIsSubmitting(false);
         }
     };
     
     const handleGoogleLogin = () => {
-        handleLogin(); // Simulate Google login
+        // Simulate Google login by logging in the first user
+        try {
+            if (users.length > 0 && users[0].email && users[0].password) {
+                login({ email: users[0].email, password: users[0].password });
+                router.push('/home');
+            } else {
+                 throw new Error("No user available for simulated login.");
+            }
+        } catch (error: any) {
+             toast({
+                variant: 'destructive',
+                title: 'Login Failed',
+                description: error.message || "Could not log in with Google.",
+            });
+        }
     }
 
     return (
@@ -53,29 +97,44 @@ export default function LoginPage() {
                     {t('login_subtitle')}
                     </p>
                 </div>
-                <div className="grid gap-4">
-                    <div className="grid gap-2">
-                    <Label htmlFor="email">{t('email_label')}</Label>
-                    <Input
-                        id="email"
-                        type="email"
-                        placeholder="m@example.com"
-                        required
-                    />
-                    </div>
-                    <div className="grid gap-2">
-                    <div className="flex items-center">
-                        <Label htmlFor="password">{t('password_label')}</Label>
-                    </div>
-                    <Input id="password" type="password" required />
-                    </div>
-                    <Button type="button" onClick={handleLogin} className="w-full">
-                        {t('login_title')}
-                    </Button>
+                 <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>{t('email_label')}</FormLabel>
+                                    <FormControl>
+                                        <Input type="email" placeholder="m@example.com" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                         <FormField
+                            control={form.control}
+                            name="password"
+                            render={({ field }) => (
+                                <FormItem>
+                                     <div className="flex items-center">
+                                        <Label htmlFor="password">{t('password_label')}</Label>
+                                    </div>
+                                    <FormControl>
+                                        <Input type="password" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <Button type="submit" className="w-full" disabled={isSubmitting}>
+                           {isSubmitting ? 'Logging in...' : t('login_title')}
+                        </Button>
+                    </form>
+                </Form>
                     <Button variant="outline" className="w-full" onClick={handleGoogleLogin}>
                         <GoogleIcon /> {t('login_with_google')}
                     </Button>
-                </div>
                 <div className="mt-4 text-center text-sm">
                     {t('signup_prompt')}{" "}
                     <Link href="/signup" className="underline">
@@ -96,5 +155,3 @@ export default function LoginPage() {
         </div>
     )
 }
-
-    

@@ -20,7 +20,8 @@ interface VideoState {
   activeVideoId: string | null;
   setCurrentUser: (user: User | null) => void;
   logout: () => void;
-  signup: (data: { name: string; username: string; }) => User;
+  signup: (data: { name: string; username: string; email: string; password: string; }) => User;
+  login: (data: { email: string; password: string; }) => void;
   addVideo: (videoData: any) => Video;
   deleteVideo: (videoId: string) => void;
   toggleLike: (videoId: string) => void;
@@ -96,24 +97,42 @@ export const useVideoStore = create<VideoState>()(
             throw new Error("Username already taken");
         }
 
+        const emailExists = users.some(u => u.email?.toLowerCase() === data.email.toLowerCase());
+        if (emailExists) {
+            throw new Error("An account with this email already exists.");
+        }
+
         const newUser: User = {
             id: `u${Date.now()}`,
             name: data.name,
             username: data.username,
+            email: data.email,
+            password: data.password, // In a real app, this should be hashed
             avatarUrl: `https://i.pravatar.cc/150?u=${Date.now()}`,
             bio: '',
             website: '',
             followers: 0,
-            following: 0,
+            following: 1,
         };
         
         set((state) => ({
             users: [...state.users, newUser],
-            currentUser: newUser,
-            followedUsers: new Set(), 
         }));
         
+        get().setCurrentUser(newUser);
+        
         return newUser;
+      },
+      
+      login: (data) => {
+        const { users } = get();
+        const user = users.find(u => u.email?.toLowerCase() === data.email.toLowerCase());
+
+        if (!user || user.password !== data.password) {
+          throw new Error("Invalid email or password");
+        }
+
+        get().setCurrentUser(user);
       },
       
       addVideo: (videoData) => {

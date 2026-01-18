@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -20,7 +21,7 @@ import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 
 const signupSchema = z.object({
-  fullname: z.string().min(2, "Full name must be at least 2 characters."),
+  name: z.string().min(2, "Full name must be at least 2 characters."),
   username: z.string().min(3, "Username must be at least 3 characters.").regex(/^[a-z0-9_.]+$/, "Username can only contain lowercase letters, numbers, underscores, and periods."),
   email: z.string().email("Please enter a valid email address."),
   password: z.string().min(6, "Password must be at least 6 characters."),
@@ -43,7 +44,7 @@ export default function SignupPage() {
         resolver: zodResolver(signupSchema),
         defaultValues: {
             country: 'india',
-            fullname: '',
+            name: '',
             username: '',
             email: '',
             password: '',
@@ -61,7 +62,13 @@ export default function SignupPage() {
     const onSubmit = (data: SignupFormValues) => {
         setIsSubmitting(true);
         try {
-            const newUser = signup({ name: data.fullname, username: data.username });
+            const signupData = {
+                name: data.name,
+                username: data.username,
+                email: data.email,
+                password: data.password
+            };
+            signup(signupData);
             toast({
                 title: "Account Created!",
                 description: "Welcome to Bharatyatra!",
@@ -95,7 +102,7 @@ export default function SignupPage() {
                     <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
                         <FormField
                             control={form.control}
-                            name="fullname"
+                            name="name"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>{t('fullname_label')}</FormLabel>

@@ -5,7 +5,7 @@ import data from './placeholder-images.json';
 export const placeholderImages = data.placeholderImages;
 
 export const initialUsers: User[] = [
-  { id: 'u1', name: 'Alex Doe', username: 'alexdoe', avatarUrl: placeholderImages.find(p => p.id === 'avatar-1')?.imageUrl || '', bio: 'Travel enthusiast & storyteller.\nExploring the world one city at a time.', website: 'https://alexdoe.com', followers: 0, following: 0 },
+  { id: 'u1', name: 'Alex Doe', username: 'alexdoe', email: 'alex@example.com', password: 'password123', avatarUrl: placeholderImages.find(p => p.id === 'avatar-1')?.imageUrl || '', bio: 'Travel enthusiast & storyteller.\nExploring the world one city at a time.', website: 'https://alexdoe.com', followers: 0, following: 0 },
 ];
 
 
