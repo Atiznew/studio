@@ -177,22 +177,11 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
         </div>
       )}
 
-      <div className="absolute bottom-0 left-0 right-0 p-4 text-white bg-gradient-to-t from-black/60 to-transparent pointer-events-none">
-        {duration > 0 && (
-          <div className="absolute bottom-24 left-4 right-4 z-20 pointer-events-auto">
-            <div className="flex items-center gap-2">
-              <span className="text-xs">{formatTime(progress.playedSeconds)}</span>
-              <Slider
-                value={[progress.played * 100]}
-                onValueChange={handleSeek}
-                className="w-full"
-              />
-              <span className="text-xs">{formatTime(duration)}</span>
-            </div>
-          </div>
-        )}
-        <div className="flex items-end">
-          <div className="flex-1">
+      {/* Overlay for controls and info */}
+      <div className="absolute inset-0 p-4 flex items-end text-white bg-gradient-to-t from-black/60 via-black/20 to-transparent">
+        <div className="flex-1 flex flex-col gap-4">
+           {/* Video Info */}
+           <div>
             <div className="flex items-center gap-2 mb-2 pointer-events-auto">
               <Link href={`/profile/${video.user.id}`}>
                 <Avatar>
@@ -214,37 +203,52 @@ export function ReelPlayer({ video, isIntersecting }: ReelPlayerProps) {
                 </Button>
               )}
             </div>
-            <p className="text-sm line-clamp-2">{video.title} - #{video.destination.name}</p>
-            <div className="flex items-center gap-2 mt-2 text-sm">
+            <p className="text-sm line-clamp-2 pointer-events-auto">{video.title} - #{video.destination.name}</p>
+            <div className="flex items-center gap-2 mt-2 text-sm pointer-events-auto">
                 <Music className="h-4 w-4" />
                 <span>{t('original_audio')}</span>
             </div>
           </div>
-          <div className="flex flex-col items-center gap-4 pointer-events-auto">
-            <Button onClick={(e) => { e.stopPropagation(); handleLike(); }} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
-              <Heart className={cn("h-8 w-8", isLiked && "fill-primary text-primary")} />
-              <span className="text-xs font-bold">{formatCount(video.likes)}</span>
-            </Button>
-            <Button onClick={(e) => { e.stopPropagation(); handleComment(); }} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
-              <MessageCircle className="h-8 w-8" />
-              <span className="text-xs font-bold">{formatCount(commentCount)}</span>
-            </Button>
-             <Button onClick={(e) => { e.stopPropagation(); handleSave(); }} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
-              <Bookmark className={cn("h-8 w-8", isSaved && "fill-primary text-primary")} />
-            </Button>
-            {!isCurrentUserVideo && (
-               <Button onClick={(e) => { e.stopPropagation(); handleRepost(); }} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
-                    <Repeat className={cn("h-8 w-8", reposted && "text-primary")} />
-                </Button>
-            )}
-            <Button variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
-              <Eye className="h-8 w-8" />
-              <span className="text-xs font-bold">{formatCount(video.views)}</span>
-            </Button>
-            <Button onClick={(e) => { e.stopPropagation(); handleShare(); }} variant="ghost" size="icon" className="text-white h-12 w-12">
-              <Share2 className="h-8 w-8" />
-            </Button>
-          </div>
+
+          {/* Progress bar */}
+          {duration > 0 && (
+              <div className="pointer-events-auto">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs">{formatTime(progress.playedSeconds)}</span>
+                  <Slider
+                    value={[progress.played * 100]}
+                    onValueChange={handleSeek}
+                    className="w-full"
+                  />
+                  <span className="text-xs">{formatTime(duration)}</span>
+                </div>
+              </div>
+          )}
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-col items-center justify-end gap-2 ml-4 pointer-events-auto">
+          <Button onClick={(e) => { e.stopPropagation(); handleLike(); }} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
+            <Heart className={cn("h-7 w-7", isLiked && "fill-primary text-primary")} />
+            <span className="text-xs font-bold">{formatCount(video.likes)}</span>
+          </Button>
+          <Button onClick={(e) => { e.stopPropagation(); handleComment(); }} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
+            <MessageCircle className="h-7 w-7" />
+            <span className="text-xs font-bold">{formatCount(commentCount)}</span>
+          </Button>
+           <Button onClick={(e) => { e.stopPropagation(); handleSave(); }} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
+            <Bookmark className={cn("h-7 w-7", isSaved && "fill-primary text-primary")} />
+            <span className="text-xs font-bold">{t('saved_tab')}</span>
+          </Button>
+          {!isCurrentUserVideo && (
+             <Button onClick={(e) => { e.stopPropagation(); handleRepost(); }} variant="ghost" size="icon" className="text-white h-12 w-12 flex-col gap-1">
+                  <Repeat className={cn("h-7 w-7", reposted && "text-primary")} />
+                  <span className="text-xs font-bold">{t('reposts')}</span>
+              </Button>
+          )}
+          <Button onClick={(e) => { e.stopPropagation(); handleShare(); }} variant="ghost" size="icon" className="text-white h-12 w-12">
+            <Share2 className="h-7 w-7" />
+          </Button>
         </div>
       </div>
 
